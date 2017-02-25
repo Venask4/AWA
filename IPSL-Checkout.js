@@ -103,16 +103,52 @@ var exp = (function($) {
 	// Init function
 	// Called to run the actual experiment, DOM manipulation, event listeners, etc
 	exp.init = function() {
-		//Change Billing Address to New Customers
+		// Change Billing Address to New Customers
 		$('#billing_step_header').text('NEW CUSTOMERS');
 
-		//Change Shipping Method Element to Returning Customers Element
-		//First change Shipping Method text to Returnning Customers
+		// Change Shipping Method Element to Returning Customers Element
+		// First change Shipping Method text to Returnning Customers
 		$('#shipping_method_step_header').text('RETURNING CUSTOMERS');
 
-		//Add styles
+		// Add styles
 		$('head').append('<style>' + exp.css + '</style>');
+		// Clones shipping method section to the order review area
+		function addShipping() {
+			if (!jQuery('#awa-shipping').length) {
+				var $shipping = jQuery('#onestepcheckout-shipping-method-section').clone();
+
+				// Change ids of cloned div before adding to DOM so HTML is valid
+				$shipping.attr('id', '#onestepcheckout-shipping-method-section-cloned');
+				$shipping.find('input[type="radio"]').each(function() {
+					jQuery(this).attr('id', jQuery(this).attr('id') + '-cloned');
+				});
+
+				var $subtotalRow = jQuery('#checkout-review-table td:contains("Subtotal")').closest('tr');
+				$subtotalRow.after('<tr><td id="awa-shipping" colspan="3"></td></tr>');
+				jQuery('#awa-shipping').append($shipping);
+			}
+		}
+
+		addShipping();
+
+		// Change state of original radio buttons when clones are clicked
+		$('#onestepcheckout-shipping-method-section-cloned').find('input[type="radio"]').each(jQuery(this).onclick = function(){
+			var originalId = '#' + jQuery(this).attr('id').replace('-cloned', '');
+			$('originalId').prop('checked', true);
+		});
+
+		// Reapply addShipping on changes to order review section
+		var target = jQuery('.checkout-review-load')[0];
+		var observer = new MutationObserver(function(mutations) {
+		  mutations.forEach(function(mutation) {
+		  	console.log('Re-adding shipping clone');
+		    addShipping();
+		  });    
+		});
+		var config = { attributes: true, childList: true, characterData: true };
+		observer.observe(target, config);
 	};
+
 
 	exp.init();
 	// Return the experiment object so we can access it later if required
@@ -121,4 +157,3 @@ var exp = (function($) {
 	// Close the IIFE, passing in jQuery and any other global variables as required
 	// if jQuery is not already used on the site use optimizely.$ instead
 })(window.jQuery);
-
