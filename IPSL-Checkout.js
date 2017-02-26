@@ -39,7 +39,8 @@ var exp = (function($) {
 	exp.vars = {
 		checkedRadio: null,
 		telephoneSubtext: '<span class="telephoneSubtext">(To inform you about your delivery)</span>',
-		returningCustomerText: '<p class="returningCustomerText" style="margin-left:15px;">Welcome Back</p>'
+		returningCustomerText: '<p class="returningCustomerText" style="margin-left:15px;">Welcome Back</p>',
+		gotCoupon: '<a id="gotCoupon" href="javascript:void(0);">Got a coupon?</a>'
 	};
 
 	// Styles
@@ -91,8 +92,53 @@ var exp = (function($) {
 		#ajax-shipping {\
 			z-index: -5;\
 		}\
+		#onestepcheckout-login-link {\
+			text-decoration: underline;\
+		}\
 		.returningCustomerText p {\
 			margin-bottom: 1em;\
+		}\
+		#gotCoupon  {\
+			text-decoration: underline;\
+			display: block;\
+			margin-left: 15px;\
+		}\
+		#onestepcheckout-button-place-order {\
+			min-width: 272px;\
+			max-width: 90%;\
+			margin: 0 5%;\
+		}\
+		.onestepcheckout-btn-checkout span span {\
+    		font-size: 18px !important;\
+		}\
+		.onestepcheckout-comment {\
+			width: 90%;\
+		}\
+		@media only screen and (max-width: 1000px) {\
+			.onestepcheckout-review-info {\
+				width: 100%;\
+				float: right;\
+			}\
+			.one-step-checkout .order-info-3-columns {\
+				width: 100%;\
+			}\
+			.one-step-checkout .address-info-3-columns {\
+				width: 48%;\
+			}\
+			.one-step-checkout .onestepcheckout-shipping-payment-review {\
+				width: 50%;\
+			}\
+		}\
+		@media only screen and (max-width: 660px) {\
+			.one-step-checkout .address-info-3-columns {\
+				width: 100%;\
+			}\
+			.one-step-checkout .onestepcheckout-shipping-payment-review {\
+				width: 100%;\
+			}\
+		}\
+		#one-step-checkout-form li {\
+			overflow: hidden;\
 		}\
 		';
 
@@ -135,8 +181,11 @@ var exp = (function($) {
 		// Change 'Address' to 'Billing Address'
 		$('#billing-new-address-form label:contains("Address")').text('Billing Address');
 
+		//Remove account creation component
+		$('#billing-new-address-form li:contains("Create an account")').css('display', 'none');
+
+
 		// Change Shipping Method Element to Returning Customers Element
-		// First change Shipping Method text to Returnning Customers
 		$('#shipping_method_step_header').text('RETURNING CUSTOMERS');
 
 		// Modify and move Returning Customers log in link
@@ -186,6 +235,17 @@ var exp = (function($) {
 		observer.observe(target, config);
 	};
 
+	//Hide coupon code section
+	var $couponCodeDiv = jQuery('body label:contains("Coupon code:")').parent();
+	$couponCodeDiv.css('display', 'none');
+	$couponCodeDiv.before(exp.vars.gotCoupon);
+	jQuery('#gotCoupon').on('click', function(){
+		$couponCodeDiv.css({'display': 'block', 'width': '75%'});
+		$(this).remove();
+	});
+
+	//Move Place Order button
+	$couponCodeDiv.after(jQuery('#onestepcheckout-button-place-order'));
 
 	exp.init();
 	// Return the experiment object so we can access it later if required
