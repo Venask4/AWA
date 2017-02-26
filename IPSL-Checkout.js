@@ -36,7 +36,11 @@ var exp = (function($) {
 
 	// Variables
 	// Object containing variables, generally these would be strings or jQuery objects
-	exp.vars = {};
+	exp.vars = {
+		checkedRadio: null,
+		telephoneSubtext: '<span class="telephoneSubtext">(To inform you about your delivery)</span>',
+		returningCustomerText: '<p class="returningCustomerText" style="margin-left:15px;">Welcome Back</p>'
+	};
 
 	// Styles
 	// String containing the CSS for the experiment
@@ -74,6 +78,22 @@ var exp = (function($) {
 		#qty-42631 {\
 			height: 20px;\
 		}\
+		#onestepcheckout-shipping-method-section {\
+			display: none;\
+		}\
+		#one-step-checkout-form li {\
+			overflow: auto;\
+			display: block;\
+		}\
+		.telephoneSubtext {\
+			font-size: 8px;\
+		}\
+		#ajax-shipping {\
+			z-index: -5;\
+		}\
+		.returningCustomerText p {\
+			margin-bottom: 1em;\
+		}\
 		';
 
 	// Functions
@@ -103,22 +123,36 @@ var exp = (function($) {
 	// Init function
 	// Called to run the actual experiment, DOM manipulation, event listeners, etc
 	exp.init = function() {
+		// Add styles
+		$('head').append('<style>' + exp.css + '</style>');
+
 		// Change Billing Address to New Customers
 		$('#billing_step_header').text('NEW CUSTOMERS');
+
+		// Add Telephone Subtext
+		$('#billing-new-address-form label:contains("Telephone")').append(exp.vars.telephoneSubtext);
+
+		// Change 'Address' to 'Billing Address'
+		$('#billing-new-address-form label:contains("Address")').text('Billing Address');
 
 		// Change Shipping Method Element to Returning Customers Element
 		// First change Shipping Method text to Returnning Customers
 		$('#shipping_method_step_header').text('RETURNING CUSTOMERS');
 
-		// Add styles
-		$('head').append('<style>' + exp.css + '</style>');
+		// Modify and move Returning Customers log in link
+		var $loginLink = jQuery('#onestepcheckout-login-link');
+		$loginLink.text('Click here to log in');
+		$loginLink.css('margin-left', '15px');
+		jQuery('#onestepcheckout-shipping-method-section').after($loginLink);
+		$loginLink.before(exp.vars.returningCustomerText);
+
 		// Clones shipping method section to the order review area
 		function addShipping() {
 			if (!jQuery('#awa-shipping').length) {
 				var $shipping = jQuery('#onestepcheckout-shipping-method-section').clone();
 
 				// Change ids of cloned div before adding to DOM so HTML is valid
-				$shipping.attr('id', '#onestepcheckout-shipping-method-section-cloned');
+				$shipping.attr('id', 'onestepcheckout-shipping-method-section-cloned');
 				$shipping.find('input[type="radio"]').each(function() {
 					jQuery(this).attr('id', jQuery(this).attr('id') + '-cloned');
 				});
@@ -127,15 +161,18 @@ var exp = (function($) {
 				$subtotalRow.after('<tr><td id="awa-shipping" colspan="3"></td></tr>');
 				jQuery('#awa-shipping').append($shipping);
 			}
+
+				if (exp.vars.checkedRadio) {
+					$('#' + exp.vars.checkedRadio).prop('checked', true);
+				}
 		}
 
 		addShipping();
 
-		// Change state of original radio buttons when clones are clicked
-		$('#onestepcheckout-shipping-method-section-cloned').find('input[type="radio"]').each(jQuery(this).onclick = function(){
-			var originalId = '#' + jQuery(this).attr('id').replace('-cloned', '');
-			$('originalId').prop('checked', true);
+		jQuery('body').on('click', '#onestepcheckout-shipping-method-section-cloned li', function() {
+			exp.vars.checkedRadio = $(this).find('input[type="radio"]').attr('id');
 		});
+
 
 		// Reapply addShipping on changes to order review section
 		var target = jQuery('.checkout-review-load')[0];
