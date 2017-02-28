@@ -7,10 +7,11 @@
 	   cp_obj.set("access_token", "xxxxx-xxxxx-xxxxx-xxxxx"); // your token here
 	   cp_obj.set("result_elem_id", "crafty_postcode_result_display");
 	   cp_obj.set("form", "");
-	   cp_obj.set("elem_street1"  , "billing\\:street1");
-	   cp_obj.set("elem_street2"  , "billing\\:street2");
-	   cp_obj.set("elem_town"     , "billing\\:city");
-	   cp_obj.set("elem_postcode" , "billing\\:postcode");
+	   cp_obj.set("elem_street1"  , "billing:street1");
+	   cp_obj.set("elem_street2"  , "billing:street2");
+	   cp_obj.set("elem_company"  , "billing:company");
+	   cp_obj.set("elem_town"     , "billing:city");
+	   cp_obj.set("elem_postcode" , "billing:postcode");
 // CGIT Optimizely Boilerplate - version 0.1.4
 //
 // Wrap the experiment code in an IIFE, this creates a local scope and allows us to
@@ -51,9 +52,9 @@ var exp = (function($) {
 	exp.vars = {
 		checkedRadio: null,
 		telephoneSubtext: '<span class="telephoneSubtext">(To inform you about your delivery)</span>',
-		returningCustomerText: '<p class="returningCustomerText" style="margin-left:15px;">Welcome Back</p>',
+		returningCustomerText: '<p class="returningCustomerText" style="margin: 8px 0 1.42857rem 15px;">Welcome Back</p>',
 		gotCoupon: '<a id="gotCoupon" href="javascript:void(0);">Got a coupon?</a>',
-		craftyClicksLookup: '<span id="crafty_postcode_result_display"></span><br/><button type="button" onclick="cp_obj.doLookup()">Find Address</button>'
+		craftyClicksLookup: '<span id="crafty_postcode_result_display"></span><button class="lookupButton" type="button" onclick="cp_obj.doLookup()">Find Address</button>'
 	};
 
 	// Styles
@@ -155,6 +156,39 @@ var exp = (function($) {
 		#one-step-checkout-form li {\
 			overflow: hidden;\
 		}\
+		.lookupButton {\
+			padding: 10px;\
+			color: white;\
+			font-weight: bold;\
+			float: right;\
+			background-color: #009f94;\
+			border-radius: 20px;\
+			}\
+		.emailForm {\
+			margin-top: 18px;\
+		}\
+		@media (max-width: 719px) {\
+			.emailForm {\
+				display: inline-block;\
+				margin-top: 0;\
+				margin-bottom: 0;\
+			}\
+		}\
+		@media (max-width: 1199px) {\
+			#one-step-checkout-form label {\
+				display: inline-block;\
+			}\
+		@media (max-width: 551px) {\
+			.emailForm {\
+				display: inline-block;\
+				margin-top: 19px;\
+			}\
+		}\
+			#one-step-checkout-form input.radio, .address-information ul li.create_account input, #one-step-checkout-form input.checkbox, #one-step-checkout-form .order-review-info .onestepcheckout-newsletter input, #one-step-checkout-form .order-review-info .onestepcheckout-giftwrap input, #one-step-checkout-form .order-review-info .onestepcheckout-terms-conditions input, .address-information ul li.shipping_other_address input, #one-step-checkout-form .order-review-info .onestepcheckout-terms-conditions input, #one-step-checkout-form li.control input.checkbox {\
+				margin: 4px 4px 4px;\
+				float: left;\
+			}\
+		}\
 		';
 
 	// Functions
@@ -190,8 +224,10 @@ var exp = (function($) {
 		// Change Billing Address to New Customers
 		$('#billing_step_header').text('NEW CUSTOMERS');
 
-		// Add Telephone Subtext
+		// Add Telephone Subtext and add class to correct spacing
 		$('#billing-new-address-form label:contains("Telephone")').append(exp.vars.telephoneSubtext);
+		jQuery('.two-fields label:contains("Email Address")').addClass('emailForm');
+		jQuery('#billing\\:email').addClass('emailForm');
 
 		// Change 'Address' to 'Billing Address'
 		$('.one-field label:contains("Address")').text('Billing Address');
@@ -202,6 +238,7 @@ var exp = (function($) {
 
 		// Change Shipping Method Element to Returning Customers Element
 		$('#shipping_method_step_header').text('RETURNING CUSTOMERS');
+		$('#one-step-checkout-form li:contains("RETURNING CUSTOMERS")').css('padding-bottom', '10px');
 
 		// Modify and move Returning Customers log in link
 		var $loginLink = jQuery('#onestepcheckout-login-link');
@@ -249,7 +286,7 @@ var exp = (function($) {
 		var config = { attributes: true, childList: true, characterData: true };
 		observer.observe(target, config);
 
-		//Hide coupon code section
+		// Hide coupon code section
 		var $couponCodeDiv = jQuery('body label:contains("Coupon code:")').parent();
 		$couponCodeDiv.css('display', 'none');
 		$couponCodeDiv.before(exp.vars.gotCoupon);
@@ -258,11 +295,14 @@ var exp = (function($) {
 			$(this).remove();
 		});
 
-		//Move Place Order button
+		// Move Place Order button
 		$couponCodeDiv.after(jQuery('#onestepcheckout-button-place-order'));
 
-		//Add find address button for Crafty Clicks
+		// Add find address button for Crafty Clicks
 	   $('#billing\\:postcode').after(exp.vars.craftyClicksLookup);
+
+	   	// Move Company field below Billing Address Field
+	   	$('#billing-new-address-form li:contains("Billing Address")').after($('#billing-new-address-form li:contains("Company")'));
 	};
 
 	exp.init();

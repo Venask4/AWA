@@ -1,0 +1,6 @@
+1) Change header titles, divide page into 3, various style corrections
+2) Move shipping method to order review section
+3) Fix radio button bug, add telephone subtext, move returning customers link, remove loading animation
+4) Delete account creation component, hide coupon div, move order button, add breakpoints
+5) Add CC, correct billing address multi-target, relocate code into exp.init() function
+6) Fix CC bug, fix Email Address line spacing, returning customers padding, radio button style BP
