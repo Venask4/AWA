@@ -101,7 +101,7 @@ var exp = (function($) {
 			display: block;\
 		}\
 		.telephoneSubtext {\
-			font-size: 8px;\
+			font-size: 11px;\
 		}\
 		#ajax-shipping {\
 			z-index: -5;\
@@ -130,7 +130,27 @@ var exp = (function($) {
 		.onestepcheckout-comment {\
 			width: 90%;\
 		}\
-		@media only screen and (max-width: 1000px) {\
+		#one-step-checkout-form li {\
+			overflow: hidden;\
+		}\
+		.lookupButton {\
+			padding: 10px;\
+			color: white;\
+			font-weight: bold;\
+			float: right;\
+			background-color: #009f94;\
+			border-radius: 20px;\
+			}\
+		.awa-emailForm {\
+			margin-top: 18px;\
+		}\
+		.awa-returningCustomers {\
+			padding-bottom: 10px;\
+		}\
+		.awa-loginLink {\
+			margin-left: 15px;\
+		}\
+		@media only screen and (max-width: 1005px) {\
 			.onestepcheckout-review-info {\
 				width: 100%;\
 				float: right;\
@@ -153,37 +173,33 @@ var exp = (function($) {
 				width: 100%;\
 			}\
 		}\
-		#one-step-checkout-form li {\
-			overflow: hidden;\
-		}\
-		.lookupButton {\
-			padding: 10px;\
-			color: white;\
-			font-weight: bold;\
-			float: right;\
-			background-color: #009f94;\
-			border-radius: 20px;\
-			}\
-		.emailForm {\
-			margin-top: 18px;\
-		}\
 		@media (max-width: 719px) {\
-			.emailForm {\
+			.awa-emailForm {\
 				display: inline-block;\
 				margin-top: 0;\
 				margin-bottom: 0;\
+			}\
+		}\
+		@media (max-width: 639px) {\
+			.awa-emailForm {\
+				margin-top: 18px;\
+			}\
+		}\
+		@media (max-width: 383px) {\
+			.awa-emailForm {\
+				margin-top: 19px !important;\
 			}\
 		}\
 		@media (max-width: 1199px) {\
 			#one-step-checkout-form label {\
 				display: inline-block;\
 			}\
-		@media (max-width: 551px) {\
-			.emailForm {\
-				display: inline-block;\
-				margin-top: 19px;\
+			@media (max-width: 551px) {\
+				.awa-emailForm {\
+					display: inline-block;\
+					margin-top: 19px;\
+				}\
 			}\
-		}\
 			#one-step-checkout-form input.radio, .address-information ul li.create_account input, #one-step-checkout-form input.checkbox, #one-step-checkout-form .order-review-info .onestepcheckout-newsletter input, #one-step-checkout-form .order-review-info .onestepcheckout-giftwrap input, #one-step-checkout-form .order-review-info .onestepcheckout-terms-conditions input, .address-information ul li.shipping_other_address input, #one-step-checkout-form .order-review-info .onestepcheckout-terms-conditions input, #one-step-checkout-form li.control input.checkbox {\
 				margin: 4px 4px 4px;\
 				float: left;\
@@ -226,8 +242,8 @@ var exp = (function($) {
 
 		// Add Telephone Subtext and add class to correct spacing
 		$('#billing-new-address-form label:contains("Telephone")').append(exp.vars.telephoneSubtext);
-		jQuery('.two-fields label:contains("Email Address")').addClass('emailForm');
-		jQuery('#billing\\:email').addClass('emailForm');
+		$('.two-fields label:contains("Email Address")').addClass('awa-emailForm');
+		$('#billing\\:email').addClass('awa-emailForm');
 
 		// Change 'Address' to 'Billing Address'
 		$('.one-field label:contains("Address")').text('Billing Address');
@@ -238,29 +254,29 @@ var exp = (function($) {
 
 		// Change Shipping Method Element to Returning Customers Element
 		$('#shipping_method_step_header').text('RETURNING CUSTOMERS');
-		$('#one-step-checkout-form li:contains("RETURNING CUSTOMERS")').css('padding-bottom', '10px');
+		$('#one-step-checkout-form li:contains("RETURNING CUSTOMERS")').addClass('awa-returningCustomers');
 
 		// Modify and move Returning Customers log in link
-		var $loginLink = jQuery('#onestepcheckout-login-link');
+		var $loginLink = $('#onestepcheckout-login-link');
 		$loginLink.text('Click here to log in');
-		$loginLink.css('margin-left', '15px');
-		jQuery('#onestepcheckout-shipping-method-section').after($loginLink);
+		$loginLink.addClass('awa-loginLink');
+		$('#onestepcheckout-shipping-method-section').after($loginLink);
 		$loginLink.before(exp.vars.returningCustomerText);
 
 		// Clones shipping method section to the order review area
 		function addShipping() {
-			if (!jQuery('#awa-shipping').length) {
-				var $shipping = jQuery('#onestepcheckout-shipping-method-section').clone();
+			if (!$('#awa-shipping').length) {
+				var $shipping = $('#onestepcheckout-shipping-method-section').clone();
 
 				// Change ids of cloned div before adding to DOM so HTML is valid
 				$shipping.attr('id', 'onestepcheckout-shipping-method-section-cloned');
 				$shipping.find('input[type="radio"]').each(function() {
-					jQuery(this).attr('id', jQuery(this).attr('id') + '-cloned');
+					$(this).attr('id', $(this).attr('id') + '-cloned');
 				});
 
-				var $subtotalRow = jQuery('#checkout-review-table td:contains("Subtotal")').closest('tr');
+				var $subtotalRow = $('#checkout-review-table td:contains("Subtotal")').closest('tr');
 				$subtotalRow.after('<tr><td id="awa-shipping" colspan="3"></td></tr>');
-				jQuery('#awa-shipping').append($shipping);
+				$('#awa-shipping').append($shipping);
 			}
 
 				if (exp.vars.checkedRadio) {
@@ -270,13 +286,13 @@ var exp = (function($) {
 
 		addShipping();
 
-		jQuery('body').on('click', '#onestepcheckout-shipping-method-section-cloned li', function() {
+		$('body').on('click', '#onestepcheckout-shipping-method-section-cloned li', function() {
 			exp.vars.checkedRadio = $(this).find('input[type="radio"]').attr('id');
 		});
 
 
 		// Reapply addShipping on changes to order review section
-		var target = jQuery('.checkout-review-load')[0];
+		var target = $('.checkout-review-load')[0];
 		var observer = new MutationObserver(function(mutations) {
 		  mutations.forEach(function(mutation) {
 		  	console.log('Re-adding shipping clone');
@@ -287,16 +303,16 @@ var exp = (function($) {
 		observer.observe(target, config);
 
 		// Hide coupon code section
-		var $couponCodeDiv = jQuery('body label:contains("Coupon code:")').parent();
+		var $couponCodeDiv = $('body label:contains("Coupon code:")').parent();
 		$couponCodeDiv.css('display', 'none');
 		$couponCodeDiv.before(exp.vars.gotCoupon);
-		jQuery('#gotCoupon').on('click', function(){
+		$('#gotCoupon').on('click', function(){
 			$couponCodeDiv.css({'display': 'block', 'width': '75%'});
 			$(this).remove();
 		});
 
 		// Move Place Order button
-		$couponCodeDiv.after(jQuery('#onestepcheckout-button-place-order'));
+		$couponCodeDiv.after($('#onestepcheckout-button-place-order'));
 
 		// Add find address button for Crafty Clicks
 	   $('#billing\\:postcode').after(exp.vars.craftyClicksLookup);
