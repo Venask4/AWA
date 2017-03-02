@@ -36,6 +36,9 @@ var exp = (function($) {
 	// Styles
 	// String containing the CSS for the experiment
 	exp.css = '\
+		.one-step-checkout h1.checkout_header {\
+			margin-top: 18px;\
+		}\
 		.one-step-checkout #billing_step_header, .one-step-checkout {\
 			background: none;\
 		}\
@@ -125,6 +128,12 @@ var exp = (function($) {
 		}\
 		.awa-loginLink {\
 			margin-left: 15px;\
+		}\
+		.awa-billingAddress {\
+			margin-top: 60px;\
+		}\
+		#onestepcheckout-shipping-method-section-cloned {\
+			float: right;\
 		}\
 		@media only screen and (max-width: 1005px) {\
 			.onestepcheckout-review-info {\
@@ -277,10 +286,16 @@ var exp = (function($) {
 		// Move Place Order button
 		$couponCodeDiv.after($('#onestepcheckout-button-place-order'));
 
+		// Move Zip code section above Billing Address section
+		var $billingAddress = $('#billing-new-address-form div:contains("Billing Address")');
+		$billingAddress.addClass('awa-billingAddress');
+		var $zipCode = $('#billing-new-address-form div:contains("Zip/Postal Code")');
+		$billingAddress.before($zipCode);
+
 		// Add find address button for Crafty Clicks
 	   $('#billing\\:postcode').after(exp.vars.craftyClicksLookup);
 
-	   // Move Company field below Billing Address Field
+	   	   // Move Company field below Billing Address Field
 	   $('#billing-new-address-form li:contains("Billing Address")').after($('#billing-new-address-form li:contains("Company")'));
 	};
 
