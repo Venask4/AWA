@@ -135,6 +135,10 @@ var exp = (function($) {
 		#onestepcheckout-shipping-method-section-cloned {\
 			float: right;\
 		}\
+		#onestepcheckout-login-popup {\
+			position: fixed !important;\
+			top: 125px!important;\
+		}\
 		@media only screen and (max-width: 1005px) {\
 			.onestepcheckout-review-info {\
 				width: 100%;\
@@ -295,7 +299,7 @@ var exp = (function($) {
 		// Add find address button for Crafty Clicks
 	   $('#billing\\:postcode').after(exp.vars.craftyClicksLookup);
 
-	   	   // Move Company field below Billing Address Field
+	   	// Move Company field below Billing Address Field
 	   $('#billing-new-address-form li:contains("Billing Address")').after($('#billing-new-address-form li:contains("Company")'));
 	};
 
