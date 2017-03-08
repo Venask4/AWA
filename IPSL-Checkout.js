@@ -226,7 +226,8 @@ var exp = (function($) {
 		$('.one-field label:contains("Address")').text('Billing Address');
 
 		// Remove account creation component
-		$('#billing-new-address-form li:contains("Create an account")').css('display', 'none');
+		// Undo this change per AWA request 3/7/17
+		// $('#billing-new-address-form li:contains("Create an account")').css('display', 'none');
 
 
 		// Change Shipping Method Element to Returning Customers Element
