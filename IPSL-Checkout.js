@@ -26,6 +26,7 @@ var exp = (function($) {
 	// Variables
 	// Object containing variables, generally these would be strings or jQuery objects
 	exp.vars = {
+		northernIrelandZipClicked: false,
 		checkedRadio: null,
 		telephoneSubtext: '<span class="telephoneSubtext">(To inform you about your delivery)</span>',
 		returningCustomerText: '<p class="returningCustomerText" style="margin: 8px 0 1.42857rem 15px;">Welcome Back</p>',
@@ -83,7 +84,7 @@ var exp = (function($) {
 			font-size: 11px;\
 		}\
 		#ajax-shipping {\
-			z-index: -5;\
+			z-index: -20;\
 		}\
 		#onestepcheckout-login-link {\
 			text-decoration: underline;\
@@ -254,12 +255,17 @@ var exp = (function($) {
 				var $subtotalRow = $('#checkout-review-table td:contains("Subtotal")').closest('tr');
 				$subtotalRow.after('<tr><td id="awa-shipping" colspan="3"></td></tr>');
 				$('#awa-shipping').append($shipping);
-			}
+			};
+			// Fix Northern Ireland postal code bug
+			if (exp.vars.northernIrelandZipClicked === false && $('#s_method_premiumrate_Northern_Ireland-cloned').length > 0) {
+				exp.vars.northernIrelandZipClicked = true;
+				$('#s_method_premiumrate_Northern_Ireland-cloned').click();
+			};
 
-				if (exp.vars.checkedRadio) {
-					$('#' + exp.vars.checkedRadio).prop('checked', true);
-				}
-		}
+			if (exp.vars.checkedRadio) {
+				$('#' + exp.vars.checkedRadio).prop('checked', true);
+			};
+		};
 
 		addShipping();
 
@@ -274,6 +280,9 @@ var exp = (function($) {
 		var observer = new MutationObserver(function(mutations) {
 		  mutations.forEach(function(mutation) {
 		    addShipping();
+		    if ($('#s_method_premiumrate_Northern_Ireland-cloned').length === 0) {
+		    	exp.vars.northernIrelandZipClicked = false;
+		    };
 		  });    
 		});
 		var config = { attributes: true, childList: true, characterData: true };
@@ -302,6 +311,11 @@ var exp = (function($) {
 
 	   	// Move Company field below Billing Address Field
 	   $('#billing-new-address-form li:contains("Billing Address")').after($('#billing-new-address-form li:contains("Company")'));
+	   
+		// Fix Northern Ireland postal code bug
+		window.onload = function(){
+			$('#s_method_premiumrate_Northern_Ireland-cloned').click();
+		}();
 	};
 
 	exp.init();
