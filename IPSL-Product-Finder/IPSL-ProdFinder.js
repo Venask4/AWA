@@ -34,19 +34,19 @@ var exp = (function($) {
       left: 33%!important;\
     }\
     .new_form {\
-      width: 26%;\
+      width: 100%;\
       border: 4px solid #009f94;\
       padding-top: 10px;\
       padding-left: 20px;\
-      padding-bottom: 6px;\
+      padding-bottom: 20px;\
       padding-right: 20px;\
-      display: inline-block;\
-      position: absolute;\
+      display: block;\
+      position: relative;\
       top: 1.5%;\
       background: white;\
-      left: 2.3%;\
       height:auto;\
       z-index:99;\
+      overflow: auto;\
     }\
     .home_business, .color_finish, .installation_, .panels{\
       font-size:14px;\
@@ -60,6 +60,7 @@ var exp = (function($) {
     .new_form div.home_business {\
       width: 200px;\
       margin: 0 auto;\
+      text-align: center;\
     }\
     .new_form div.cover {\
       float: right;\
@@ -71,7 +72,7 @@ var exp = (function($) {
     }\
     .new_form select {\
       margin-left: 7px;\
-      with: 300px;\
+      width: 300px;\
     }\
     .new_form input[type="radio"] {\
       margin-left: 14px;\
@@ -81,9 +82,21 @@ var exp = (function($) {
     .section-bannertop.header_bottom img{\
      height:380px;\
     }\
+    .new_form div.color_finish {\
+    	float: left;\
+    }\
     .new_form div.installation_ {\
+      margin: 20px auto;\
+      width: 350px;\
+      text-align: center;\
+    }\
+    .new_form div.use_it_for {\
       float: right;\
       margin-top: -60px;\
+    }\
+    .new_form div.panels {\
+    	float: right;\
+    	margin-top: -78px;\
     }\
     @media only screen and (max-width: 350px) {\
       .new_form input[type="radio"] {\
@@ -161,7 +174,7 @@ var exp = (function($) {
         product_selector += '<h3> Find the right product</h3>';
         product_selector += '<div class="cover">';
         product_selector += '<label>To cover my:</label><br>';
-        product_selector += '<select style="width:250px">';
+        product_selector += '<select>';
         product_selector += '<option name="select" value="">Select</option>';
         product_selector += '<option value="https://www.ipsluk.co.uk/bathroom-wall-panels/shower-panels/shower-wall-kits-all.html">Shower Kits</option>';
         product_selector += '<option value="https://www.ipsluk.co.uk/bathroom-wall-panels/ceiling-cladding/ceiling-panels-all.html">Ceilings</option>';
