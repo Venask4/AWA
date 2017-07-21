@@ -48,6 +48,11 @@ var exp = (function($) {
       z-index:99;\
       overflow: auto;\
     }\
+    .AWA-margins {\
+    	display: inline-block;\
+      margin: 0 3% 0 0%;\
+      width: 30%;\
+  	}\
     .home_business, .color_finish, .installation_, .panels{\
       font-size:14px;\
     }\
@@ -55,15 +60,6 @@ var exp = (function($) {
       margin-bottom: 50px;\
       text-align:left;\
       text-transform:uppercase;\
-      float: left;\
-    }\
-    .new_form div.home_business {\
-      width: 200px;\
-      margin: 0 auto;\
-      text-align: center;\
-    }\
-    .new_form div.cover {\
-      float: right;\
     }\
     .new_form label {\
       font-weight: bold;\
@@ -83,20 +79,16 @@ var exp = (function($) {
      height:380px;\
     }\
     .new_form div.color_finish {\
-    	float: left;\
+    	display: inline-block;\
     }\
     .new_form div.installation_ {\
-      margin: 20px auto;\
-      width: 350px;\
-      text-align: center;\
+      display: inline-block;\
     }\
     .new_form div.use_it_for {\
-      float: right;\
-      margin-top: -60px;\
+      display: inline-block;\
     }\
     .new_form div.panels {\
-    	float: right;\
-    	margin-top: -78px;\
+    	display: inline-block;\
     }\
     @media only screen and (max-width: 350px) {\
       .new_form input[type="radio"] {\
@@ -131,6 +123,11 @@ var exp = (function($) {
       .new_form {\
         width: 28%;\
       }\
+    }\
+    @media screen and (min-width: 64em) {\
+    	.new_form label {\
+    		width: auto !important;\
+    	}\
     }\
   ';
 
@@ -171,8 +168,13 @@ var exp = (function($) {
         $('.section-bannertop.header_bottom img')
           .attr('src', '//useruploads.visualwebsiteoptimizer.com/useruploads/261920/images/b1d878ccb17253c94055f4af76f105a8_banner.jpg');
         var product_selector = '<form class="new_form">';
-        product_selector += '<h3> Find the right product</h3>';
-        product_selector += '<div class="cover">';
+        product_selector += '<h3 class="AWA-margins"> Find the right product</h3>';
+        product_selector += '<div class="home_business AWA-margins">';
+        product_selector += '<label> I want a product for my:</label><br>';
+        product_selector += '<input name="product_for" class="home_radio" type="radio" value="Home" >Home</input>';
+        product_selector += '<input name="product_for" class="business_radio" type="radio" value="Business">Business</input>';
+        product_selector += '</div>';
+        product_selector += '<div class="cover AWA-margins">';
         product_selector += '<label>To cover my:</label><br>';
         product_selector += '<select>';
         product_selector += '<option name="select" value="">Select</option>';
@@ -182,12 +184,7 @@ var exp = (function($) {
         product_selector += '<option value="">Wall Panels</option>';
         product_selector += '</select>';
         product_selector += '</div>';
-        product_selector += '<div class="home_business">';
-        product_selector += '<label> I want a product for my:</label><br>';
-        product_selector += '<input name="product_for" class="home_radio" type="radio" value="Home" >Home</input>';
-        product_selector += '<input name="product_for" class="business_radio" type="radio" value="Business">Business</input>';
-        product_selector += '</div>';
-        product_selector += '<div class="use_it_for">';
+        product_selector += '<div class="use_it_for AWA-margins">';
         product_selector += '<label>I want to use it for:</label><br>';
         product_selector += ' <select>';
         product_selector += '<option name="select" value="">Select</option>';
@@ -198,7 +195,7 @@ var exp = (function($) {
         product_selector += '<option value="">Other</option>';
         product_selector += '</select>';
         product_selector += '</div>';
-        product_selector += '<div class="color_finish">';
+        product_selector += '<div class="color_finish AWA-margins">';
         product_selector += '<br>';
         product_selector += '<label> Choose your color/finish:</label><br>';
         product_selector += '<input name="product_finish" type="radio" value="https://www.ipsluk.co.uk/bathroom-wall-panels/shower-wall-panels/proclad-solid-colour-cladding.html" >Plain colours </input>';
@@ -216,12 +213,12 @@ var exp = (function($) {
         product_selector += '<option value="https://www.ipsluk.co.uk/hygienic-wall-cladding/proclad-10.html">Uneven walls</option>';
         product_selector += '</select>';
         product_selector += '</div>';
-        product_selector += '<div class="installation_">';
+        product_selector += '<div class="installation_ AWA-margins">';
         product_selector += '<label> I\'d prefer installation to be:</label><br>';
         product_selector += '<input name="preferred_installation" class="installation_tongue" type="radio" value="" >Tongue & groove </input>';
         product_selector += '<input  name="preferred_installation" class="installation_joint" type="radio" value="https://www.ipsluk.co.uk/bathroom-wall-panels/shower-wall-panels/aquabord-laminate-panels-1200mm-width.html">Separate joint trim</input>';
         product_selector += '</div>';
-        product_selector += '<div class="panels">';
+        product_selector += '<div class="panels AWA-margins">';
         product_selector += '<label> and I\'d prefer like the panels to be:</label><br>';
         product_selector += '<input name="preferred_panels" class="panels_wide" type="radio" value="https://www.ipsluk.co.uk/bathroom-wall-panels/shower-wall-panels/aquabord-pvc-panels-1000mm.html" >Wide (1000 mm) </input>';
         product_selector += '<input name="preferred_panels" class="panels_narrow" type="radio" value="https://www.ipsluk.co.uk/bathroom-wall-panels/shower-wall-panels/aquaclad-pvc-narrow-wall-panels.html">Narrow (250 mm)</input>';
@@ -311,7 +308,7 @@ var exp = (function($) {
       }
       $('.home_radio').click();
     }, 20);
-  })(vwo_$);
+  })($);
   };
 
   exp.init();
