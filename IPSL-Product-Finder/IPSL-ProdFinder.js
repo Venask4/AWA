@@ -50,8 +50,9 @@ var exp = (function($) {
     }\
     .AWA-margins {\
     	display: inline-block;\
-      margin: 0 3% 0 0%;\
-      width: 30%;\
+      	margin: 0 3% 0 0%;\
+      	width: 30%;\
+      	min-width: 305px;\
   	}\
     .home_business, .color_finish, .installation_, .panels{\
       font-size:14px;\
@@ -119,16 +120,40 @@ var exp = (function($) {
         display: none;\
       }\
     }\
-    @media only screen and (max-width: 1200px) and (min-width: 1024px) {\
-      .new_form {\
-        width: 28%;\
-      }\
-    }\
     @media screen and (min-width: 64em) {\
     	.new_form label {\
     		width: auto !important;\
     	}\
     }\
+    @media only screen and (max-width: 847px) {\
+    	.new_form div.color_finish {\
+    		display: block;\
+    		width: auto;\
+    	}\
+    	.new_form div.installation_ {\
+      		display: block;\
+      		width: auto;\
+    	}\
+    	.new_form div.use_it_for {\
+      		display: block;\
+    	}\
+    	.new_form div.panels {\
+    		display: block;\
+    		width: auto;\
+    	}\
+    	.new_form div.home_business {\
+    		display: block;\
+    		width: auto;\
+    	}\
+    	.new_form div.cover {\
+    		display: block;\
+    		width: auto;\
+    	}\
+    	.new_form div.finish {\
+    		display: block;\
+    		width: auto;\
+    	}\
+	}\
   ';
 
 
