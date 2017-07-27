@@ -38,7 +38,7 @@ var exp = (function($) {
       border: 4px solid #009f94;\
       padding-top: 10px;\
       padding-left: 20px;\
-      padding-bottom: 20px;\
+      padding-bottom: 10px;\
       padding-right: 20px;\
       display: block;\
       position: relative;\
@@ -46,7 +46,7 @@ var exp = (function($) {
       background: white;\
       height:auto;\
       z-index:99;\
-      overflow: auto;\
+      overflow: hidden;\
     }\
     .AWA-margins {\
     	display: inline-block;\
@@ -58,9 +58,9 @@ var exp = (function($) {
       font-size:14px;\
     }\
     .new_form h3 {\
-      margin-bottom: 50px;\
       text-align:left;\
       text-transform:uppercase;\
+      vertical-align: top;\
     }\
     .new_form label {\
       font-weight: bold;\
@@ -259,7 +259,7 @@ var exp = (function($) {
           $('.finish').hide();
           $('.installation_').hide();
           $('.panels').hide();
-          $('.new_form h3').css({'margin-bottom': '50px'});
+          $('.new_form h3').css({'margin-bottom': '10px'});
         });
         $('.business_radio').click(function() {
           $('.use_it_for').show();
@@ -269,7 +269,7 @@ var exp = (function($) {
           $('.finish').hide();
           $('.installation_').hide();
           $('.panels').hide();
-          $('.new_form h3').css({'margin-bottom': '50px'});
+          $('.new_form h3').css({'margin-bottom': '10px'});
         });
         //select change
         $('select').change(function() {
@@ -281,19 +281,19 @@ var exp = (function($) {
             if ($(this).find("option:selected").text() == "Wall Panels") {
               $('.color_finish').show();
               $('input[name="product_finish"]').attr('checked', false);
-              $('.new_form h3').css({'margin-bottom': '30px'});
+              $('.new_form h3').css({'margin-bottom': '10px'});
             }
             if ($(this).find("option:selected").text() == "Select") {
               $('.color_finish').hide();
               $('.installation_').hide();
               $('.panels').hide();
               $('.finish').hide();
-              $('.new_form h3').css({'margin-bottom': '50px'});
+              $('.new_form h3').css({'margin-bottom': '10px'});
             }
             //Other selected
             if ($(this).find("option:selected").text() == "Other") {
               $('.finish').show();
-              $('.new_form h3').css({'margin-bottom': '30px'});
+              $('.new_form h3').css({'margin-bottom': '10px'});
             }
           }
         });
