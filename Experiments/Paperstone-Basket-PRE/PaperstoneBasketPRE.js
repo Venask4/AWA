@@ -210,18 +210,21 @@ var exp = (function($) {
 		//Add in recommended products
 		var i = 0;
 		while (i < 4) {
+			var product = '<div class="awa-PR"><h3>' + exp.vars.prodArray[i].Title + '</h3><h1>' + exp.vars.prodArray[i].ExVat + '<span class="awa-vat">ex VAT</span></h1><span class="awa-img-container-' + i + '"></span></div>';
+			$('#awa-modal-content').append(product);
 			var $prodDocument = null;
 			$.ajax({
 				url: 'http://www.paperstone.co.uk' + exp.vars.prodArray[i].Url, 
 				type: 'GET',
 				dataType: 'text',
 				success : function(data) {
-					$prodDocument = jQuery.parseHTML(data);
+					$prodDocument = $(data).find('#product-box .prod-img .img-wrap img');
+					$prodDocument.removeClass();
+					$('.awa-img-container-' + i).html($prodDocument);
+					console.log('success');
 				},
 				async: false
 			});
-			var product = '<div class="awa-PR"><h3>' + exp.vars.prodArray[i].Title + '</h3><h1>' + exp.vars.prodArray[i].ExVat + '<span class="awa-vat">ex VAT</span></h1></div>';
-			$('#awa-modal-content').append(product);
 			i++;
 		}
 
