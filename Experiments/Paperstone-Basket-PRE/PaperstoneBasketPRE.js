@@ -167,14 +167,20 @@ var exp = (function($) {
 		}\
 		.awa-PR {\
 			width: 160px;\
-			margin: 20px 40px 0 0;\
+			margin: 20px 38px 0 0;\
 			height: 300px;\
-			background-color: green;\
+			background-color: white;\
+			border: 1px solid black;\
 			display: inline-block;\
 			vertical-align: top;\
+			color: black;\
 		}\
 		.awa-vat {\
 			font-size: 12px;\
+		}\
+		.awa-img {\
+			width: 100%;\
+			height: auto;\
 		}\
 	';
 
@@ -200,29 +206,40 @@ var exp = (function($) {
 		});
 
 		closeModal = function() {
-			if (event.target !== $awaModalContent) {
+			if (event.target == $awaModal) {
 				$awaModal.css('display', 'none');
 			}
 		}
 
 		window.onmousedown = closeModal;
 
+		//Dedupe array for current products
+		var basketLinks = $('#order-lines').find('a');
+		var basketArray = [];
+		$.each(basketLinks, function () {
+			basketArray.push($(this).attr('href'));
+		})
+		console.log(basketArray);
+
 		//Add in recommended products
 		var i = 0;
 		while (i < 4) {
-			var product = '<div class="awa-PR"><h3>' + exp.vars.prodArray[i].Title + '</h3><h1>' + exp.vars.prodArray[i].ExVat + '<span class="awa-vat">ex VAT</span></h1><span class="awa-img-container-' + i + '"></span></div>';
+			var product = '<div class="awa-PR"><div class="awa-img-container-' + i + '"></div><h3>' + exp.vars.prodArray[i].Title + '</h3><h1>£' + exp.vars.prodArray[i].ExVat + '<span class="awa-vat">ex VAT</span></h1><div class="awa-form-container"></div></div>';
 			$('#awa-modal-content').append(product);
-			var $prodDocument = null;
 			$.ajax({
 				url: 'http://www.paperstone.co.uk' + exp.vars.prodArray[i].Url, 
 				type: 'GET',
 				dataType: 'text',
 				success : function(data) {
-					$prodDocument = $(data).find('#product-box .prod-img .img-wrap img');
-					$prodDocument.removeClass();
-					$('.awa-img-container-' + i).html($prodDocument);
-					console.log('success');
-				},
+					var $prodImg = null;
+					var $addToBasketForm = null;
+					$prodImg = $(data).find('#product-box .prod-img .img-wrap img');
+					$prodImg.removeClass();
+					$prodImg.addClass('awa-img');
+					$('.awa-img-container-' + i).html($prodImg);
+					$addToBasketForm = $(data).find('#add-to-basket-box .addToBasketForm');
+					$('.awa-form-container').html($addToBasketForm);
+					},
 				async: false
 			});
 			i++;
