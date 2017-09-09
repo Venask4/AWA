@@ -219,10 +219,49 @@ var exp = (function($) {
 		$.each(basketLinks, function () {
 			basketArray.push($(this).attr('href'));
 		})
+
+		var i = 0;
+		while (i < basketArray.length) {
+			var str = basketArray[i];
+			var n = str.indexOf('/');
+			var n1 = str.indexOf('/',parseInt(n+1));
+			str = str.slice(n, parseInt(n1+1));
+			basketArray[i] = str;
+			i++;
+		}
 		console.log(basketArray);
 
+		var titleArray = [];
+		i = 0;
+		while (i < exp.vars.prodArray.length) {
+			var str = exp.vars.prodArray[i].Url;
+			var n = str.indexOf('/');
+			var n1 = str.indexOf('/',parseInt(n+1));
+			str = str.slice(n, parseInt(n1+1));
+			titleArray[i] = str;
+			i++;
+		}
+		console.log(titleArray);
+
+		var matchingArray = [];
+		for (i = 0; i < basketArray.length; i++) {
+		    for (var j = 0; j < titleArray.length; j++) {
+		        if (basketArray[i] == titleArray[j]) {
+		          matchingArray.push(j);
+		        }
+		    }
+		}
+		console.log(matchingArray);
+
+		i = 0;
+		while (i < matchingArray.length) {
+			exp.vars.prodArray.splice(matchingArray[i], 1);
+			i++
+		}
+		console.log(exp.vars.prodArray);
+
 		//Add in recommended products
-		var i = 0;
+		i = 0;
 		while (i < 4) {
 			var product = '<div class="awa-PR"><div class="awa-img-container-' + i + '"></div><h3>' + exp.vars.prodArray[i].Title + '</h3><h1>£' + exp.vars.prodArray[i].ExVat + '<span class="awa-vat">ex VAT</span></h1><div class="awa-form-container"></div></div>';
 			$('#awa-modal-content').append(product);
