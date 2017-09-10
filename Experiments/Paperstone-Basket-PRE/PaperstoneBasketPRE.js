@@ -153,7 +153,7 @@ var exp = (function($) {
 			width: 800px;\
 			height: 400px;\
 			background-color: white;\
-			margin: 300px auto;\
+			margin: 15% auto;\
 			display: block;\
 			padding: 0 0 0 40px;\
 		}\
@@ -213,14 +213,21 @@ var exp = (function($) {
 
 		window.onmousedown = closeModal;
 
-		//Dedupe array for current products
+		// Round vat
+		var i = 0
+		while (i < exp.vars.prodArray.length) {
+			exp.vars.prodArray[i].IncVat = exp.vars.prodArray[i].IncVat.toFixed(2);
+			i++;
+		}
+
+		// Dedupe array for current products
 		var basketLinks = $('#order-lines').find('a');
 		var basketArray = [];
 		$.each(basketLinks, function () {
 			basketArray.push($(this).attr('href'));
 		})
 
-		var i = 0;
+		i = 0;
 		while (i < basketArray.length) {
 			var str = basketArray[i];
 			var n = str.indexOf('/');
@@ -251,11 +258,12 @@ var exp = (function($) {
 		        }
 		    }
 		}
+		matchingArray.sort(function(a, b){return a-b});
 		console.log(matchingArray);
 
 		i = 0;
 		while (i < matchingArray.length) {
-			exp.vars.prodArray.splice(matchingArray[i], 1);
+			exp.vars.prodArray.splice(matchingArray[i] - i, 1);
 			i++
 		}
 		console.log(exp.vars.prodArray);
@@ -263,19 +271,22 @@ var exp = (function($) {
 		//Add in recommended products
 		i = 0;
 		while (i < 4) {
-			var product = '<div class="awa-PR"><div class="awa-img-container-' + i + '"></div><h3>' + exp.vars.prodArray[i].Title + '</h3><h1>£' + exp.vars.prodArray[i].ExVat + '<span class="awa-vat">ex VAT</span></h1><div class="awa-form-container"></div></div>';
+			var product = '<div class="awa-PR"><div class="awa-img-container-' + i + '"><img src=/images/300/' + exp.vars.prodArray[i].ProductCode + '.jpg class="awa-img"></div><h3>' + exp.vars.prodArray[i].Title + '</h3><h1>£<span class="awa-vat-container-' + i +'"></span><span class="awa-vat"></span></h1><div class="awa-form-container"></div></div>';
 			$('#awa-modal-content').append(product);
+			if (document.cookie.indexOf('inc-vat=True') > -1) {
+					$('.awa-vat-container-' + i).html(exp.vars.prodArray[i].IncVat);
+					$('.awa-vat').text('inc VAT');
+				}
+				else {
+					$('.awa-vat-container-' + i).html(exp.vars.prodArray[i].ExVat);
+					$('.awa-vat').text('ex VAT');
+				}
 			$.ajax({
-				url: 'http://www.paperstone.co.uk' + exp.vars.prodArray[i].Url, 
+				url: 'https://www.paperstone.co.uk' + exp.vars.prodArray[i].Url, 
 				type: 'GET',
 				dataType: 'text',
 				success : function(data) {
-					var $prodImg = null;
 					var $addToBasketForm = null;
-					$prodImg = $(data).find('#product-box .prod-img .img-wrap img');
-					$prodImg.removeClass();
-					$prodImg.addClass('awa-img');
-					$('.awa-img-container-' + i).html($prodImg);
 					$addToBasketForm = $(data).find('#add-to-basket-box .addToBasketForm');
 					$('.awa-form-container').html($addToBasketForm);
 					},
@@ -283,14 +294,7 @@ var exp = (function($) {
 			});
 			i++;
 		}
-
-		if (document.cookie.indexOf('inc-vat=True') > -1) {
-			console.log('vat included');
-		}
-		else {
-			console.log('vat not included');
-		}
-	};
+	}
 
 	exp.init();
 	// Return the experiment object so we can access it later if required
