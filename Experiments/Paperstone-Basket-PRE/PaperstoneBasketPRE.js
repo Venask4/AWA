@@ -182,6 +182,11 @@ var exp = (function($) {
 			width: 100%;\
 			height: auto;\
 		}\
+		.awa-qty {\
+			float: left;\
+			height: 23px;\
+			width: 22px;\
+		}\
 	';
 
 
@@ -271,29 +276,59 @@ var exp = (function($) {
 		//Add in recommended products
 		i = 0;
 		while (i < 4) {
-			var product = '<div class="awa-PR"><div class="awa-img-container-' + i + '"><img src=/images/300/' + exp.vars.prodArray[i].ProductCode + '.jpg class="awa-img"></div><h3>' + exp.vars.prodArray[i].Title + '</h3><h1>£<span class="awa-vat-container-' + i +'"></span><span class="awa-vat"></span></h1><div class="awa-form-container"></div></div>';
-			$('#awa-modal-content').append(product);
+			var product = null;
+			var prodID = exp.vars.prodArray[i].Url;
+			prodID = prodID.slice(prodID.length - 5, prodID.length);
 			if (document.cookie.indexOf('inc-vat=True') > -1) {
-					$('.awa-vat-container-' + i).html(exp.vars.prodArray[i].IncVat);
-					$('.awa-vat').text('inc VAT');
-				}
-				else {
-					$('.awa-vat-container-' + i).html(exp.vars.prodArray[i].ExVat);
-					$('.awa-vat').text('ex VAT');
-				}
-			$.ajax({
-				url: 'https://www.paperstone.co.uk' + exp.vars.prodArray[i].Url, 
-				type: 'GET',
-				dataType: 'text',
-				success : function(data) {
-					var $addToBasketForm = null;
-					$addToBasketForm = $(data).find('#add-to-basket-box .addToBasketForm');
-					$('.awa-form-container').html($addToBasketForm);
-					},
-				async: false
-			});
+				product = '<div class="awa-PR"><div class="awa-img-container-' + i + '"><img src=/images/300/' + exp.vars.prodArray[i].ProductCode + '.jpg class="awa-img"></div><h3>' + exp.vars.prodArray[i].Title + '</h3><h1>£<span class="awa-vat-container-' + i +'">' + exp.vars.prodArray[i].IncVat + '</span><span class="awa-vat">inc VAT</span></h1><div class="awa-form-container"><input type="text" name="awa-add-to-basket-' + exp.vars.prodArray[i].ProductCode + '" value="1" class="awa-qty"><input type="hidden" id="Name_' + exp.vars.prodArray[i].ProductCode + '" class="Name" value="' + exp.vars.prodArray[i].Title + '" > <input type="hidden" id="ProductCode_' + exp.vars.prodArray[i].ProductCode + '" class="ProductCode" value="' + prodID + '" ><input type="hidden "id="Price_' + exp.vars.prodArray[i].ProductCode + '" class="Price" value="' + exp.vars.prodArray[i].IncVat + '"><button type="button" class="blue-button add-to-basket-button" id="awa-add-to-basket-button-' + i + '">Add to Basket</button></div></div>';
+			}
+			else {
+				product = '<div class="awa-PR"><div class="awa-img-container-' + i + '"><img src=/images/300/' + exp.vars.prodArray[i].ProductCode + '.jpg class="awa-img"></div><h3>' + exp.vars.prodArray[i].Title + '</h3><h1>£<span class="awa-vat-container-' + i +'">' + exp.vars.prodArray[i].ExVat + '</span><span class="awa-vat">ex VAT</span></h1><div class="awa-form-container"><input type="text" name="awa-add-to-basket-' + exp.vars.prodArray[i].ProductCode + '" value="1" class="awa-qty"><input type="hidden" id="Name_' + exp.vars.prodArray[i].ProductCode + '" class="awa-Name" value="' + exp.vars.prodArray[i].Title + '" > <input type="hidden" id="ProductCode_' + exp.vars.prodArray[i].ProductCode + '" class="awa-ProductCode" value="' + prodID + '" ><input type="hidden" id="Price_' + exp.vars.prodArray[i].ProductCode + '" class="awa-Price" value="' + exp.vars.prodArray[i].ExVat + '"><button type="button" class="blue-button awa-add-to-basket-button" id="awa-add-to-basket-button-' + i + '">Add to Basket</button></div></div>';
+			}
+			$('#awa-modal-content').append(product);
+			// if (document.cookie.indexOf('inc-vat=True') > -1) {
+			// 		$('.awa-vat-container-' + i).html(exp.vars.prodArray[i].IncVat);
+			// 		$('.awa-vat').text('inc VAT');
+			// 	}
+			// 	else {
+			// 		$('.awa-vat-container-' + i).html(exp.vars.prodArray[i].ExVat);
+			// 		$('.awa-vat').text('ex VAT');
+			// 	}
+			// $.ajax({
+			// 	url: 'https://www.paperstone.co.uk' + exp.vars.prodArray[i].Url, 
+			// 	type: 'GET',
+			// 	dataType: 'text',
+			// 	success : function(data) {
+			// 		var $addToBasketForm = null;
+			// 		$addToBasketForm = $(data).find('#add-to-basket-box .addToBasketForm');
+			// 		$('.awa-form-container').html($addToBasketForm);
+			// 		},
+			// 	async: false
+			// });
 			i++;
 		}
+
+		// Add to Basket
+		$('.awa-add-to-basket-button').on('click', function() {
+			var qty = $(this).siblings('.awa-qty').val();
+			var name = $(this).siblings('.awa-Name').val();
+			var code = $(this).siblings('.awa-ProductCode').val();
+			var price = $(this).siblings('.awa-Price').val();
+			$.ajax({
+				type: 'POST',
+				url: '/MasterPage/AddToBasket',
+				data: {
+					productId: code,
+					quantity: qty,
+					pageType: 'Basket',
+					feature: 'BasketPRE',
+					displayMode: ''
+				},
+				success: function(data) {
+					console.log(data);
+				}
+			});
+		})
 	}
 
 	exp.init();
