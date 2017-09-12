@@ -22,7 +22,7 @@ var exp = (function($) {
 	// Variables
 	// Object containing variables, generally these would be strings or jQuery objects
 	exp.vars = {
-			awaModal: '<div id="awa-modal"><div id="awa-modal-content"><span class="awa-close">&times;&nbsp;</span><br><br><br><h1>Before you checkout, did you forget any of our bestsellers?</h1></div></div>',
+			awaModal: '<div id="awa-modal"><div id="awa-modal-content"><span class="awa-close">&times;&nbsp;</span><br><br><br><div class="awa-title-container"><h2>Before you checkout, did you forget any of our bestsellers?</h2><button type="button" class="blue-button awa-close-button">View basket & checkout</button></div><div class="popup-notification awa-popup" style="opacity: 1; display: none;"><span class="product-added-to-basket">Added to basket</span></div></div></div>',
 			prodArray: [	{"ProductCode":"295179",
 							"Url":"/filing-archiving/dividers-indexes-tabs/5-star-subject-dividers-10-part-a4-assorted/p-19583",
 							"Title":"5 Star Subject Dividers / 10-Part / A4 / Assorted",
@@ -151,29 +151,43 @@ var exp = (function($) {
 		}\
 		#awa-modal-content {\
 			width: 800px;\
-			height: 400px;\
+			height: auto;\
 			background-color: white;\
 			margin: 15% auto;\
 			display: block;\
 			padding: 0 0 0 40px;\
+			border-radius: 10px;\
 		}\
 		#awa-modal-content h1 {\
+			color: #bf4b2f;\
+			font-size: 29px;\
+			margin-bottom: 10px;\
+		}\
+		#awa-modal-content h2 {\
 			text-align: center;\
+			font-weight: bold;\
+			font-size: 22px;\
+		}\
+		#awa-modal-content h3 {\
+			height: 15%;\
+			font-weight: bold;\
 		}\
 		.awa-close {\
 			display: block;\
 			float: right;\
 			font-size: 32px;\
+			cursor: pointer;\
 		}\
 		.awa-PR {\
 			width: 160px;\
-			margin: 20px 38px 0 0;\
-			height: 300px;\
+			margin: 20px 19px 15px 0;\
+			height: 270px;\
 			background-color: white;\
-			border: 1px solid black;\
+			border-right: 1px solid gainsboro;\
 			display: inline-block;\
 			vertical-align: top;\
 			color: black;\
+			padding: 0 19px 0 0;\
 		}\
 		.awa-vat {\
 			font-size: 12px;\
@@ -187,6 +201,33 @@ var exp = (function($) {
 			height: 23px;\
 			width: 22px;\
 		}\
+		span.product-added-to-basket {\
+		    background: url(/statics/css/decoration/icons/product-icons-sprite-v7.png) no-repeat 0 -146px;\
+		    display: block;\
+		    height: 41px;\
+		    line-height: 41px;\
+		    padding: 0 0 0 35px;\
+		    font-size: 20px;\
+		    margin: 11px 0 0 10px;\
+		}\
+		.popup-notification {\
+			width: 300px;\
+			left: 40.4%;\
+			height: 62px;\
+			top: 50%;\
+		}\
+		.awa-add-to-basket-button {\
+			height: 30px !important;\
+			font-size: 15px;\
+			margin-left: 9px;\
+		}\
+		.awa-close-button {\
+			float: right;\
+			margin-right: 10%;\
+		}\
+		.awa-title-container {\
+			overflow: auto;\
+		}\
 	';
 
 
@@ -196,7 +237,7 @@ var exp = (function($) {
 		// Add styles
 		$('head').append('<style>' + exp.css + '</style>');
 
-		// Low Price Promise pop-up when product code is selected
+		// Add in and display modal
 		$('body').append(exp.vars.awaModal);
 		var $awaModal = $('#awa-modal');
 		var $closeButton = $('.awa-close');
@@ -206,17 +247,25 @@ var exp = (function($) {
     		$awaModal.show();
     	});
 
+
+    	// Close functions
     	$closeButton.on('click', function() {
 		    $awaModal.css('display', 'none');
-		});
+		    location.reload();
+		})
 
-		closeModal = function() {
-			if (event.target == $awaModal) {
-				$awaModal.css('display', 'none');
-			}
-		}
+		$(document).click(function(event) { 
+    		if(!$(event.target).closest($awaModalContent).length) {
+    			$awaModal.css('display', 'none');
+    			location.reload();
+    		}
+    	})
 
-		window.onmousedown = closeModal;
+    	$('.awa-close-button').on('click', function() {
+    		$awaModal.css('display', 'none');
+    		location.reload();
+    	})
+
 
 		// Round vat
 		var i = 0
@@ -224,6 +273,7 @@ var exp = (function($) {
 			exp.vars.prodArray[i].IncVat = exp.vars.prodArray[i].IncVat.toFixed(2);
 			i++;
 		}
+
 
 		// Dedupe array for current products
 		var basketLinks = $('#order-lines').find('a');
@@ -259,7 +309,9 @@ var exp = (function($) {
 		for (i = 0; i < basketArray.length; i++) {
 		    for (var j = 0; j < titleArray.length; j++) {
 		        if (basketArray[i] == titleArray[j]) {
-		          matchingArray.push(j);
+		        	if (matchingArray.indexOf(j) < 0) {
+		          		matchingArray.push(j);
+		          	}
 		        }
 		    }
 		}
@@ -273,6 +325,7 @@ var exp = (function($) {
 		}
 		console.log(exp.vars.prodArray);
 
+
 		//Add in recommended products
 		i = 0;
 		while (i < 4) {
@@ -280,36 +333,22 @@ var exp = (function($) {
 			var prodID = exp.vars.prodArray[i].Url;
 			prodID = prodID.slice(prodID.length - 5, prodID.length);
 			if (document.cookie.indexOf('inc-vat=True') > -1) {
-				product = '<div class="awa-PR"><div class="awa-img-container-' + i + '"><img src=/images/300/' + exp.vars.prodArray[i].ProductCode + '.jpg class="awa-img"></div><h3>' + exp.vars.prodArray[i].Title + '</h3><h1>£<span class="awa-vat-container-' + i +'">' + exp.vars.prodArray[i].IncVat + '</span><span class="awa-vat">inc VAT</span></h1><div class="awa-form-container"><input type="text" name="awa-add-to-basket-' + exp.vars.prodArray[i].ProductCode + '" value="1" class="awa-qty"><input type="hidden" id="Name_' + exp.vars.prodArray[i].ProductCode + '" class="Name" value="' + exp.vars.prodArray[i].Title + '" > <input type="hidden" id="ProductCode_' + exp.vars.prodArray[i].ProductCode + '" class="ProductCode" value="' + prodID + '" ><input type="hidden "id="Price_' + exp.vars.prodArray[i].ProductCode + '" class="Price" value="' + exp.vars.prodArray[i].IncVat + '"><button type="button" class="blue-button add-to-basket-button" id="awa-add-to-basket-button-' + i + '">Add to Basket</button></div></div>';
+				product = '<div class="awa-PR awa-PR-' + i + '"><div class="awa-img-container-' + i + '"><img src=/images/300/' + exp.vars.prodArray[i].ProductCode + '.jpg class="awa-img"></div><h3>' + exp.vars.prodArray[i].Title + '</h3><h1>£<span class="awa-vat-container-' + i +'">' + exp.vars.prodArray[i].IncVat + '</span><span class="awa-vat">inc VAT</span></h1><div class="awa-form-container"><input type="text" name="awa-add-to-basket-' + exp.vars.prodArray[i].ProductCode + '" value="1" class="awa-qty"><input type="hidden" id="Name_' + exp.vars.prodArray[i].ProductCode + '" class="Name" value="' + exp.vars.prodArray[i].Title + '" > <input type="hidden" id="ProductCode_' + exp.vars.prodArray[i].ProductCode + '" class="awa-ProductCode" value="' + prodID + '" ><input type="hidden" id="Price_' + exp.vars.prodArray[i].ProductCode + '" class="awa-Price" value="' + exp.vars.prodArray[i].IncVat + '"><button type="button" class="blue-button awa-add-to-basket-button" id="awa-add-to-basket-button-' + i + '">Add to Basket</button></div></div>';
 			}
 			else {
-				product = '<div class="awa-PR"><div class="awa-img-container-' + i + '"><img src=/images/300/' + exp.vars.prodArray[i].ProductCode + '.jpg class="awa-img"></div><h3>' + exp.vars.prodArray[i].Title + '</h3><h1>£<span class="awa-vat-container-' + i +'">' + exp.vars.prodArray[i].ExVat + '</span><span class="awa-vat">ex VAT</span></h1><div class="awa-form-container"><input type="text" name="awa-add-to-basket-' + exp.vars.prodArray[i].ProductCode + '" value="1" class="awa-qty"><input type="hidden" id="Name_' + exp.vars.prodArray[i].ProductCode + '" class="awa-Name" value="' + exp.vars.prodArray[i].Title + '" > <input type="hidden" id="ProductCode_' + exp.vars.prodArray[i].ProductCode + '" class="awa-ProductCode" value="' + prodID + '" ><input type="hidden" id="Price_' + exp.vars.prodArray[i].ProductCode + '" class="awa-Price" value="' + exp.vars.prodArray[i].ExVat + '"><button type="button" class="blue-button awa-add-to-basket-button" id="awa-add-to-basket-button-' + i + '">Add to Basket</button></div></div>';
+				product = '<div class="awa-PR awa-PR-' + i + '"><div class="awa-img-container-' + i + '"><img src=/images/300/' + exp.vars.prodArray[i].ProductCode + '.jpg class="awa-img"></div><h3>' + exp.vars.prodArray[i].Title + '</h3><h1>£<span class="awa-vat-container-' + i +'">' + exp.vars.prodArray[i].ExVat + '</span><span class="awa-vat">ex VAT</span></h1><div class="awa-form-container"><input type="text" name="awa-add-to-basket-' + exp.vars.prodArray[i].ProductCode + '" value="1" class="awa-qty"><input type="hidden" id="Name_' + exp.vars.prodArray[i].ProductCode + '" class="awa-Name" value="' + exp.vars.prodArray[i].Title + '" > <input type="hidden" id="ProductCode_' + exp.vars.prodArray[i].ProductCode + '" class="awa-ProductCode" value="' + prodID + '" ><input type="hidden" id="Price_' + exp.vars.prodArray[i].ProductCode + '" class="awa-Price" value="' + exp.vars.prodArray[i].ExVat + '"><button type="button" class="blue-button awa-add-to-basket-button" id="awa-add-to-basket-button-' + i + '">Add to Basket</button></div></div>';
 			}
 			$('#awa-modal-content').append(product);
-			// if (document.cookie.indexOf('inc-vat=True') > -1) {
-			// 		$('.awa-vat-container-' + i).html(exp.vars.prodArray[i].IncVat);
-			// 		$('.awa-vat').text('inc VAT');
-			// 	}
-			// 	else {
-			// 		$('.awa-vat-container-' + i).html(exp.vars.prodArray[i].ExVat);
-			// 		$('.awa-vat').text('ex VAT');
-			// 	}
-			// $.ajax({
-			// 	url: 'https://www.paperstone.co.uk' + exp.vars.prodArray[i].Url, 
-			// 	type: 'GET',
-			// 	dataType: 'text',
-			// 	success : function(data) {
-			// 		var $addToBasketForm = null;
-			// 		$addToBasketForm = $(data).find('#add-to-basket-box .addToBasketForm');
-			// 		$('.awa-form-container').html($addToBasketForm);
-			// 		},
-			// 	async: false
-			// });
 			i++;
 		}
+		$('.awa-PR-3').css('border-right', 'none');
 
-		// Add to Basket
+
+		// Add to Basket Button
+		var $popup = $('.popup-notification.awa-popup');
 		$('.awa-add-to-basket-button').on('click', function() {
+			$popup.css('display', 'block');
+			$popup.fadeOut(1500);
 			var qty = $(this).siblings('.awa-qty').val();
 			var name = $(this).siblings('.awa-Name').val();
 			var code = $(this).siblings('.awa-ProductCode').val();
@@ -323,9 +362,6 @@ var exp = (function($) {
 					pageType: 'Basket',
 					feature: 'BasketPRE',
 					displayMode: ''
-				},
-				success: function(data) {
-					console.log(data);
 				}
 			});
 		})
