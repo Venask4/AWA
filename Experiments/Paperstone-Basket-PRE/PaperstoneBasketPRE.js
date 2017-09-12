@@ -228,6 +228,47 @@ var exp = (function($) {
 		.awa-title-container {\
 			overflow: auto;\
 		}\
+		@media screen and (max-width: 670px){\
+			#awa-modal-content {\
+				width: auto;\
+			}\
+			.awa-PR {\
+				width: 100px;\
+				height: auto;\
+				margin: 20px 9% 15px 9%;\
+			}\
+			#awa-modal-content h2 {\
+				font-size: 16px;\
+			}\
+			#awa-modal {\
+				position: absolute;\
+			}\
+			.awa-qty {\
+				float: none;\
+				display: block;\
+				margin: 0 auto;\
+			}\
+			.awa-add-to-basket-button {\
+				display: block;\
+				width: 100% !important;\
+				font-size: 12px;\
+			}\
+			#awa-modal-content h3 {\
+				height: 80px;\
+			}\
+			#awa-modal-content h1 {\
+				font-size: 20px;\
+			}\
+		}\
+		@media screen and (max-width: 413px){\
+			.awa-PR {\
+				margin: 0 auto;\
+				display: block;\
+				border-right: none;\
+				margin-bottom: 15px;\
+				border-bottom: 1px solid gainsboro;\
+				padding-bottom: 15px;\
+			}\
 	';
 
 
@@ -243,9 +284,16 @@ var exp = (function($) {
 		var $closeButton = $('.awa-close');
 		var $awaModalContent = $('#awa-modal-content');
 
-    	$(document).ready(function(){
+		// DELETE BEFORE SUBMISSION
+		$(document).ready(function(){
     		$awaModal.show();
     	});
+
+		if (document.cookie.indexOf('returningVisitor=True') < 0) {
+    		$(document).ready(function(){
+    			$awaModal.show();
+    		});
+    	}
 
 
     	// Close functions
@@ -365,6 +413,10 @@ var exp = (function($) {
 				}
 			});
 		})
+
+
+		// Set returning visitor cookie
+		document.cookie = 'returningVisitor=True';
 	}
 
 	exp.init();
