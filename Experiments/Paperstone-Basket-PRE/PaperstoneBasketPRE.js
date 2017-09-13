@@ -129,7 +129,7 @@ var exp = (function($) {
 							"ExVat":1.3900,
 							"IncVat":1.66800},
 							{"ProductCode":"26966X",
-							"Url":"/prod_50076_8521-8523_Silvine-Ruled-Exercise-Book-229x178mm-With-Margin-80-Pages-Blue-Pack-of-10.aspx",
+							"Url":"/school-supplies/school-books/silvine-ruled-exercise-book-229x178mm-with-margin-80-pages-blue-pack-of-10/p-50076",
 							"Title":"Silvine Ruled Exercise Book / 229x178mm / With Margin / 80 Pages / Blue / Pack of 10",
 							"ExVat":2.6900,
 							"IncVat":3.22800}
@@ -169,8 +169,11 @@ var exp = (function($) {
 			font-size: 22px;\
 		}\
 		#awa-modal-content h3 {\
-			height: 15%;\
+			height: 70px;\
 			font-weight: bold;\
+		}\
+		#awa-modal-content a {\
+			color: black;\
 		}\
 		.awa-close {\
 			display: block;\
@@ -181,7 +184,7 @@ var exp = (function($) {
 		.awa-PR {\
 			width: 160px;\
 			margin: 20px 19px 15px 0;\
-			height: 270px;\
+			height: 300px;\
 			background-color: white;\
 			border-right: 1px solid gainsboro;\
 			display: inline-block;\
@@ -303,7 +306,7 @@ var exp = (function($) {
 		})
 
 		$(document).click(function(event) { 
-    		if(!$(event.target).closest($awaModalContent).length) {
+    		if(!$(event.target).closest($awaModalContent).length && $awaModal.css('display') === 'block') {
     			$awaModal.css('display', 'none');
     			location.reload();
     		}
@@ -339,7 +342,6 @@ var exp = (function($) {
 			basketArray[i] = str;
 			i++;
 		}
-		console.log(basketArray);
 
 		var titleArray = [];
 		i = 0;
@@ -351,7 +353,6 @@ var exp = (function($) {
 			titleArray[i] = str;
 			i++;
 		}
-		console.log(titleArray);
 
 		var matchingArray = [];
 		for (i = 0; i < basketArray.length; i++) {
@@ -364,27 +365,32 @@ var exp = (function($) {
 		    }
 		}
 		matchingArray.sort(function(a, b){return a-b});
-		console.log(matchingArray);
 
 		i = 0;
 		while (i < matchingArray.length) {
 			exp.vars.prodArray.splice(matchingArray[i] - i, 1);
 			i++
 		}
-		console.log(exp.vars.prodArray);
+
+		if (exp.vars.prodArray.length < 1) {
+			$awaModal.hide();
+		}
 
 
 		//Add in recommended products
 		i = 0;
 		while (i < 4) {
+			if (i >= exp.vars.prodArray.length) {
+				break;
+			}
 			var product = null;
 			var prodID = exp.vars.prodArray[i].Url;
 			prodID = prodID.slice(prodID.length - 5, prodID.length);
 			if (document.cookie.indexOf('inc-vat=True') > -1) {
-				product = '<div class="awa-PR awa-PR-' + i + '"><div class="awa-img-container-' + i + '"><img src=/images/300/' + exp.vars.prodArray[i].ProductCode + '.jpg class="awa-img"></div><h3>' + exp.vars.prodArray[i].Title + '</h3><h1>£<span class="awa-vat-container-' + i +'">' + exp.vars.prodArray[i].IncVat + '</span><span class="awa-vat">inc VAT</span></h1><div class="awa-form-container"><input type="text" name="awa-add-to-basket-' + exp.vars.prodArray[i].ProductCode + '" value="1" class="awa-qty"><input type="hidden" id="Name_' + exp.vars.prodArray[i].ProductCode + '" class="Name" value="' + exp.vars.prodArray[i].Title + '" > <input type="hidden" id="ProductCode_' + exp.vars.prodArray[i].ProductCode + '" class="awa-ProductCode" value="' + prodID + '" ><input type="hidden" id="Price_' + exp.vars.prodArray[i].ProductCode + '" class="awa-Price" value="' + exp.vars.prodArray[i].IncVat + '"><button type="button" class="blue-button awa-add-to-basket-button" id="awa-add-to-basket-button-' + i + '">Add to Basket</button></div></div>';
+				product = '<div class="awa-PR awa-PR-' + i + '"><div class="awa-img-container-' + i + '"><img src=/images/300/' + exp.vars.prodArray[i].ProductCode + '.jpg class="awa-img"></div><h3><a href="' + exp.vars.prodArray[i].Url + '">' + exp.vars.prodArray[i].Title + '</a></h3><h1>£<span class="awa-vat-container-' + i +'">' + exp.vars.prodArray[i].IncVat + '</span><span class="awa-vat">inc VAT</span></h1><div class="awa-form-container"><input type="text" name="awa-add-to-basket-' + exp.vars.prodArray[i].ProductCode + '" value="1" class="awa-qty"><input type="hidden" id="Name_' + exp.vars.prodArray[i].ProductCode + '" class="Name" value="' + exp.vars.prodArray[i].Title + '" > <input type="hidden" id="ProductCode_' + exp.vars.prodArray[i].ProductCode + '" class="awa-ProductCode" value="' + prodID + '" ><input type="hidden" id="Price_' + exp.vars.prodArray[i].ProductCode + '" class="awa-Price" value="' + exp.vars.prodArray[i].IncVat + '"><button type="button" class="blue-button awa-add-to-basket-button" id="awa-add-to-basket-button-' + i + '">Add to Basket</button></div></div>';
 			}
 			else {
-				product = '<div class="awa-PR awa-PR-' + i + '"><div class="awa-img-container-' + i + '"><img src=/images/300/' + exp.vars.prodArray[i].ProductCode + '.jpg class="awa-img"></div><h3>' + exp.vars.prodArray[i].Title + '</h3><h1>£<span class="awa-vat-container-' + i +'">' + exp.vars.prodArray[i].ExVat + '</span><span class="awa-vat">ex VAT</span></h1><div class="awa-form-container"><input type="text" name="awa-add-to-basket-' + exp.vars.prodArray[i].ProductCode + '" value="1" class="awa-qty"><input type="hidden" id="Name_' + exp.vars.prodArray[i].ProductCode + '" class="awa-Name" value="' + exp.vars.prodArray[i].Title + '" > <input type="hidden" id="ProductCode_' + exp.vars.prodArray[i].ProductCode + '" class="awa-ProductCode" value="' + prodID + '" ><input type="hidden" id="Price_' + exp.vars.prodArray[i].ProductCode + '" class="awa-Price" value="' + exp.vars.prodArray[i].ExVat + '"><button type="button" class="blue-button awa-add-to-basket-button" id="awa-add-to-basket-button-' + i + '">Add to Basket</button></div></div>';
+				product = '<div class="awa-PR awa-PR-' + i + '"><div class="awa-img-container-' + i + '"><img src=/images/300/' + exp.vars.prodArray[i].ProductCode + '.jpg class="awa-img"></div><h3><a href="' + exp.vars.prodArray[i].Url + '">' + exp.vars.prodArray[i].Title + '</a></h3><h1>£<span class="awa-vat-container-' + i +'">' + exp.vars.prodArray[i].ExVat + '</span><span class="awa-vat">ex VAT</span></h1><div class="awa-form-container"><input type="text" name="awa-add-to-basket-' + exp.vars.prodArray[i].ProductCode + '" value="1" class="awa-qty"><input type="hidden" id="Name_' + exp.vars.prodArray[i].ProductCode + '" class="awa-Name" value="' + exp.vars.prodArray[i].Title + '" > <input type="hidden" id="ProductCode_' + exp.vars.prodArray[i].ProductCode + '" class="awa-ProductCode" value="' + prodID + '" ><input type="hidden" id="Price_' + exp.vars.prodArray[i].ProductCode + '" class="awa-Price" value="' + exp.vars.prodArray[i].ExVat + '"><button type="button" class="blue-button awa-add-to-basket-button" id="awa-add-to-basket-button-' + i + '">Add to Basket</button></div></div>';
 			}
 			$('#awa-modal-content').append(product);
 			i++;
