@@ -23,7 +23,9 @@ var exp = (function($) {
 	// Object containing variables, generally these would be strings or jQuery objects
 	exp.vars = {
 			returnDiv: '<div class="awa-return-div awa-div-style"></div>',
-			newDiv: '<div class="awa-new-div awa-div-style"></div>'
+			newDiv: '<div class="awa-new-div awa-div-style"></div>',
+			passHTML: '<h3>Passwords must:</h3><ul><li>be at least 8 characters long</li><li>have a capital letter</li><li>have a number</li></ul>',
+			continueButton: '<button class="awa-cont-button btn btn-small btn-pink pull-left"><span class="right">CONTINUE</span></button>'
 		};
 
 	// Styles
@@ -64,6 +66,8 @@ var exp = (function($) {
     	}\
     	.signin-details {\
     		display: block !important;\
+    		min-height: 124px !important;\
+    		overflow: visible !important;\
     	}\
     	.signin-wrap.pull-left.clearfix {\
     		width: 100%;\
@@ -76,6 +80,7 @@ var exp = (function($) {
     		width: 48%;\
     		display: inline-block;\
     		vertical-align: top;\
+    		min-height: 188px !important;\
     	}\
     	.email-details {\
     		display: none;\
@@ -100,6 +105,15 @@ var exp = (function($) {
     		border: 2px solid #8d559f;\
     		padding-left: 10px;\
     		margin: 0 1% 0 1%;\
+    		height: 188px;\
+    	}\
+    	.signin-wrap .signin-details-area #pswd_infot_strength_meter {\
+			left: 80px;\
+    		z-index: 1;\
+    		top: -132px;\
+    	}\
+    	.awa-cont-button {\
+    		margin: -20px 10px 19px 160px !important;\
     	}\
 	';
 
@@ -125,7 +139,7 @@ var exp = (function($) {
 		$('.pull-offset.ml10.sign-in-header.clearfix').children('p').hide();
 
 		// Change login button text
-		$('#myAccountButton').children('span').text('LOGIN');
+		$('#checkoutButton').children('span').text('LOGIN');
 
 		// Move forgotten password link and change text
 		$('#checkoutButton').after($('.forgotton-password.clearfix'));
@@ -146,9 +160,11 @@ var exp = (function($) {
 		function addProxys() {
 			var $proxyReturnEmail = $('.email-details').clone();
 			$proxyReturnEmail.find('input').attr('id', 'awa-return-email-form');
+			$('#awa-return-email-form').attr('name', null);
 
 			var $proxyNewEmail = $('.email-details').clone();
 			$proxyNewEmail.find('input').attr('id', 'awa-new-email-form');
+			$('#awa-new-email-form').attr('name', null);
 
 			$('.email-details').after($proxyReturnEmail);
 			$('.signin-details .form-group.no-bg').first().after($proxyNewEmail);
@@ -175,7 +191,6 @@ var exp = (function($) {
 			if ($passInput.val() != $passRetype.val()) {
 				$passRetype.val($passInput.val());
 			}
-			console.log('matching return');
 		}
 
 		function matchNewInputs () {
@@ -186,17 +201,67 @@ var exp = (function($) {
 			if ($passInput.val() != $passRetype.val()) {
 				$passRetype.val($passInput.val());
 			}
-			console.log('matching new');
 		}
 
 		$proxyReturnField.on('blur', matchReturnInputs);
 		$proxyNewField.on('blur', matchNewInputs);
+		$passInput.on('blur', matchNewInputs);
+
+		// Correct autotab order
+		$('#awa-new-email-form').on('focus', function () {
+			var keycode = null;
+			function getKey(e) {
+				keycode = e.keyCode;
+				if (keycode === 9) {
+				$('#password').focus();
+  			  }
+			}
+			document.onkeydown = getKey;
+		})
+
+		$('#awa-new-email-form').on('blur', function() {
+			document.onkeydown = null;
+		})
+
+		$('#awa-return-email-form').on('focus', function () {
+			var keycode = null;
+			function getKey(e) {
+				keycode = e.keyCode;
+				if (keycode === 9) {
+				$('#j_password').focus();
+  			  }
+			}
+			document.onkeydown = getKey;
+		})
+
+		$('#awa-return-email-form').on('blur', function() {
+			document.onkeydown = null;
+		})
 
 		// Add classes to new divs for styling
 		$('.awa-new-div').find('label').addClass('awa-label');
 		$('.awa-new-div').find('div.form-group.no-bg').eq(1).addClass('awa-form');
 		$('.awa-new-div').find('div.form-group.no-bg').eq(2).addClass('awa-form');
 		$('.awa-return-div').find('div.form-group').eq(4).addClass('awa-form');
+
+		// Modify password modal
+		var $passModal = $('.pswd_info');
+		$passModal.children('div').hide();
+		$passModal.children('ul').hide();
+		$passModal.append(exp.vars.passHTML);
+
+		// Add continue button for new customers
+		$('.awa-new-div').append(exp.vars.continueButton);
+		$('.awa-cont-button').on('click', function() {
+			$('#newCustomer').attr('checked', true)
+			$('#checkoutButton').click();
+		});
+
+		// Move error div
+		$('#page-content').first().before($('.error'));
+
+		// Remove duplicate error messages
+		$(document).not($('.error.block.registration-errors').first()).remove();
 	}
 
 	exp.init();
