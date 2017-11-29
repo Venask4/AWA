@@ -22,8 +22,8 @@ var exp = (function($) {
 	// Variables
 	// Object containing variables, generally these would be strings or jQuery objects
 	exp.vars = {
-			returnDiv: '<div class="awa-return-div awa-div-style"></div>',
-			newDiv: '<div class="awa-new-div awa-div-style"></div>',
+			returnDiv: '<div class="awa-return-div awa-div-style"><h4>Have you booked with us online before?</h4></div>',
+			newDiv: '<div class="awa-new-div awa-div-style"><h4>New to P&O online?</h4></div>',
 			passHTML: '<h3>Passwords must:</h3><ul><li>be at least 8 characters long</li><li>have a capital letter</li><li>have a number</li></ul>',
 			continueButton: '<button class="awa-cont-button btn btn-small btn-pink pull-left"><span class="right">CONTINUE</span></button>'
 		};
@@ -49,6 +49,7 @@ var exp = (function($) {
     		display: block;\
     		background: gray;\
     		border-bottom: 3px solid #404142;\
+    		margin-top: 10px;\
     	}\
     	.radio.blk {\
     		display: none;\
@@ -88,6 +89,7 @@ var exp = (function($) {
     	.awa-label {\
     		display: inline-block !important;\
     		font-weight: bold;\
+    		width: 155px !important;\
     	}\
     	.awa-form {\
     		margin-top: 30px;\
@@ -105,15 +107,22 @@ var exp = (function($) {
     		border: 2px solid #8d559f;\
     		padding-left: 10px;\
     		margin: 0 1% 0 1%;\
-    		height: 188px;\
+    		height: 260px;\
+    		color: #707070;\
     	}\
     	.signin-wrap .signin-details-area #pswd_infot_strength_meter {\
-			left: 80px;\
+			left: 820px;\
     		z-index: 1;\
     		top: -132px;\
+    		padding: 0 0 20px 30px;\
+    		width: 250px;\
     	}\
     	.awa-cont-button {\
     		margin: -20px 10px 19px 160px !important;\
+    	}\
+    	.pswd_info {\
+    		padding: 0 0 20px 30px !important;\
+    		width: 250px !important;\
     	}\
 	';
 
@@ -131,18 +140,17 @@ var exp = (function($) {
 		$('.signin-wrap .signin-details-area .email-details .control-label').first().text('Email');
 		$('.signin-wrap .signin-details-area .form-group .control-label').eq(1).text('Password');
 
-		// Move Back button
-		$('#page-content.row.page-content').eq(1).after($('.btn.btn-small.btn-purple.pull-left'));
-
 		// Change header text and delete redundant text
-		$('.pull-offset.ml10.sign-in-header.clearfix').children('h2').text('Have you booked online with us before?');
+		$('.pull-offset.ml10.sign-in-header.clearfix').children('h2').hide()
 		$('.pull-offset.ml10.sign-in-header.clearfix').children('p').hide();
 
 		// Change login button text
 		$('#checkoutButton').children('span').text('LOGIN');
+		$('#myAccountButton').children('span').text('LOGIN');
 
 		// Move forgotten password link and change text
 		$('#checkoutButton').after($('.forgotton-password.clearfix'));
+		$('#myAccountButton').after($('.forgotton-password.clearfix'));
 		$('.forgotton-password.clearfix').children('a').first().children('span').text('Forgotten your password?');
 
 		// Add in new container divs for styling
@@ -151,8 +159,7 @@ var exp = (function($) {
 		var $returnDiv = $('.awa-return-div');
 		var $newDiv = $('.awa-new-div');
 
-		$returnDiv.prepend($('.pull-offset.ml10.sign-in-header.clearfix'));
-		$returnDiv.append($('.signin-details-area.clearfix'));
+		$returnDiv.append($('.pull-offset.ml10.sign-in-header.clearfix')).append($('.signin-details-area.clearfix'));
 
 		$newDiv.append($('.signin-details'));
 
@@ -160,11 +167,9 @@ var exp = (function($) {
 		function addProxys() {
 			var $proxyReturnEmail = $('.email-details').clone();
 			$proxyReturnEmail.find('input').attr('id', 'awa-return-email-form');
-			$('#awa-return-email-form').attr('name', null);
 
 			var $proxyNewEmail = $('.email-details').clone();
 			$proxyNewEmail.find('input').attr('id', 'awa-new-email-form');
-			$('#awa-new-email-form').attr('name', null);
 
 			$('.email-details').after($proxyReturnEmail);
 			$('.signin-details .form-group.no-bg').first().after($proxyNewEmail);
@@ -172,6 +177,8 @@ var exp = (function($) {
 			$proxyNewEmail.show();
 			$('.signin-details .form-group.no-bg').first().hide();
 			$('.signin-details .form-group.no-bg').eq(3).hide();
+			$('#awa-return-email-form').attr('name', 'proxy-return-email');
+			$('#awa-new-email-form').attr('name', 'proxy-new-email');
 		}
 
 		addProxys();
@@ -244,6 +251,9 @@ var exp = (function($) {
 		$('.awa-new-div').find('div.form-group.no-bg').eq(2).addClass('awa-form');
 		$('.awa-return-div').find('div.form-group').eq(4).addClass('awa-form');
 
+		var $newPassLabel = $('.awa-new-div').find('div.form-group.no-bg').eq(2).find('label');
+		$newPassLabel.text('Create a Password');
+
 		// Modify password modal
 		var $passModal = $('.pswd_info');
 		$passModal.children('div').hide();
@@ -257,11 +267,28 @@ var exp = (function($) {
 			$('#checkoutButton').click();
 		});
 
+		// Move Back button
+		$('.awa-new-div').after($('.btn.btn-small.btn-purple.pull-left'));
+
 		// Move error div
 		$('#page-content').first().before($('.error'));
 
 		// Remove duplicate error messages
-		$(document).not($('.error.block.registration-errors').first()).remove();
+		var $validEmailErrors = $('.error.block.registration-errors:contains("Please enter a valid email")');
+		if ($validEmailErrors.length > 1) {
+			$validEmailErrors = $validEmailErrors.slice(1);
+			$validEmailErrors.each(function() {
+				$(this).remove();
+			})
+		}
+
+		var $wrongPassErrors = $('.error.block.registration-errors:contains("Your username or password is incorrect.")');
+		if ($wrongPassErrors.length > 1) {
+			$wrongPassErrors = $wrongPassErrors.slice(1);
+			$wrongPassErrors.each(function() {
+				$(this).remove();
+			})
+		}
 	}
 
 	exp.init();
