@@ -25,7 +25,8 @@ var exp = (function($) {
 			returnDiv: '<div class="awa-return-div awa-div-style"><h4>Have you booked with us online before?</h4></div>',
 			newDiv: '<div class="awa-new-div awa-div-style"><h4>New to P&O online?</h4></div>',
 			passHTML: '<h3>Passwords must:</h3><ul><li>be at least 8 characters long</li><li>have a capital letter</li><li>have a number</li></ul>',
-			continueButton: '<button class="awa-cont-button btn btn-small btn-pink pull-left"><span class="right">CONTINUE</span></button>'
+			continueButton: '<button class="awa-cont-button btn btn-small btn-pink pull-left"><span class="right">CONTINUE</span></button>',
+			newRegForm: '<div class="awa-new-reg"></div>'
 		};
 
 	// Styles
@@ -124,6 +125,20 @@ var exp = (function($) {
     		padding: 0 0 20px 30px !important;\
     		width: 250px !important;\
     	}\
+    	.body-background {\
+    		background-color: white;\
+    	}\
+    	#checkout {\
+    		border: 3px solid #8d559f;\
+    		background-color: #f4f3f4;\
+    	}\
+    	.awa-new-reg {\
+    		margin-top: 12px;\
+    		background-color: #f4f3f4;\
+    	}\
+    	#newCheckout {\
+    		border: 3px solid #8d559f;\
+    	}\
 	';
 
 
@@ -133,161 +148,204 @@ var exp = (function($) {
 		// Add styles
 		$('head').append('<style>' + exp.css + '</style>');
 
-		// Change breadcrumb to LOGIN
-		$('li.active').children('a').text('LOGIN');
 
-		// Change Email & Password labels
-		$('.signin-wrap .signin-details-area .email-details .control-label').first().text('Email');
-		$('.signin-wrap .signin-details-area .form-group .control-label').eq(1).text('Password');
+		// DESKTOP VERSION
+		if ($('.m_container').length === 0) {
+			// Change breadcrumb to LOGIN
+			$('li.active').children('a').text('LOGIN');
 
-		// Change header text and delete redundant text
-		$('.pull-offset.ml10.sign-in-header.clearfix').children('h2').hide()
-		$('.pull-offset.ml10.sign-in-header.clearfix').children('p').hide();
+			// Change Email & Password labels
+			$('.signin-wrap .signin-details-area .email-details .control-label').first().text('Email');
+			$('.signin-wrap .signin-details-area .form-group .control-label').eq(1).text('Password');
 
-		// Change login button text
-		$('#checkoutButton').children('span').text('LOGIN');
-		$('#myAccountButton').children('span').text('LOGIN');
+			// Change header text and delete redundant text
+			$('.pull-offset.ml10.sign-in-header.clearfix').children('h2').hide()
+			$('.pull-offset.ml10.sign-in-header.clearfix').children('p').hide();
 
-		// Move forgotten password link and change text
-		$('#checkoutButton').after($('.forgotton-password.clearfix'));
-		$('#myAccountButton').after($('.forgotton-password.clearfix'));
-		$('.forgotton-password.clearfix').children('a').first().children('span').text('Forgotten your password?');
+			// Change login button text
+			$('#checkoutButton').children('span').text('LOGIN');
+			$('#myAccountButton').children('span').text('LOGIN');
 
-		// Add in new container divs for styling
-		$('#loginForm').append(exp.vars.returnDiv).append(exp.vars.newDiv);
+			// Move forgotten password link and change text
+			$('#checkoutButton').after($('.forgotton-password.clearfix'));
+			$('#myAccountButton').after($('.forgotton-password.clearfix'));
+			$('.forgotton-password.clearfix').children('a').first().children('span').text('Forgotten your password?');
 
-		var $returnDiv = $('.awa-return-div');
-		var $newDiv = $('.awa-new-div');
+			// Add in new container divs for styling
+			$('#loginForm').append(exp.vars.returnDiv).append(exp.vars.newDiv);
 
-		$returnDiv.append($('.pull-offset.ml10.sign-in-header.clearfix')).append($('.signin-details-area.clearfix'));
+			var $returnDiv = $('.awa-return-div');
+			var $newDiv = $('.awa-new-div');
 
-		$newDiv.append($('.signin-details'));
+			$returnDiv.append($('.pull-offset.ml10.sign-in-header.clearfix')).append($('.signin-details-area.clearfix'));
 
-		// Create proxy email fields and bug inputs into "Retype" fields
-		function addProxys() {
-			var $proxyReturnEmail = $('.email-details').clone();
-			$proxyReturnEmail.find('input').attr('id', 'awa-return-email-form');
+			$newDiv.append($('.signin-details'));
 
-			var $proxyNewEmail = $('.email-details').clone();
-			$proxyNewEmail.find('input').attr('id', 'awa-new-email-form');
+			// Create proxy email fields and bug inputs into "Retype" fields
+			function addProxys() {
+				var $proxyReturnEmail = $('.email-details').clone();
+				$proxyReturnEmail.find('input').attr('id', 'awa-return-email-form');
 
-			$('.email-details').after($proxyReturnEmail);
-			$('.signin-details .form-group.no-bg').first().after($proxyNewEmail);
-			$proxyReturnEmail.show();
-			$proxyNewEmail.show();
-			$('.signin-details .form-group.no-bg').first().hide();
-			$('.signin-details .form-group.no-bg').eq(3).hide();
-			$('#awa-return-email-form').attr('name', 'proxy-return-email');
-			$('#awa-new-email-form').attr('name', 'proxy-new-email');
-		}
+				var $proxyNewEmail = $('.email-details').clone();
+				$proxyNewEmail.find('input').attr('id', 'awa-new-email-form');
 
-		addProxys();
-
-		var $emailInput = $('#j_username');
-		var $emailRetype = $('#re_j_username');
-		var $passInput = $('#password');
-		var $passRetype = $('#re_password');
-		var $proxyReturnField = $('#awa-return-email-form');
-		var $proxyNewField = $('#awa-new-email-form');
-
-		function matchReturnInputs () {
-			if ($proxyReturnField.val() != $emailInput.val()) {
-				$emailInput.val($proxyReturnField.val());
-				$emailRetype.val($proxyReturnField.val());
+				$('.email-details').after($proxyReturnEmail);
+				$('.signin-details .form-group.no-bg').first().after($proxyNewEmail);
+				$proxyReturnEmail.show();
+				$proxyNewEmail.show();
+				$('.signin-details .form-group.no-bg').first().hide();
+				$('.signin-details .form-group.no-bg').eq(3).hide();
+				$('#awa-return-email-form').attr('name', 'proxy-return-email');
+				$('#awa-new-email-form').attr('name', 'proxy-new-email');
 			}
-			if ($passInput.val() != $passRetype.val()) {
-				$passRetype.val($passInput.val());
+
+			addProxys();
+
+			var $emailInput = $('#j_username');
+			var $emailRetype = $('#re_j_username');
+			var $passInput = $('#password');
+			var $passRetype = $('#re_password');
+			var $proxyReturnField = $('#awa-return-email-form');
+			var $proxyNewField = $('#awa-new-email-form');
+
+			function matchReturnInputs () {
+				if ($proxyReturnField.val() != $emailInput.val()) {
+					$emailInput.val($proxyReturnField.val());
+					$emailRetype.val($proxyReturnField.val());
+				}
+				if ($passInput.val() != $passRetype.val()) {
+					$passRetype.val($passInput.val());
+				}
 			}
-		}
 
-		function matchNewInputs () {
-			if ($proxyNewField.val() != $emailInput.val()) {
-				$emailInput.val($proxyNewField.val());
-				$emailRetype.val($proxyNewField.val());
+			function matchNewInputs () {
+				if ($proxyNewField.val() != $emailInput.val()) {
+					$emailInput.val($proxyNewField.val());
+					$emailRetype.val($proxyNewField.val());
+				}
+				if ($passInput.val() != $passRetype.val()) {
+					$passRetype.val($passInput.val());
+				}
 			}
-			if ($passInput.val() != $passRetype.val()) {
-				$passRetype.val($passInput.val());
-			}
-		}
 
-		$proxyReturnField.on('blur', matchReturnInputs);
-		$proxyNewField.on('blur', matchNewInputs);
-		$passInput.on('blur', matchNewInputs);
+			$proxyReturnField.on('blur', matchReturnInputs);
+			$proxyNewField.on('blur', matchNewInputs);
+			$passInput.on('blur', matchNewInputs);
 
-		// Correct autotab order
-		$('#awa-new-email-form').on('focus', function () {
-			var keycode = null;
-			function getKey(e) {
-				keycode = e.keyCode;
-				if (keycode === 9) {
-				$('#password').focus();
-  			  }
-			}
-			document.onkeydown = getKey;
-		})
-
-		$('#awa-new-email-form').on('blur', function() {
-			document.onkeydown = null;
-		})
-
-		$('#awa-return-email-form').on('focus', function () {
-			var keycode = null;
-			function getKey(e) {
-				keycode = e.keyCode;
-				if (keycode === 9) {
-				$('#j_password').focus();
-  			  }
-			}
-			document.onkeydown = getKey;
-		})
-
-		$('#awa-return-email-form').on('blur', function() {
-			document.onkeydown = null;
-		})
-
-		// Add classes to new divs for styling
-		$('.awa-new-div').find('label').addClass('awa-label');
-		$('.awa-new-div').find('div.form-group.no-bg').eq(1).addClass('awa-form');
-		$('.awa-new-div').find('div.form-group.no-bg').eq(2).addClass('awa-form');
-		$('.awa-return-div').find('div.form-group').eq(4).addClass('awa-form');
-
-		var $newPassLabel = $('.awa-new-div').find('div.form-group.no-bg').eq(2).find('label');
-		$newPassLabel.text('Create a Password');
-
-		// Modify password modal
-		var $passModal = $('.pswd_info');
-		$passModal.children('div').hide();
-		$passModal.children('ul').hide();
-		$passModal.append(exp.vars.passHTML);
-
-		// Add continue button for new customers
-		$('.awa-new-div').append(exp.vars.continueButton);
-		$('.awa-cont-button').on('click', function() {
-			$('#newCustomer').attr('checked', true)
-			$('#checkoutButton').click();
-		});
-
-		// Move Back button
-		$('.awa-new-div').after($('.btn.btn-small.btn-purple.pull-left'));
-
-		// Move error div
-		$('#page-content').first().before($('.error'));
-
-		// Remove duplicate error messages
-		var $validEmailErrors = $('.error.block.registration-errors:contains("Please enter a valid email")');
-		if ($validEmailErrors.length > 1) {
-			$validEmailErrors = $validEmailErrors.slice(1);
-			$validEmailErrors.each(function() {
-				$(this).remove();
+			// Correct autotab order
+			$('#awa-new-email-form').on('focus', function () {
+				var keycode = null;
+				function getKey(e) {
+					keycode = e.keyCode;
+					if (keycode === 9) {
+					$('#password').focus();
+	  			  }
+				}
+				document.onkeydown = getKey;
 			})
-		}
 
-		var $wrongPassErrors = $('.error.block.registration-errors:contains("Your username or password is incorrect.")');
-		if ($wrongPassErrors.length > 1) {
-			$wrongPassErrors = $wrongPassErrors.slice(1);
-			$wrongPassErrors.each(function() {
-				$(this).remove();
+			$('#awa-new-email-form').on('blur', function() {
+				document.onkeydown = null;
 			})
+
+			$('#awa-return-email-form').on('focus', function () {
+				var keycode = null;
+				function getKey(e) {
+					keycode = e.keyCode;
+					if (keycode === 9) {
+					$('#j_password').focus();
+	  			  }
+				}
+				document.onkeydown = getKey;
+			})
+
+			$('#awa-return-email-form').on('blur', function() {
+				document.onkeydown = null;
+			})
+
+			// Add classes to new divs for styling
+			$('.awa-new-div').find('label').addClass('awa-label');
+			$('.awa-new-div').find('div.form-group.no-bg').eq(1).addClass('awa-form');
+			$('.awa-new-div').find('div.form-group.no-bg').eq(2).addClass('awa-form');
+			$('.awa-return-div').find('div.form-group').eq(4).addClass('awa-form');
+
+			var $newPassLabel = $('.awa-new-div').find('div.form-group.no-bg').eq(2).find('label');
+			$newPassLabel.text('Create a Password');
+
+			// Modify password modal
+			var $passModal = $('.pswd_info');
+			$passModal.children('div').hide();
+			$passModal.children('ul').hide();
+			$passModal.append(exp.vars.passHTML);
+
+			// Add continue button for new customers
+			$('.awa-new-div').append(exp.vars.continueButton);
+			$('.awa-cont-button').on('click', function() {
+				$('#newCustomer').attr('checked', true)
+				$('#checkoutButton').click();
+			});
+
+			// Move Back button
+			$('.awa-new-div').after($('.btn.btn-small.btn-purple.pull-left'));
+
+			// Move error div
+			$('#page-content').first().before($('.error'));
+
+			// Remove duplicate error messages
+			var $validEmailErrors = $('.error.block.registration-errors:contains("Please enter a valid email")');
+			if ($validEmailErrors.length > 1) {
+				$validEmailErrors = $validEmailErrors.slice(1);
+				$validEmailErrors.each(function() {
+					$(this).remove();
+				})
+			}
+
+			var $wrongPassErrors = $('.error.block.registration-errors:contains("Your username or password is incorrect.")');
+			if ($wrongPassErrors.length > 1) {
+				$wrongPassErrors = $wrongPassErrors.slice(1);
+				$wrongPassErrors.each(function() {
+					$(this).remove();
+				})
+			}
+		}
+		else {
+			// MOBILE VERSION
+			$('.m_container').children('h1').text("Have you booked online with us before?");
+			$('.m_container').children('p').hide();
+			$('.po-btn,po-btn-primary.s700.f18').eq(1).hide();
+			$('#checkout').after(exp.vars.newRegForm);
+
+			// Get form from new customers page
+			$.ajax({
+  				url: 'https://www.poferries.com/register/checkout', 
+  				type: 'GET',
+  				dataType: 'text',
+  				success : function(data) {
+ 					$form = $(data).find('#loginForm');
+ 					$form.find('section#checkout').attr('id', 'newCheckout');
+					$('.awa-new-reg').html($form);
+					console.log($form);
+  				},
+  				async: false
+  			});
+
+  			// Hide junk from form
+  			$('.notify.po-notify').hide();
+  			$('.progress-indicator.po-progress-indicator').hide();
+  			var $newMDiv = $('.m_container').eq(1);
+  			$newMDiv.children('p').hide();
+  			$('.site-banner.po-site-banner').hide();
+  			$('#leadTitle').hide();
+  			$('#gender').hide();
+  			$('#countrySelect').hide();
+  			$('#areaCodeSelect').hide();
+  			$('.po-custom-label').hide();
+  			$('.ms500.f15.marg-b-0').hide();
+  			$('.checkbox.clearfix').hide();
+  			$('.warning-message').hide();
+
+  			// Change Text
+  			$newMDiv.children('h1').text('New to P&O Online?');
 		}
 	}
 
