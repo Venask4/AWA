@@ -22,11 +22,10 @@ var exp = (function($) {
 	// Variables
 	// Object containing variables, generally these would be strings or jQuery objects
 	exp.vars = {
-			returnDiv: '<div class="awa-return-div awa-div-style"><h4>Have you booked with us online before?</h4></div>',
-			newDiv: '<div class="awa-new-div awa-div-style"><h4>New to P&O online?</h4></div>',
+			returnDiv: '<div class="awa-return-div awa-div-style"><h4>HAVE YOU BOOKED ONLINE WITH US BEFORE?</h4></div>',
+			newDiv: '<div class="awa-new-div awa-div-style"><h4>NEW TO P&O FERRIES ONLINE?</h4></div>',
 			passHTML: '<h3>Passwords must:</h3><ul><li>be at least 8 characters long</li><li>have a capital letter</li><li>have a number</li></ul>',
-			continueButton: '<button class="awa-cont-button btn btn-small btn-pink pull-left"><span class="right">CONTINUE</span></button>',
-			newRegForm: '<div class="awa-new-reg"></div>'
+			continueButton: '<button class="awa-cont-button btn btn-small btn-pink pull-left"><span class="right">CONTINUE</span></button>'
 		};
 
 	// Styles
@@ -310,42 +309,11 @@ var exp = (function($) {
 		}
 		else {
 			// MOBILE VERSION
-			$('.m_container').children('h1').text("Have you booked online with us before?");
 			$('.m_container').children('p').hide();
-			$('.po-btn,po-btn-primary.s700.f18').eq(1).hide();
-			$('#checkout').after(exp.vars.newRegForm);
-
-			// Get form from new customers page
-			$.ajax({
-  				url: 'https://www.poferries.com/register/checkout', 
-  				type: 'GET',
-  				dataType: 'text',
-  				success : function(data) {
- 					$form = $(data).find('#loginForm');
- 					$form.find('section#checkout').attr('id', 'newCheckout');
-					$('.awa-new-reg').html($form);
-					console.log($form);
-  				},
-  				async: false
-  			});
-
-  			// Hide junk from form
-  			$('.notify.po-notify').hide();
-  			$('.progress-indicator.po-progress-indicator').hide();
-  			var $newMDiv = $('.m_container').eq(1);
-  			$newMDiv.children('p').hide();
-  			$('.site-banner.po-site-banner').hide();
-  			$('#leadTitle').hide();
-  			$('#gender').hide();
-  			$('#countrySelect').hide();
-  			$('#areaCodeSelect').hide();
-  			$('.po-custom-label').hide();
-  			$('.ms500.f15.marg-b-0').hide();
-  			$('.checkbox.clearfix').hide();
-  			$('.warning-message').hide();
-
-  			// Change Text
-  			$newMDiv.children('h1').text('New to P&O Online?');
+			var $newCusBut = $('.po-btn,po-btn-primary.s700.f18').eq(1)
+			$('#checkout').after($newCusBut);
+			$newCusBut.css('margin-top', '12px');
+			$('.checkbox.clearfix').hide();
 		}
 	}
 
