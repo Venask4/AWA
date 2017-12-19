@@ -1,3 +1,7 @@
+// Flicker Fix
+$('#page-content').hide();
+$('.row.page-content').hide();
+
 // CGIT Optimizely Boilerplate - version 0.1.4
 //
 // Wrap the experiment code in an IIFE, this creates a local scope and allows us to
@@ -306,6 +310,8 @@ var exp = (function($) {
 					$(this).remove();
 				})
 			}
+			// Show content for flicker fix
+			$('.row.page-content').show();
 		}
 		else {
 			// MOBILE VERSION
