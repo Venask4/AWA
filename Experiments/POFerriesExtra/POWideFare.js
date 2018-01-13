@@ -26,8 +26,10 @@ var exp = (function($) {
 			sideDiv: '<div id="awa-side-container"></div>',
 			hLine: '<span class="awa-line"></span>',
 			splitDiv: '<div class="awa-split"></div>',
-			passTitle: '<p>Passengers:</p>',
-			vehicleTitle: '<p>Vehicle:</p>'
+			passTitle: '<p class="awa-add-once">Passengers:</p>',
+			vehicleTitle: '<p class="awa-add-once">Vehicle:</p>',
+			petsTitle: '<p class="awa-hull-add-once">Pets:</p>',
+			cabinsTitle: '<p class="awa-hull-add-once">Cabins:</p>'
 		};
 
 	// Styles
@@ -98,6 +100,11 @@ var exp = (function($) {
 		}\
 		.awa-banner {\
 			float: none;\
+			background-color: #24b9cf;\
+		}\
+		.awa-banner img {\
+			display: block;\
+			margin: 0 auto;\
 		}\
 		';
 	exp.ferryCss = '\
@@ -181,6 +188,14 @@ var exp = (function($) {
 		#ou_passengersSelectWrapperDD {\
 			padding-left: 0 !important;\
 		}\
+		#petsOutboundSelectWrapper {\
+			display: inline-block;\
+			width: 45%;\
+		}\
+		#cabinsOutboundSelectWrapper {\
+			display: inline-block;\
+			width: 45%;\
+		}\
 		';
 
 
@@ -196,15 +211,22 @@ var exp = (function($) {
 
 		// Move page content to containers
 		$fareContainer.append($('#fareFinderComponentWrapper'));
-		var $sideContent = $('.row .col-xs-12.clearfix').eq(5).children().splice(0, 4);
+		var slicePoint = null;
+		if (window.location.href.indexOf('dublin') > -1) {
+			slicePoint = 3;
+		}
+		else {
+			slicePoint = 4;
+		}
+		var $sideContent = $('.row .col-xs-12.clearfix').eq(5).children().splice(0, slicePoint);
 		var $sideContainer = $('#awa-side-container');
 		$sideContainer.append($sideContent);
 
 		// Style side container content
 		$sideContainer.children('div').eq(0).hide();
 		$fareContainer.before($sideContainer.children('div').eq(1).addClass('awa-banner'));
-		//$sideContainer.children('div').eq(2).hide();
-		//$('.large-banner-badge.pa.po-headerblue').hide();
+		// Pull out carousel
+		$('.row .col-xs-12.clearfix').eq(5).prepend($('#carousel-example-generic'));
 
 		// FERRY STYLE FUNCTION
 		function ferryStyle() {
@@ -221,41 +243,37 @@ var exp = (function($) {
 			$singleRadio.after($returnRadio);
 
 			// Add in split divs
-			$('#who-ff').prepend(exp.vars.splitDiv).prepend(exp.vars.splitDiv);
+			if ($('.awa-split').length === 0) {
+				$('#who-ff').prepend(exp.vars.splitDiv).prepend(exp.vars.splitDiv);
+				$('#samePassengerCheckBoxWrapper').prepend(exp.vars.splitDiv).prepend(exp.vars.splitDiv);
+			}
 			var $leftCol = $('.awa-split').eq(0);
 			var $rightCol = $('.awa-split').eq(1);
+			if ($('.awa-add-once').length === 0) {
+				$leftCol.prepend(exp.vars.passTitle);
+				$rightCol.prepend(exp.vars.vehicleTitle);
+			}
 
-			$leftCol.prepend($('#ou_passengersSelectWrapperDD'));
+			$leftCol.append($('#ou_passengersSelectWrapperDD'));
 			var $whoUls = $('.fareFinderSelectWrapper').children('ul');
 			$whoUls.each(function($whoUls) {
 				$(this).addClass('awa-who-ul');
 			})
-			$leftCol.prepend(exp.vars.passTitle);
 
 			var $vehicleForm = $('.form-group.vehicle').first();
 			var $trailerForm = $('.form-group.trailers').first();
-			$rightCol.prepend($vehicleForm);
-			$rightCol.prepend($trailerForm);
+			$rightCol.append($vehicleForm);
+			$rightCol.append($trailerForm);
 			$vehicleForm.addClass('awa-vehicle-form');
 			$trailerForm.addClass('awa-trailer-form');
-			$rightCol.prepend(exp.vars.vehicleTitle);
-
 
 			// Hide unwanted titles
 			$('#where-ff').children('dt').first().hide();
 			$('#when-ff').children('dt').first().hide();
 			$('#who-ff').children('dt').first().hide();
 			$('#how-ff').hide();
-			// $('.ico-vehicle').first().hide()
-			// $('.ico-trailers').first().hide();
 
-			// Change WHO lables
-			// $('#adult').text('Adult 16+');
-			// $('#child').text('Child 4-15');
-			// $('#toddler').text('Infant 0-3');
-
-			// Add second set of split divs
-			$('#samePassengerCheckBoxWrapper').prepend(exp.vars.splitDiv).prepend(exp.vars.splitDiv);
+			// Fill in set of split divs
 			var $botLeftCol = $('.awa-split').eq(2);
 			var $botRightCol = $('.awa-split').eq(3);
 
@@ -266,9 +284,12 @@ var exp = (function($) {
 			$fareContainer.find('div.c_46').hide();
 
 			// Add divider lines
-			$('#where-ff').after(exp.vars.hLine);
-			$('#when-ff').after(exp.vars.hLine);
-			$('#who-ff').after(exp.vars.hLine);
+			if ($('.awa-line').length === 0) {
+				$('#where-ff').after(exp.vars.hLine);
+				$('#when-ff').after(exp.vars.hLine);
+				$('#who-ff').after(exp.vars.hLine);	
+				$('#cabinsOutboundSelectWrapper').after(exp.vars.hLine);
+			}
 
 			// Fix img height
 			var imgArrayLength = $sideContainer.find('img').length
@@ -278,8 +299,16 @@ var exp = (function($) {
 			else {
 				$sideContainer.find('img').first().addClass('awa-img');
 			}
-			var imgHeight = parseInt($fareContainer.css('height')) - 85 + 'px';
+			var imgHeight = $fareContainer.css('height');
 			$('.awa-img').css('height', imgHeight);
+
+			// Hull Ferries Style Adjustments
+			$('#petsOutboundSelectWrapper').children('dt').first().hide();
+			$('#cabinsOutboundSelectWrapper').children('dt').first().hide();
+			if ($('.awa-hull-add-once').length === 0) {
+				$('#petsOutboundSelectWrapper').prepend(exp.vars.petsTitle);
+				$('#cabinsOutboundSelectWrapper').prepend(exp.vars.cabinsTitle);
+			}
 		}
 		ferryStyle();
 
@@ -287,7 +316,7 @@ var exp = (function($) {
 		var target = $('#awa-fare-container')[0];
 		var observer = new MutationObserver(function(mutations) {
 		  mutations.forEach(function(mutation) {
-		    ferryStyle();
+		  	ferryStyle();	
 		  });    
 		});
 		var config = { attributes: true, childList: true, characterData: true };

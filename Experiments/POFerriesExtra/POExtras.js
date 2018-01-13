@@ -73,13 +73,15 @@ var exp = (function($) {
 
 		if (window.location.href.indexOf('www.poferries.com/quote') > -1) {
 			// AJAX POSTS FOR EXTRAS
+			var passQty = parseInt($('#passengersoutbound').text());
+
 			$.ajax({
 				type: 'POST',
 				url: 'http://www.poferries.com/cart/addExtra',
 				dataType: 'json',
 				data: {
 					productCode:'CS_cabin',
-					quantity:2,
+					quantity: passQty,
 					journey:'outbound',
 					shared:false,
 					gender:''
@@ -92,7 +94,7 @@ var exp = (function($) {
 				dataType: 'json',
 				data: {
 					productCode:'CS_cabin',
-					quantity:2,
+					quantity: passQty,
 					journey:'return',
 					shared:false,
 					gender:''
@@ -130,7 +132,6 @@ var exp = (function($) {
   				success : function(data) {
 				$extrasDiv = $(data).find('.journeys');
 				$('.journeys').eq(1).html($extrasDiv.html());
-				console.log('success');
   				},
   				async: false
   			});
