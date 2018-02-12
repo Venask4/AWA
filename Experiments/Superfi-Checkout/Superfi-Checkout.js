@@ -56,6 +56,7 @@ var exp = (function($) {
 		@media screen and (min-width: 48em) {\
 			.mediumlarge-4 {\
 				position: sticky;\
+				position: -webkit-sticky;\
 				top: 20px;\
 			}\
 		}\
@@ -66,6 +67,9 @@ var exp = (function($) {
 	exp.init = function() {
 		// Add styles
 		$('head').append('<style>' + exp.css + '</style>');
+
+		// Links to open in new tab
+		$('.columns.small-5.medium-4.mediumlarge-3').children('a').attr('target','_blank');
 
 		function mutationChanges() {
 			// Hide Unwanted Sections
@@ -100,18 +104,24 @@ var exp = (function($) {
 				}}, 1)
 			}
 			textPoll($totalText);
+			textPoll($totalText);
+			textPoll($totalText);
 
 			// Delivery copy
 			var $deliveryText = $('#ctl00_PageContent_OnePageCheckout1_cartView_cartViewOnline_lblShippingTotalText');
 			$deliveryText.text('Delivery');
 			var $total = $('#ctl00_PageContent_OnePageCheckout1_cartView_cartViewOnline_lblTotal');
-			var totalInt = $total.text().replace('£','');
+			var totalInt = $total.text().replace('£','').replace(',','');
 			if (parseInt(totalInt) > 75) {
 				$deliveryText.text('Free Delivery');
 			}
 
 			// Hide delivery error message
-			$('#ctl00_PageContent_OnePageCheckout1_ShipMethodView_LabelError').hide();
+			var $deliveryError = $('#ctl00_PageContent_OnePageCheckout1_ShipMethodView_LabelError');
+			$deliveryError.hide();
+			if ($('#ctl00_PageContent_OnePageCheckout1_ShippingAddressStaticView_EditAddress').length > $('#ctl00_PageContent_OnePageCheckout1_ShipMethodView_ShippingMethods_0').length) {
+				$deliveryError.show();
+			}
 
 			// Remove Asterisks
 			var $firstName = $('#ctl00_PageContent_OnePageCheckout1_ShippingAddressEditUKView_LabelShipFirstName');
@@ -157,8 +167,7 @@ var exp = (function($) {
 		function snapToDelivery() {
 			var currentState = $('#ctl00_PageContent_OnePageCheckout1_ShippingAddressEditUKView_LabelShipFirstName').length;
 			if (exp.vars.previousState > currentState) {
-				$('#ctl00_PageContent_OnePageCheckout1_PanelShippingMethod')[0].scrollIntoView({behavior: 'smooth'})
-				$('#ctl00_PageContent_OnePageCheckout1_ShipMethodView_ShippingMethods_0').click();
+				$('#ctl00_PageContent_OnePageCheckout1_PanelShippingMethod')[0].scrollIntoView({behavior: 'smooth'});
 			}
 			exp.vars.previousState = currentState;
 		}
