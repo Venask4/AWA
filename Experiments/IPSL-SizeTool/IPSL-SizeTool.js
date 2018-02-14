@@ -1098,7 +1098,7 @@ var addToCartButtonSel = '.add-to-cart-buttons';
 var priceSel = '.price-info > div:nth-of-type(2)';
 var perPackVatSel = '.per';
 
-var openButtonTemplate = '\n  <div class="' + TN + ' calculator__button--open"><span class="btn js-open-cards">Try our Instand Quote tool</span></div>\n';
+var openButtonTemplate = '\n  <div class="' + TN + ' calculator__button--open"><span class="btn js-open-cards">Try our Instant Quote tool</span></div>\n';
 
 var openCards = function openCards() {
   return Cards.start(function (data) {
@@ -1883,7 +1883,19 @@ var addToBasket = function addToBasket(order) {
 
   $('#product_addtocart_form .no-display > input').eq(1).val(relatedProducts);
   $('#product_addtocart_form #qty').val(noPanels);
-  $('#product_addtocart_form .btn-cart').click();
+  //$('#product_addtocart_form .btn-cart').click();
+  // ADD items
+	var formData = jQuery('#product_addtocart_form').serialize();
+	jQuery.ajax({
+		type: 'POST',
+		url: 'https://www.ipsluk.co.uk/checkout/cart/add/uenc/aHR0cHM6Ly93d3cuaXBzbHVrLmNvLnVrL2FxdWFib3JkLXB2Yy10b25ndWUtZ3Jvb3ZlLWJsYWNrLWNhc2NhZGUuaHRtbA,,/product/1205/form_key/0JUwCy6aHfNPKcgY/',
+		data: formData,
+		success: function() {
+			console.log('Items added');
+		}
+	});
+	$('#calculator-step-3').hide();
+	addDiv();
 };
 
 var STEPS = {
@@ -2159,7 +2171,27 @@ if(false) {
 
 /******/ });
 
-// Step 3 copy
+// COLOE CODE
+
+// Styles
+var awacss = '\
+	.awa-btn {\
+		font-family: inherit;\
+	    background-color: #fdad00;\
+	    color: white;\
+	    padding: 6px 25px 9px 35px;\
+	    border: none;\
+	    outline: none;\
+	    font-size: 18px;\
+	    border-radius: 24px;\
+	    cursor: pointer;\
+	    -webkit-transition: all 250ms ease-in-out;\
+	    transition: all 250ms ease-in-out;\
+	}\
+	'
+
+jQuery('head').append('<style>' + awacss + '</style>');
+
 function poll(selector, cb) {
 	setTimeout(function(){if(jQuery(selector) !== null && jQuery(selector).length) {
 		cb();
@@ -2169,11 +2201,25 @@ function poll(selector, cb) {
 	}}, 100)
 }
 
+// Variables
+var awaHTML = {
+	basketContainer: '<div id="awa-basket-container"></div>',
+	calBtn: '<a href="#" class="awa-btn">Test</a>'
+}
+
 function addCopy() {
 	var copy1 = '<p class="card__description">Cladseal provides a stronger watertight seal than traditional silicone. More information can ben found <a href="https://www.ipsluk.co.uk/watertight-trim-cladseal.html">here</a>.</p>';
 	var copy2 = '<p class="card__description">We recommend Chrome trim for a more luxurious finish</p>';
 	jQuery('#calculator-step-3').children('h3').eq(0).after(copy1);
 	jQuery('#calculator-step-3').children('h3').eq(1).after(copy2);
+	jQuery('#calculator-step-3').find('.card__button_forward').after(awaHTML.calBtn);
+	jQuery('#calculator-step-3').find('.card__button_forward').remove();
 }
 
 poll('#card-container', addCopy);
+
+function addDiv() {
+	jQuery('.card__item').eq(2).append(awaHTML.basketContainer);
+}
+
+jQuery('.awa-btn').on('click', function() {addToBasket});

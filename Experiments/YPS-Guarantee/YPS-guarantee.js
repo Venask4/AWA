@@ -1,4 +1,4 @@
-//
+document.addEventListener("DOMContentLoaded", function(event) { 
 // CGIT Optimizely Boilerplate - version 0.1.4
 // Wrap the experiment code in an IIFE, this creates a local scope and allows us to
 // pass in jQuery to use as $. Other globals could be passed in if required.
@@ -16,12 +16,12 @@ var exp = (function($) {
 	};
 
 	// Log the experiment, useful when multiple experiments are running
-	exp.log('AWA - YPS Home Var1 - v2');
+	exp.log('AWA - YPS Guarantee - v1');
 
 	// Variables
 	// Object containing variables, generally these would be strings or jQuery objects
 	exp.vars = {
-		awaModal: '<div id="awa-modal"><div id="awa-modal-content"><span class="awa-close">&times;&nbsp;</span><br><br><div class="awa-title-container"><h3>Your space is for you and only you to use for the duration of your booking and your host knows this.</h3><h2 class="awa-close-txt">OK, got it!</h2></div></div></div>',
+		awaModal: '<div id="awa-modal"><div id="awa-modal-content"><span class="awa-close">&times;&nbsp;</span><div class="awa-title-container"><h7>Your space is for you and only you to use for the duration of your booking and your host knows this.</h7><h6 class="awa-close-txt">OK, got it!</h6></div></div></div>',
 	};
 
 	// Styles
@@ -37,22 +37,44 @@ var exp = (function($) {
 		}\
 		#awa-modal {\
 			display: none;\
-    		position: fixed;\
-    		z-index: 1;\
-    		left: 0;\
-    		top: 0;\
-    		width: 100%;\
-    		height: 100%;\
-     		background-color: rgba(0,0,0,0.4);\
+    			position: fixed;\
+    			z-index: 1;\
+    			left: 0;\
+    			top: 0;\
+    			width: 100%;\
+    			height: 100%;\
+     			background-color: rgba(0,0,0,0.4);\
 		}\
 		#awa-modal-content {\
-			width: 800px;\
+			width: 250px;\
 			height: auto;\
 			background-color: white;\
-			margin: 15% auto;\
+			margin: 15% 11%;\
 			display: block;\
-			padding: 0 0 0 40px;\
-			border-radius: 10px;\
+			border: solid 1px #2f4f4f\
+		}\
+		.awa-title-container {\
+			padding: 20px 20px 25px 20px;\
+		}\
+		.awa-close {\
+			float: right;\
+			font-size: 25px;\
+		}\
+		.awa-close-txt {\
+			font-size: 14px;\
+			color: #679bef;\
+			float: right;\
+			padding-top: 8px;\
+			font-weight: bold;\
+		}\
+		.awa-close:hover {\
+			cursor: pointer;\
+		}\
+		.awa-close-txt:hover {\
+			cursor: pointer;\
+		}\
+		.awa-guarantee:hover {\
+			cursor: pointer;\
 		}\
 	';
 
@@ -62,50 +84,77 @@ var exp = (function($) {
 		// // Add styles
 		$('head').append('<style>' + exp.css + '</style>');
 
-		// Create Object Array
-		var $divs = [];
-		$.each($('.buttons'), function(){
-			$divs.push($(this).children('div').first());
-		});
-		$divs.shift();
+		function testCB() {
+			// Create Object Array
+			var $divs = [];
+			$.each($('.buttons'), function(){
+				$divs.push($(this).children('div').first());
+			});
+			$divs.shift();
 
-		// Add text
-		$.each($divs, function(){
-			$(this).addClass('awa-text');
-			$(this).html('<div class="awa-guarantee"><span>Guaranteed  </span><img class="awa-img" data-v-995a4c6e="" src="/images/info-colour.png?8a209c06ec7a56d81233d00ddfdb240f" srcset="/images/info-colour@2x.png?89ce35c2dc495ea257c0501ec7965c4e2x" class="icon-image" data-original-title="" title=""></div>');
-		});
+			// Add text
+			$.each($divs, function(){
+				$(this).addClass('awa-text');
+				$(this).html('<div class="awa-guarantee"><span>Guaranteed  </span><img class="awa-img" data-v-995a4c6e="" src="/images/info-colour.png?8a209c06ec7a56d81233d00ddfdb240f" srcset="/images/info-colour@2x.png?89ce35c2dc495ea257c0501ec7965c4e2x" class="icon-image" data-original-title="" title=""></div>');
+			});
 
-		// Add in and display modal
-		$('body').append(exp.vars.awaModal);
-		var $awaModal = $('#awa-modal');
-		var $closeButton = $('.awa-close');
-		var $awaModalContent = $('#awa-modal-content');
+			// Add in and display modal
+			$('body').append(exp.vars.awaModal);
+			var $awaModal = $('#awa-modal');
+			var $closeButton = $('.awa-close');
+			var $awaModalContent = $('#awa-modal-content');
+			var openBool = false;
 
-		$('.awa-guarantee').on('click', function() {
-			$('#awa-modal').show();
-			console.log('ran');
-		})
+			$('.awa-guarantee').on('click', function() {
+				$('#awa-modal').show();
+				$('#search-results').css('z-index','0');
+				setTimeout(function() {openBool = true;},1);
+			})
 
-		   // Close functions
-    	$closeButton.on('click', function() {
-		    $awaModal.css('display', 'none');
-		})
+			   // Close functions
+	    	$closeButton.on('click', function() {
+			    $awaModal.css('display', 'none');
+				$('#search-results').css('z-index','5');
+				openBool = false;
+			})
 
-		$closeButton.on('click', function() {
-		    $('.awa-close-txt').css('display', 'none');
-		})
+			$('.awa-close-txt').on('click', function() {
+			    $awaModal.css('display', 'none');
+				$('#search-results').css('z-index','5');
+				openBool = false;
+			})
 
-		// $(document).click(function(event) { 
-  //   		if(!$(event.target).closest($awaModalContent).length && $awaModal.css('display') === 'block') {
-  //   			$awaModal.css('display', 'none');
-  //   		}
-  //   	})
+			 $(document).click(function(event) { 
+	     		if(!$(event.target).closest($awaModalContent).length && $awaModal.css('display') === 'block' && openBool === true) {
+	     			$awaModal.css('display', 'none');
+				$('#search-results').css('z-index','5');
+				openBool = false;
+	     		}
+	     	})
+		}
+
+		// Poll for button
+		function poll(selector, cb) {
+			console.log($(selector).length);
+			setTimeout(function(){if($(selector).length > 2) {
+				console.log($(selector).length);
+				cb();
+			}
+			else {
+				poll(selector, cb);
+			}}, 50)
+		}
+
+		poll('.buttons', testCB);
 	};
 
 	exp.init();
+
 	// Return the experiment object so we can access it later if required
 	return exp;
 
 	// Close the IIFE, passing in jQuery and any other global variables as required
 	// if jQuery is not already used on the site use optimizely.$ instead
 })(window.jQuery);
+
+});

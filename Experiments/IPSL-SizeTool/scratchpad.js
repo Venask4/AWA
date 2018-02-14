@@ -31,7 +31,7 @@ console.log(qtyArr);
 
 // Create data object
 var cartData = {
-	form_key: 'kkPRx0SqGcAcmnVz',
+	form_key: minicartOptions.formKey,
 	update_cart_action: 'empty_cart'
 };
 
@@ -42,13 +42,24 @@ while (i < basketItems.length) {
 }
 console.log(cartData);
 
-// POST data
+// POST data - remove items
 jQuery.ajax({
 	type: 'POST',
 	url: 'https://www.ipsluk.co.uk/checkout/cart/updatePost/',
 	datatype: 'json',
 	data: cartData,
 	success: function() {
-		console.log('success');
+		console.log('Items Removed');
+	}
+});
+
+// ADD items
+var formData = jQuery('#product_addtocart_form').serialize();
+jQuery.ajax({
+	type: 'POST',
+	url: 'https://www.ipsluk.co.uk/checkout/cart/add/uenc/aHR0cHM6Ly93d3cuaXBzbHVrLmNvLnVrL2FxdWFib3JkLXB2Yy10b25ndWUtZ3Jvb3ZlLWJsYWNrLWNhc2NhZGUuaHRtbA,,/product/1205/form_key/0JUwCy6aHfNPKcgY/',
+	data: formData,
+	success: function() {
+		console.log('Items added');
 	}
 });
