@@ -1894,8 +1894,25 @@ var addToBasket = function addToBasket(order) {
 			console.log('Items added');
 		}
 	});
-	$('#calculator-step-3').hide();
 	addDiv();
+
+	// Get HTML from checkout page
+	var $basket = null;
+	jQuery.ajax({
+		url: 'https://www.ipsluk.co.uk/onestepcheckout/index/', 
+		type: 'GET',
+		dataType: 'text',
+		success : function(data) {
+			$basket = $(data).find('#checkout-review-table');
+			jQuery('#awa-after-point').after($basket);
+			jQuery('#awa-basket-container').find('a').hide();
+			jQuery('#awa-basket-container').find('img').hide();
+			jQuery('#awa-basket-container').find('td:contains("Shipping & Handling")').parent().hide();
+			jQuery('#awa-basket-container').find('td:contains("Vat")').parent().hide();
+			jQuery('#awa-basket-container').find('td:contains("Grand Total")').parent().hide();
+		},
+		async: false
+	});
 };
 
 var STEPS = {
@@ -2038,6 +2055,139 @@ exports.start = function (callback) {
   });
 };
 
+// COLOE CODE
+
+// Styles
+var awacss = '\
+	#awa-btn {\
+		display: inline !important;\
+		float: right;\
+	}\
+	.awa-btn-container {\
+		display: block;\
+		height: 35px;\
+	}\
+	#awa-modal {\
+		display: none;\
+	    background-color: rgba(0, 0, 0, 0.2);\
+	    height: 100%;\
+	    left: 0;\
+	    position: fixed;\
+	    top: 0;\
+	    width: 100%;\
+	    z-index: 999;\
+	}\
+	#awa-basket-container {\
+		padding-bottom: 60px;\
+	    position: relative;\
+	    background-color: white;\
+	    margin-left: auto;\
+	    margin-right: auto;\
+	    margin-top: 7%;\
+	    margin-bottom: auto;\
+	    padding: 1px 20px 20px;\
+	    z-index: 20;\
+	    max-width: 815px;\
+	    border: 5px solid #f2f2f2;\
+	    -webkit-box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.35), 0 5px 11px 0 rgba(0, 0, 0, 0.25);\
+	    box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.35), 0 5px 11px 0 rgba(0, 0, 0, 0.25);\
+	}\
+	'
+
+jQuery('head').append('<style>' + awacss + '</style>');
+
+function poll(selector, cb) {
+	setTimeout(function(){if(jQuery(selector) !== null && jQuery(selector).length) {
+		cb();
+	}
+	else {
+		poll(selector, cb);
+	}}, 100)
+}
+
+// Variables
+var awaHTML = {
+	awaModal: "<div id='awa-modal'><div id='awa-basket-container'><h2 class='card__title icon__calculator'>Panel Calculator</h2><p id='awa-after-point'>Based on your answers, we've calculated that you'll need the following products for your project:</p><div id='awa-close' class='icon__close'></div><div class='awa-btn-container'><a href='https://www.ipsluk.co.uk/onestepcheckout/index/' class='card__button_forward' id='awa-btn'>Add to basket</a></div></div></div>",
+	calBtn: '<a href="#" class="card__button_forward">Test</a>'
+}
+
+function addCopy() {
+	var copy1 = '<p class="card__description">Cladseal provides a stronger watertight seal than traditional silicone. More information can ben found <a href="https://www.ipsluk.co.uk/watertight-trim-cladseal.html">here</a>.</p>';
+	var copy2 = '<p class="card__description">We recommend Chrome trim for a more luxurious finish</p>';
+	jQuery('#calculator-step-3').children('h3').eq(0).after(copy1);
+	jQuery('#calculator-step-3').children('h3').eq(1).after(copy2);
+	jQuery('#calculator-step-3').find('.card__button_forward').text('Calculate');
+	jQuery('#calculator-step-3').find('.card__button_forward').on('click', function(){
+	})
+}
+
+poll('#card-container', addCopy);
+
+function removeItems() {
+	var $checkoutPage = null;
+	jQuery.ajax({
+		url: 'https://www.ipsluk.co.uk/onestepcheckout/index/', 
+		type: 'GET',
+		dataType: 'text',
+		success : function(data) {
+			$checkoutPage = $(data);
+		},
+		async: false
+	});
+	// Get basket codes
+	var basketItems = []
+	var i = 0;
+	while (i < $checkoutPage.find('#checkout-review-table').find('a').length) {
+		basketItems.push(parseInt($checkoutPage.find('#checkout-review-table').find('a').eq(i).attr('href').slice(25)));
+		i++;
+		i++;
+		i++;
+	}
+
+	// Get qty's
+	var qtyArr = [];
+	i = 0;
+	while (i < basketItems.length) {
+		qtyArr.push($checkoutPage.find('#qty-' + basketItems[i]).text());
+		i++;
+	}
+
+	// Create data object
+	var cartData = {
+		form_key: jQuery('[name="form_key"]').val(),
+		update_cart_action: 'empty_cart'
+	};
+	i = 0;
+	while (i < basketItems.length) {
+		cartData['cart[' + basketItems[i] + '][qty]'] = parseInt(qtyArr[i]);
+		i++;
+	}
+
+
+	// POST data - remove items
+	jQuery.ajax({
+		type: 'POST',
+		url: 'https://www.ipsluk.co.uk/checkout/cart/updatePost/',
+		datatype: 'json',
+		data: cartData,
+		success: function() {
+			console.log('Items Removed');
+		}
+	});
+}
+
+function addDiv() {
+	jQuery('body').append(awaHTML.awaModal);
+	var $awaModal = jQuery('#awa-modal');
+	var $awaModalContent = jQuery('#awa-basket-container');
+	$awaModal.show();
+	jQuery('#awa-close').on('click', function() {
+		$awaModal.hide();
+		jQuery('#checkout-review-table').remove();
+		removeItems();
+	})
+}
+
 /***/ }),
 
 /***/ 98:
@@ -2170,56 +2320,3 @@ if(false) {
 /***/ })
 
 /******/ });
-
-// COLOE CODE
-
-// Styles
-var awacss = '\
-	.awa-btn {\
-		font-family: inherit;\
-	    background-color: #fdad00;\
-	    color: white;\
-	    padding: 6px 25px 9px 35px;\
-	    border: none;\
-	    outline: none;\
-	    font-size: 18px;\
-	    border-radius: 24px;\
-	    cursor: pointer;\
-	    -webkit-transition: all 250ms ease-in-out;\
-	    transition: all 250ms ease-in-out;\
-	}\
-	'
-
-jQuery('head').append('<style>' + awacss + '</style>');
-
-function poll(selector, cb) {
-	setTimeout(function(){if(jQuery(selector) !== null && jQuery(selector).length) {
-		cb();
-	}
-	else {
-		poll(selector, cb);
-	}}, 100)
-}
-
-// Variables
-var awaHTML = {
-	basketContainer: '<div id="awa-basket-container"></div>',
-	calBtn: '<a href="#" class="awa-btn">Test</a>'
-}
-
-function addCopy() {
-	var copy1 = '<p class="card__description">Cladseal provides a stronger watertight seal than traditional silicone. More information can ben found <a href="https://www.ipsluk.co.uk/watertight-trim-cladseal.html">here</a>.</p>';
-	var copy2 = '<p class="card__description">We recommend Chrome trim for a more luxurious finish</p>';
-	jQuery('#calculator-step-3').children('h3').eq(0).after(copy1);
-	jQuery('#calculator-step-3').children('h3').eq(1).after(copy2);
-	jQuery('#calculator-step-3').find('.card__button_forward').after(awaHTML.calBtn);
-	jQuery('#calculator-step-3').find('.card__button_forward').remove();
-}
-
-poll('#card-container', addCopy);
-
-function addDiv() {
-	jQuery('.card__item').eq(2).append(awaHTML.basketContainer);
-}
-
-jQuery('.awa-btn').on('click', function() {addToBasket});
