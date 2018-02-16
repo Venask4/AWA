@@ -132,43 +132,43 @@ var exp = (function($) {
 
 		function testCB() {
 
-			// // MOBILE TEST
-			// $('.quote-details.no-reviews').find('tr').last().after(exp.vars.mobileDiv);
-			// // Add in and display modal
-			// $('body').append(exp.vars.mobileModal);
-			// var $awaMobileModal = $('#awa-mobile-modal');
-			// var $mobileCloseButton = $('.awa-mobile-close');
-			// var $awaMobileModalContent = $('#awa-mobile-modal-content');
-			// var openMobileBool = false;
+			// MOBILE TEST
+			$('.quote-details.no-reviews').find('tr').last().after(exp.vars.mobileDiv);
+			// Add in and display modal
+			$('body').append(exp.vars.mobileModal);
+			var $awaMobileModal = $('#awa-mobile-modal');
+			var $mobileCloseButton = $('.awa-mobile-close');
+			var $awaMobileModalContent = $('#awa-mobile-modal-content');
+			var openMobileBool = false;
 
-			// $('.awa-mobile-guarantee').on('click', function() {
-			// 	$awaMobileModal.show();
-			// 	setTimeout(function() {openMobileBool = true;},1);
-			// 	setTimeout(function() {
-			// 		if (openMobileBool === true) {
-			// 			$awaMobileModal.css('display','none');
-			// 			openMobileBool = false;				
-			// 		}
-			// 	}, 7000);
-			// })
+			$('.awa-mobile-guarantee').on('click', function() {
+				$awaMobileModal.show();
+				setTimeout(function() {openMobileBool = true;},1);
+				setTimeout(function() {
+					if (openMobileBool === true) {
+						$awaMobileModal.css('display','none');
+						openMobileBool = false;				
+					}
+				}, 7000);
+			})
 
-			//    // Close functions
-	  //   	$MobilecloseButton.on('click', function() {
-			//     $awaMobileModal.css('display', 'none');
-			// 	openMobileBool = false;
-			// })
+			   // Close functions
+	    	$mobileCloseButton.on('click', function() {
+			    $awaMobileModal.css('display', 'none');
+				openMobileBool = false;
+			})
 
-			// $('.awa-mobile-close-txt').on('click', function() {
-			//     $awaMobileModal.css('display', 'none');
-			// 	openMobileBool = false;
-			// })
+			$('.awa-mobile-close-txt').on('click', function() {
+			    $awaMobileModal.css('display', 'none');
+				openMobileBool = false;
+			})
 
-			//  $(document).click(function(event) { 
-	  //    		if(!$(event.target).closest($awaMobileModalContent).length && $awaMobileModal.css('display') === 'block' && openMobileBool === true) {
-	  //    			$awaMobileModal.css('display', 'none');
-			// 	openMobileBool = false;
-	  //    		}
-	  //    	})
+			 $(document).click(function(event) { 
+	     		if(!$(event.target).closest($awaMobileModalContent).length && $awaMobileModal.css('display') === 'block' && openMobileBool === true) {
+	     			$awaMobileModal.css('display', 'none');
+				openMobileBool = false;
+	     		}
+	     	})
 
 			// DESKTOP VERSION
 			// Create Object Array
@@ -227,9 +227,7 @@ var exp = (function($) {
 
 		// Poll for button
 		function poll(selector, cb) {
-			console.log($(selector).length);
 			setTimeout(function(){if($(selector).length > 1) {
-				console.log($(selector).length);
 				cb();
 			}
 			else {
