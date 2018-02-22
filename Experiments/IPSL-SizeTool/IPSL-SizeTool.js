@@ -1,5 +1,13 @@
 /* CUSTOM CODE */
 /******/
+// Set panel size variable
+var panelSize = null;
+if (window.location.href.indexOf('proclad') > -1) {
+	panelSize = '2440mm x 1220mm'
+}
+else {
+	panelSize = '2400mm x 1000mm'
+}
 (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -1880,7 +1888,7 @@ module.exports = {
 	"step2": {
 		"heading": {
 			"title": "Panel Calculator",
-			"description": "Each pack comes with 2400mm x 1000mm of cladding",
+			"description": "Each pack comes with "+ panelSize +" of cladding",
 			"question": "What is the size of your walls?"
 		}
 	},
