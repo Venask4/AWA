@@ -1600,18 +1600,20 @@ var addToBasket = function addToBasket(order) {
 		type: 'GET',
 		dataType: 'html',
 		success : function(data) {
-			//console.log(data);
-			$basket = jQuery(data).find('#checkout-review-table');
-			if (jQuery('#checkout-review-table').length === 0) {
-				jQuery('#awa-after-point').after($basket);
-			}
-			jQuery('#awa-basket-container').find('a').hide();
-			jQuery('#awa-basket-container').find('img').hide();
-			jQuery('#awa-basket-container').find('td:contains("Shipping & Handling")').parent().hide();
-			jQuery('#awa-basket-container').find('td:contains("Vat")').parent().hide();
-			jQuery('#awa-basket-container').find('td:contains("Grand Total")').parent().hide();
-			jQuery('#awa-basket-container').find('tfoot').children('tr').first().hide();
-			jQuery('#awa-basket-container').find('tfoot').children('tr').last().hide();
+			setTimeout(function() {
+				//console.log(data);
+				$basket = jQuery(data).find('#checkout-review-table');
+				if (jQuery('#checkout-review-table').length === 0) {
+					jQuery('#awa-after-point').after($basket);
+				}
+				jQuery('#awa-basket-container').find('a').hide();
+				jQuery('#awa-basket-container').find('img').hide();
+				jQuery('#awa-basket-container').find('td:contains("Shipping & Handling")').parent().hide();
+				jQuery('#awa-basket-container').find('td:contains("Vat")').parent().hide();
+				jQuery('#awa-basket-container').find('td:contains("Grand Total")').parent().hide();
+				jQuery('#awa-basket-container').find('tfoot').children('tr').first().hide();
+				jQuery('#awa-basket-container').find('tfoot').children('tr').last().hide();
+			}, 800);
 		},
 		async: true,
 	});
