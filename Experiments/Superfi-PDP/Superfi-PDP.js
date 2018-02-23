@@ -21,7 +21,7 @@ var exp = (function($) {
 	// Variables
 	// Object containing variables, generally these would be strings or jQuery objects
 	exp.vars = {
-		html: '<div id="awa-box"><div class="awa-img-cont"></div><div class="awa-second-half"><div class="awa-title"></div><div class="awa-ticks"></div><div class="awa-stock-order"><div class="awa-stock-wrng"></div></div></div></div>',
+		html: '<div id="awa-box"><div class="awa-img-cont"><div id="awa-big-img"></div><div id="awa-enl-cont"></div><div id="awa-icon-cont"></div></div><div class="awa-second-half"><div class="awa-title"></div><div class="awa-ticks"></div><div class="awa-stock-order"><div class="awa-stock-wrng"></div></div></div></div>',
 		ticks: '<p><span class="awa-checkmark">&#10004;</span> 12 month guarantee</p><p><span class="awa-checkmark">&#10004;</span> Superfi 10% price promise</p><p><span class="awa-checkmark">&#10004;</span><b> 30 day</b> no hassle returns</p><p><span class="awa-checkmark">&#10004;</span> Trusted highstreet retailer</p>',
 		freeDelivery: '<p><span class="awa-checkmark">&#10004;</span><b> Free next day delivery</b></p>',
 		specs: '<span class="awa-specs">Full spec & reviews</span>',
@@ -32,14 +32,24 @@ var exp = (function($) {
 	// Styles
 	// String containing the CSS for the experiment
 	exp.css = '\
-		#zoom2 {\
+		#awa-big-img img {\
 			width: 100%;\
 			padding: 0 8px 0 8px;\
 		}\
 		.awa-img-cont {\
 			width: 47%;\
 			display: inline-block;\
-			border: solid 1px #c1c1c1;\
+		}\
+		#awa-big-img {\
+			border-top: solid 1px #c1c1c1;\
+			border-left: solid 1px #c1c1c1;\
+			border-right: solid 1px #c1c1c1;\
+		}\
+		#awa-enl-cont {\
+			height: 25px;\
+			border-right: solid 1px #c1c1c1;\
+			border-left: solid 1px #c1c1c1;\
+			border-bottom: solid 1px #c1c1c1;\
 		}\
 		.awa-second-half {\
 			width: 53%;\
@@ -57,7 +67,7 @@ var exp = (function($) {
 			}\
 		.awa-ticks {\
 			border-bottom: solid 1px #c1c1c1;\
-			padding-left: 24px;\
+			padding: 18px 0px 18px 24px;\
 		}\
 		.awa-ticks p {\
 			margin-bottom: 8px;\
@@ -79,12 +89,28 @@ var exp = (function($) {
 		}\
 		.AddToCartButton {\
 			width: 70% !important;\
-			float: right;\
-			color: black;\
-			background: #ff9f3b;\
+		    float: right;\
+		    color: #222222;\
+		    background: #ffa800;\
+		    text-transform: none;\
+		    text-shadow: none;\
+		    font-size: 24px;\
+		    padding: 8px;\
+		    border-radius: 8px;\
+		}\
+		.AddToCartButton:hover {\
+			width: 70% !important;\
+		    float: right;\
+		    color: #222222;\
+		    background: #ffa800;\
+		    text-transform: none;\
+		    text-shadow: none;\
+		    font-size: 24px;\
+		    padding: 8px;\
+		    border-radius: 8px;\
 		}\
 		.awa-fix-green {\
-			background-color: #474646 !important;\
+			background-color: #7c7c7c !important;\
 			border-radius: 4px !important;\
 			text-align: left;\
 			margin: 12px 12px 12px 12px;\
@@ -131,6 +157,13 @@ var exp = (function($) {
 		.awa-blue-star {\
 			color: #1c75cf;\
 		}\
+		.callout.green.awa-fix-green h3{\
+			font-size: 24px;\
+			margin: 12px 0px 30px 12px;\
+		}\
+		.callout.green.awa-fix-green p{\
+			margin: 12px 0px 15px 12px;\
+		}\
 		@media screen and (max-width: 766px) {\
 			.awa-img-cont {\
 				width: 100%;\
@@ -153,7 +186,9 @@ var exp = (function($) {
 		$('.product-layout').children('.row').eq(1).before(exp.vars.html);
 
 		// cache HTML
-		var $imgCont = $('.awa-img-cont');
+		var $imgCont = $('#awa-big-img');
+		var $iconCont = $('#awa-icon-cont');
+		var $enlCont = $('#awa-enl-cont');
 		var $secondHalf = $('.awa-second-half');
 		var $titleDiv = $('.awa-title');
 		var $tickDiv = $('.awa-ticks');
@@ -162,9 +197,10 @@ var exp = (function($) {
 		// Move Image
 		$('#zoom1').parent().hide();
 		$imgCont.append($('#zoom2'));
-		$imgCont.append(exp.vars.enlargeImg);
+		$enlCont.append(exp.vars.enlargeImg);
 		// Style icons
 		$('.columns.mediumlarge-5 .callout.collapse').addClass('awa-icons');
+		$iconCont.append($('.awa-icons'));
 
 		// Move title
 		$titleDiv.append($('.columns.large-8.text-left').children('h1'));
@@ -211,6 +247,9 @@ var exp = (function($) {
 			console.log(dateString);
 			var stockMsg = '<span class="awa-blue-star">&#10033</span> Approximate delivery date: ' + dateString;
 			$('.awa-stock-wrng').html(stockMsg);
+		}
+		if ($('#divProductPriceInventoryLoad .productpagestockin').length) {
+			$('.awa-stock-wrng').append($('#divProductPriceInventoryLoad .productpagestockin'));
 		}
 		$('.callout.collapse-btm.grey1.add-to-cart-form').prepend($('.AddToCartButton').first());
 		$('.callout.collapse-btm.grey1.add-to-cart-form').prepend($('.variantdiv'));
