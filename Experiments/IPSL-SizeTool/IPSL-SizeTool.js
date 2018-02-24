@@ -1603,28 +1603,36 @@ var addToBasket = function addToBasket(order) {
 	addDiv();
 	// Get HTML from checkout page
 	var $basket = null;
+	  	setTimeout(function() {
 	jQuery.ajax({
 		url: 'https://www.ipsluk.co.uk/onestepcheckout/index/', 
 		type: 'GET',
 		dataType: 'html',
 		success : function(data) {
-			setTimeout(function() {
-				//console.log(data);
-				$basket = jQuery(data).find('#checkout-review-table');
-				if (jQuery('#checkout-review-table').length === 0) {
-					jQuery('#awa-after-point').after($basket);
-				}
-				jQuery('#awa-basket-container').find('a').hide();
-				jQuery('#awa-basket-container').find('img').hide();
-				jQuery('#awa-basket-container').find('td:contains("Shipping & Handling")').parent().hide();
-				jQuery('#awa-basket-container').find('td:contains("Vat")').parent().hide();
-				jQuery('#awa-basket-container').find('td:contains("Grand Total")').parent().hide();
-				jQuery('#awa-basket-container').find('tfoot').children('tr').first().hide();
-				jQuery('#awa-basket-container').find('tfoot').children('tr').last().hide();
-			}, 800);
+			//console.log(data);
+            $basket = jQuery(data).find('#checkout-review-table');
+			
+			if (jQuery('#checkout-review-table').length === 0) {
+              	if (window.timerX) clearInterval(window.timerX);
+                window.timerX = setInterval(function() {
+                    if ($basket.length) {
+                        jQuery('#awa-append-pt').append($basket);
+                      	jQuery('#awa-basket-container').find('a').hide();
+                        jQuery('#awa-basket-container').find('img').hide();
+                        jQuery('#awa-basket-container').find('td:contains("Shipping & Handling")').parent().hide();
+                        jQuery('#awa-basket-container').find('td:contains("Vat")').parent().hide();
+                        jQuery('#awa-basket-container').find('td:contains("Grand Total")').parent().hide();
+                        jQuery('#awa-basket-container').find('tfoot').children('tr').first().hide();
+                        jQuery('#awa-basket-container').find('tfoot').children('tr').last().hide();
+                        clearInterval(window.timerX);
+                    }
+                }, 100);
+				
+			}
 		},
 		async: true,
 	});
+      }, 500);
 };
 var STEPS = {
   begin: {
@@ -1773,6 +1781,11 @@ var awacss = '\
 	    width: 100%;\
 	    z-index: 999;\
 	}\
+	#awa-append-pt {\
+		height: 350px;\
+		overflow-y: auto;\
+		margin-bottom: 12px;\
+	}\
 	#awa-basket-container {\
 		padding-bottom: 60px;\
 	    position: relative;\
@@ -1800,7 +1813,7 @@ function poll(selector, cb) {
 }
 // Variables
 var awaHTML = {
-	awaModal: "<div id='awa-modal'><div id='awa-basket-container'><h2 class='card__title icon__calculator'>Panel Calculator</h2><p id='awa-after-point'>Based on your answers, we've calculated that you'll need the following products for your project:</p><div id='awa-close' class='icon__close'></div><div class='awa-btn-container'><a href='https://www.ipsluk.co.uk/onestepcheckout/index/' class='card__button_forward' id='awa-btn'>Add to basket</a></div></div></div>",
+	awaModal: "<div id='awa-modal'><div id='awa-basket-container'><h2 class='card__title icon__calculator'>Panel Calculator</h2><p id='awa-after-point'>Based on your answers, we've calculated that you'll need the following products for your project:</p><div id='awa-append-pt'></div><div id='awa-close' class='icon__close'></div><div class='awa-btn-container'><a href='https://www.ipsluk.co.uk/onestepcheckout/index/' class='card__button_forward' id='awa-btn'>Add to basket</a></div></div></div>",
 	calBtn: '<a href="#" class="card__button_forward">Test</a>'
 }
 function addCopy() {
@@ -1812,7 +1825,7 @@ function addCopy() {
 	jQuery('#calculator-step-3').find('.card__button_forward').on('click', function(){
 	})
 }
-if (jQuery('#calculator-step-3').find('p:contains("We recommend Chrome trim for a more luxurious finish")').length === 0) {
+if (jQuery('#calculator-step-3').find('p:contains("Cladseal provides a stronger watertight seal than traditional silicone. More information can be found")').length === 0) {
 	poll('#card-container', addCopy);
 }
 function removeItems() {
