@@ -1,7 +1,3 @@
-//
-// CGIT Optimizely Boilerplate - version 0.1.4
-// Wrap the experiment code in an IIFE, this creates a local scope and allows us to
-// pass in jQuery to use as $. Other globals could be passed in if required.
 var exp = (function($) {
 
 	// Initialise the experiment object
@@ -55,6 +51,7 @@ var exp = (function($) {
 			width: 53%;\
 			display: inline-block;\
 			vertical-align: top;\
+			position: relative;\
 		}\
 		.awa-title {\
 			border-top: solid 1px #c1c1c1;\
@@ -86,6 +83,7 @@ var exp = (function($) {
 			float: right;\
 			text-decoration: underline;\
 			cursor: pointer;\
+			margin-top: 12px;\
 		}\
 		.AddToCartButton {\
 			width: 70% !important;\
@@ -204,18 +202,18 @@ var exp = (function($) {
 
 		// Move title
 		$titleDiv.append($('.columns.large-8.text-left').children('h1'));
-		// Add product code
-		var $prodCode = $('.productPrice').eq(1).find('small');
-		var prodStr = $('.productPrice').eq(1).find('small').text().replace('Product code: ', '');
-		$prodCode.text(prodStr);
-		$titleDiv.prepend($prodCode.addClass('awa-prod-code'));
-		// Add finish string
-		var finishStr = $('#divSelectedAttributeInfo').find('div:contains("Currently showing details for: ")').text();
-		finishStr = finishStr.replace('Currently showing details for: ', '');
-		$titleDiv.append(finishStr);
+		// Add container for product code
+		$titleDiv.prepend('<span id="code-div"></span>');
+		// Add container for finish
+		$titleDiv.append('<span id="finish-div"></span>');
 
 		// Add ticks
 		$tickDiv.append(exp.vars.ticks);
+		// Add spec link
+		$tickDiv.append(exp.vars.specs);
+		$('.awa-specs').on('click', function() {
+			$('#product-tabs')[0].scrollIntoView({behavior: 'smooth'});
+		})
 		// Add price
 		var $price = $('.live-price').first();
 		var priceStr = $price.text().replace('Our price', 'Only');
@@ -226,42 +224,67 @@ var exp = (function($) {
 		if (priceInt > 75) {
 			$tickDiv.prepend(exp.vars.freeDelivery);
 		}
-		// Add spec link
-		$tickDiv.append(exp.vars.specs);
-		$('.awa-specs').on('click', function() {
-			$('#product-tabs')[0].scrollIntoView({behavior: 'smooth'});
-		})
 
 		// Add stock and order info
 		$stockOrderDiv.append($('.callout.collapse-btm.grey1.add-to-cart-form').first()).append($('#divFinanceOptions'));
 		// Check if low stock and add warning
-		if ($('.productpagestockhurry').length) {
-			var stockInt = parseInt($('.productpagestockhurry').text().replace('HURRY! Only ',''))
-			var stockWrng = '<span class="awa-red-star">&#10033</span> Hurry, only ' + stockInt + ' left in stock!';
-			$('.awa-stock-wrng').html(stockWrng);
+		var $loading = $('#divMainInprogress');
+		$secondHalf.append($loading);
+		function variationChanges() {
+			if ($loading.css('display') === 'none') {
+				// Add product code
+				var $prodCode = $('.productPrice').eq(1).find('small');
+				var prodStr = $('.productPrice').eq(1).find('small').text().replace('Product code: ', '');
+				$prodCode.text(prodStr);
+				$prodCode.addClass('awa-prod-code')
+				$('#code-div').html($prodCode);
+				// Add finish string
+				var finishStr = $('#divSelectedAttributeInfo').find('div:contains("Currently showing details for: ")').text();
+				finishStr = finishStr.replace('Currently showing details for: ', '');
+				$('#finish-div').html(finishStr);
+				// Hide accordion
+				$('#divAccordionFinance').hide();
+
+				// Low Stock
+				if ($('.productpagestockhurry').length) {
+					var stockInt = parseInt($('.productpagestockhurry').text().replace('HURRY! Only ',''))
+					var stockWrng = '<span class="awa-red-star">&#10033</span> Hurry, only ' + stockInt + ' left in stock!';
+					$('.awa-stock-wrng').html(stockWrng);
+				}
+				// Out Of Stock
+				if ($('.productpagestockout').length) {
+					var m = new Date();
+					m.setDate(m.getDate()+7);
+					var dateString = ("0" + m.getUTCDate()).slice(-2) + "/" + ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +  m.getUTCFullYear();
+					var stockMsg = '<span class="awa-blue-star">&#10033</span> Approximate delivery date: ' + dateString;
+					$('.awa-stock-wrng').html(stockMsg);
+				}
+				// In Stock
+				if ($('#divProductPriceInventoryLoad .productpagestockin').length) {
+					$('.awa-stock-wrng').html($('#divProductPriceInventoryLoad .productpagestockin'));
+				}
+			}
+			else {
+				setTimeout(variationChanges, 50);
+			}
 		}
-		if ($('.callout.show-for-large').find('div:contains("Sorry, out of stock")').length) {
-			var m = new Date();
-			m.setDate(m.getDate()+7);
-			var dateString = ("0" + m.getUTCDate()).slice(-2) + "/" + ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +  m.getUTCFullYear();
-			console.log(dateString);
-			var stockMsg = '<span class="awa-blue-star">&#10033</span> Approximate delivery date: ' + dateString;
-			$('.awa-stock-wrng').html(stockMsg);
-		}
-		if ($('#divProductPriceInventoryLoad .productpagestockin').length) {
-			$('.awa-stock-wrng').append($('#divProductPriceInventoryLoad .productpagestockin'));
-		}
+		variationChanges();
 		$('.callout.collapse-btm.grey1.add-to-cart-form').prepend($('.AddToCartButton').first());
 		$('.callout.collapse-btm.grey1.add-to-cart-form').prepend($('.variantdiv'));
 		// Style add to cart form
 		$('.callout.collapse-btm.grey1.add-to-cart-form').addClass('awa-add-to-cart')
 		// Style finance element
-		$('#divFinanceOptions').find('div').eq(0).addClass('awa-fix-green');
-		$('.awa-fix-green').find('h3').first().hide();
-		$('.awa-fix-green').prepend(exp.vars.financeText);
-		$('#afinanceOptions').children('div').text('View Quote').addClass('awa-quote-btn');
-		$('.awa-fix-green').prepend($('#afinanceOptions'));
-		$('.awa-fix-green').children('h3').first().after($('.awa-fix-green').children('a').eq(1).addClass('awa-flt-rt'));
+		if (priceInt > 250) {
+			$('#divFinanceOptions').find('div').eq(0).addClass('awa-fix-green');
+			$('.awa-fix-green').find('h3').first().hide();
+			$('.awa-fix-green').prepend(exp.vars.financeText);
+			$('#afinanceOptions').children('div').text('View Quote').addClass('awa-quote-btn');
+			$('.awa-fix-green').prepend($('#afinanceOptions'));
+			$('.awa-fix-green').children('h3').first().after($('.awa-fix-green').children('a').eq(1).addClass('awa-flt-rt'));
+		}
+		else {
+			$('#divFinanceOptions').hide();
+		}
 		// Fix finance div
 		$('.row .columns.mediumlarge-7').first().prepend($('#divAccordionFinance'))
 		var accBool = false;
@@ -278,7 +301,6 @@ var exp = (function($) {
 		})
 
 		// Hide unwanted content
-		//$('.variantdiv').hide();
 		$('.follow-us').first().hide();
 		$('.columns.mediumlarge-7 .callout.grey1').eq(1).hide();
 		$('.lozengeImage').hide();
@@ -288,12 +310,13 @@ var exp = (function($) {
 		//$('#afinanceOptions').attr('target', '_blank');
 		$('.awa-flt-rt').attr('target', '_blank');
 		$('input[name="outofstockemailnotify"]').attr('target', '_blank');
+
+		// Re-check stock after variation change
+		$('.variantdiv').children('select').change(variationChanges);
 	};
 
 	exp.init();
 	// Return the experiment object so we can access it later if required
 	return exp;
 
-	// Close the IIFE, passing in jQuery and any other global variables as required
-	// if jQuery is not already used on the site use optimizely.$ instead
 })(window.jQuery);
