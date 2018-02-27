@@ -61,6 +61,7 @@ var exp = (function($) {
 		.awa-title h1 {\
 			width: 80%;\
 			margin-bottom: 0;\
+			padding-top: 6px;\
 			}\
 		.awa-ticks {\
 			border-bottom: solid 1px #c1c1c1;\
@@ -100,7 +101,7 @@ var exp = (function($) {
 			width: 70% !important;\
 		    float: right;\
 		    color: #222222;\
-		    background: #ffa800;\
+		    background: #e29502;\
 		    text-transform: none;\
 		    text-shadow: none;\
 		    font-size: 24px;\
@@ -143,6 +144,9 @@ var exp = (function($) {
 		}\
 		#divAccordionFinance {\
 			display: none;\
+			float:right;\
+			margin-right: 12px;\
+			width: 601px;\
 		}\
 		.awa-stock-wrng {\
 			margin: 12px 0 12px 24px;\
@@ -151,9 +155,13 @@ var exp = (function($) {
 		}\
 		.awa-red-star {\
 			color: #ff9f3b;\
+			font-size: 24px;\
+			vertical-align: middle;\
 		}\
 		.awa-blue-star {\
 			color: #1c75cf;\
+			font-size: 24px;\
+			vertical-align: middle;\
 		}\
 		.callout.green.awa-fix-green h3{\
 			font-size: 24px;\
@@ -170,6 +178,9 @@ var exp = (function($) {
 			.awa-second-half {\
 				width: 100%;\
 				display: block;\
+			}\
+			#divAccordionFinance {\
+				width: 93%;\
 			}\
 		}\
 	';
@@ -212,7 +223,9 @@ var exp = (function($) {
 		// Add spec link
 		$tickDiv.append(exp.vars.specs);
 		$('.awa-specs').on('click', function() {
-			$('#product-tabs')[0].scrollIntoView({behavior: 'smooth'});
+			$('html, body').animate({
+				scrollTop: $('#product-tabs').offset().top
+			}, 1500);
 		})
 		// Add price
 		var $price = $('.live-price').first();
@@ -248,7 +261,7 @@ var exp = (function($) {
 				// Low Stock
 				if ($('.productpagestockhurry').length) {
 					var stockInt = parseInt($('.productpagestockhurry').text().replace('HURRY! Only ',''))
-					var stockWrng = '<span class="awa-red-star">&#10033</span> Hurry, only ' + stockInt + ' left in stock!';
+					var stockWrng = '<span class="awa-red-star fi-asterisk"></span> Hurry, only ' + stockInt + ' left in stock!';
 					$('.awa-stock-wrng').html(stockWrng);
 				}
 				// Out Of Stock
@@ -256,7 +269,7 @@ var exp = (function($) {
 					var m = new Date();
 					m.setDate(m.getDate()+7);
 					var dateString = ("0" + m.getUTCDate()).slice(-2) + "/" + ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +  m.getUTCFullYear();
-					var stockMsg = '<span class="awa-blue-star">&#10033</span> Approximate delivery date: ' + dateString;
+					var stockMsg = '<span class="awa-blue-star fi-asterisk"></span> Approximate delivery date: ' + dateString;
 					$('.awa-stock-wrng').html(stockMsg);
 				}
 				// In Stock
