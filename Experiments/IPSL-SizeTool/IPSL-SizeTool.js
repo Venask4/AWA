@@ -1767,6 +1767,10 @@ var awacss = '\
 		display: inline !important;\
 		float: right;\
 	}\
+	#awa-back-btn {\
+		display: inline !important;\
+		float: right;\
+	}\
 	.awa-btn-container {\
 		display: block;\
 		height: 35px;\
@@ -1813,7 +1817,7 @@ function poll(selector, cb) {
 }
 // Variables
 var awaHTML = {
-	awaModal: "<div id='awa-modal'><div id='awa-basket-container'><h2 class='card__title icon__calculator'>Panel Calculator</h2><p id='awa-after-point'>Based on your answers, we've calculated that you'll need the following products for your project:</p><div id='awa-append-pt'></div><div id='awa-close' class='icon__close'></div><div class='awa-btn-container'><a href='https://www.ipsluk.co.uk/onestepcheckout/index/' class='card__button_forward' id='awa-btn'>Add to basket</a></div></div></div>",
+	awaModal: "<div id='awa-modal'><div id='awa-basket-container'><h2 class='card__title icon__calculator'>Panel Calculator</h2><p id='awa-after-point'>Based on your answers, we've calculated that you'll need the following products for your project:</p><div id='awa-append-pt'></div><div id='awa-close' class='icon__close'></div><div class='awa-btn-container'><a href='https://www.ipsluk.co.uk/onestepcheckout/index/' class='card__button_forward' id='awa-btn'>Add to basket</a><a href='JavaScript:void(0)' class='card__button_forward' id='awa-back-btn' style='display: inline !important, float: right'><span class='icon__left'></span>Back</a></div></div></div>",
 	calBtn: '<a href="#" class="card__button_forward">Test</a>'
 }
 function addCopy() {
@@ -1883,6 +1887,13 @@ function addDiv() {
 	$awaModal.show();
 	jQuery('#awa-close').on('click', function() {
 		$awaModal.hide();
+		jQuery('#checkout-review-table').remove();
+		removeItems();
+	});
+	jQuery('#awa-back-btn').on('click', function() {
+		$awaModal.hide();
+		jQuery('.card.js-card-container').attr('data-status','additional');
+		jQuery('#overlay-container').attr('data-status','active');
 		jQuery('#checkout-review-table').remove();
 		removeItems();
 	})
