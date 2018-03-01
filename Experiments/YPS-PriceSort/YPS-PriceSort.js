@@ -21,11 +21,16 @@ var exp = (function($) {
 	// Variables
 	// Object containing variables, generally these would be strings or jQuery objects
 	exp.vars = {
+		radioBtns: '<div id="awa-sort-cont"> <form> <span>Price: </span> <label>Low-high&nbsp<input type="radio" name="awa-low-high" id="LH" value="low-high"></label>&nbsp&nbsp<label>High-low&nbsp<input type="radio" name="awa-low-high" id="HL" value="high-low"></label>  </form> </div>'
 	};
 
 	// Styles
 	// String containing the CSS for the experiment
 	exp.css = '\
+	#awa-sort-cont {\
+		float: left;\
+		margin: 3px 10px 0px 10px;\
+	}\
 	';
 
 	// Init function
@@ -33,6 +38,9 @@ var exp = (function($) {
 	exp.init = function() {
 		// Add styles
 		$('head').append('<style>' + exp.css + '</style>');
+
+		// Add radio buttons
+		$('#search-results-header-title .location-name').after(exp.vars.radioBtns);
 
 		function sortLowHigh() {
 			var $spaces = [];
@@ -57,7 +65,27 @@ var exp = (function($) {
 
 			$('#search-results-content').children('ul').html($spaces);
 		}
-		sortHighLow();
+
+		function radioClk() {
+			if ($('#LH').prop('checked') === true) {
+				sortLowHigh()
+			}
+			else if ($('#HL').prop('checked') === true) {
+				sortHighLow();
+			}
+		}
+
+		$('#awa-sort-cont label').on('click', radioClk);
+
+		// Mutation observer
+		var target = $('#search-results-content').children('ul').children('li').get(0);
+		var observer = new MutationObserver(function(mutations) {
+		  mutations.forEach(function(mutation) {
+		    setTimeout(function(){radioClk();},3500);
+		  });    
+		});
+		var config = { attributes: true, childList: true, characterData: true };
+		observer.observe(target, config);
 	};
 
 	exp.init();
