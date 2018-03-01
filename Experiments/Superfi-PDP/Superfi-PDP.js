@@ -24,8 +24,8 @@ var exp = (function($) {
 	// String containing the CSS for the experiment
 	exp.css = '\
 		#awa-big-img img {\
-			width: 100%;\
-			padding: 0 8px 0 8px;\
+			width: 93%;\
+			padding: 0 8px 0 7%;\
 		}\
 		.awa-img-cont {\
 			width: 47%;\
@@ -54,7 +54,7 @@ var exp = (function($) {
 			padding-left: 24px;\
 		}\
 		.awa-title h1 {\
-			width: 80%;\
+			width: 78%;\
 			margin-bottom: 0;\
 			padding-top: 6px;\
 			}\
@@ -252,6 +252,10 @@ var exp = (function($) {
 		$secondHalf.append($loading);
 		function variationChanges() {
 			if ($loading.css('display') === 'none') {
+				// Add product code
+ 				var $prodCode = $('.productPrice').eq(1).find('small');
+ 				$prodCode.addClass('awa-prod-code')
+ 				$('#code-div').html($prodCode);
 				// Check for free delivery
 				if (priceInt > 75 && $('.productpagestockout').length < 1) {
 					$freeDelivery.html(exp.vars.freeDelivery);
@@ -280,9 +284,9 @@ var exp = (function($) {
 				// Out Of Stock
 				if ($('.productpagestockout').length) {
 					var m = new Date();
-					m.setDate(m.getDate()+7);
+					m.setDate(m.getDate()+5);
 					var dateString = ("0" + m.getUTCDate()).slice(-2) + "/" + ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +  m.getUTCFullYear();
-					var stockMsg = '<span class="awa-blue-star fi-calendar"></span> Approximate delivery date: ' + dateString;
+					var stockMsg = '<span class="awa-blue-star fi-calendar"></span> Approximate dispatch date ' + dateString;
 					$('.awa-stock-wrng').html(stockMsg);
 				}
 				// In Stock
