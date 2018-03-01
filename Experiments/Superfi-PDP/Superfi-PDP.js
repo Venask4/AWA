@@ -1,27 +1,22 @@
 var exp = (function($) {
 
-	// Initialise the experiment object
 	var exp = {};
 
-	// Wrapper for console.log, to prevent the exp breaking on browsers which don't
-	// (always) have 'console' set (e.g. IE9)
 	exp.log = function (str) {
 	    if (typeof window.console !== 'undefined') {
 	        console.log(str);
 	    }
 	};
 
-	// Log the experiment, useful when multiple experiments are running
 	exp.log('AWA - Superfi PDP v1');
 
-	// Variables
-	// Object containing variables, generally these would be strings or jQuery objects
 	exp.vars = {
 		html: '<div id="awa-box"><div class="awa-img-cont"><div id="awa-big-img"></div><div id="awa-enl-cont"></div><div id="awa-icon-cont"></div></div><div class="awa-second-half"><div class="awa-title"></div><div class="awa-ticks"></div><div class="awa-stock-order"><div class="awa-stock-wrng"></div></div></div></div>',
-		ticks: '<p><span class="awa-checkmark">&#10004;</span> 12 month guarantee</p><p><span class="awa-checkmark">&#10004;</span> Superfi 10% price promise</p><p><span class="awa-checkmark">&#10004;</span><b> 30 day</b> no hassle returns</p><p><span class="awa-checkmark">&#10004;</span> Trusted highstreet retailer</p>',
+		ticks: '<div id="awa-free-delivery"></div><p><span class="awa-checkmark">&#10004;</span> 12 month guarantee</p><p><span class="awa-checkmark">&#10004;</span> Superfi 10% price promise</p><p><span class="awa-checkmark">&#10004;</span><b> 30 day</b> no hassle returns</p><p><span class="awa-checkmark">&#10004;</span> Trusted highstreet retailer</p>',
 		freeDelivery: '<p><span class="awa-checkmark">&#10004;</span><b> Free next day delivery</b></p>',
 		specs: '<span class="awa-specs">Full spec & reviews</span>',
-		financeText: '<h3>Buy Now, Pay Later</h3><p>finance available for this product</p>',
+		financeText: '<h3>Buy Now, Pay Later</h3>',
+		financeP: '<p>finance available for this product</p>',
 		enlargeImg: '<a onclick="OpenLargeImage()" class="awa-enl-img">Enlarge image</a>'
 	};
 
@@ -112,16 +107,20 @@ var exp = (function($) {
 			background-color: #7c7c7c !important;\
 			border-radius: 4px !important;\
 			text-align: left;\
-			margin: 12px 12px 12px 12px;\
+			margin: 12px 0px 12px 12px;\
+		}\
+		#awa-align p {\
+			font-size: .78rem;\
 		}\
 		.button.light-grey.expanded.awa-quote-btn {\
 			width: 30%;\
 			float: right;\
 			color: black;\
+			margin-bottom: 0;\
 		}\
 		.awa-add-to-cart {\
 			border-radius: 4px !important;\
-			margin: 12px 12px 12px 12px;\
+			margin: 12px 0px 12px 12px;\
 		}\
 		.awa-flt-rt {\
 			clear: both;\
@@ -129,11 +128,14 @@ var exp = (function($) {
 		}\
 		.awa-enl-img {\
 			float: right;\
-			text-decoration: underline;\
+			color: #1c75cf;\
 			margin: 0 8px 4px 0;\
 		}\
+		.awa-enl-img:hover {\
+			color: #c1c1c1;\
+		}\
 		.awa-icons {\
-			border: none !important;\
+			border-top: none !important;\
 		}\
 		.awa-icons div div {\
 			float: right !important;\
@@ -145,8 +147,7 @@ var exp = (function($) {
 		#divAccordionFinance {\
 			display: none;\
 			float:right;\
-			margin-right: 12px;\
-			width: 601px;\
+			width: 613px;\
 		}\
 		.awa-stock-wrng {\
 			margin: 12px 0 12px 24px;\
@@ -156,12 +157,10 @@ var exp = (function($) {
 		.awa-red-star {\
 			color: #ff9f3b;\
 			font-size: 24px;\
-			vertical-align: middle;\
 		}\
 		.awa-blue-star {\
 			color: #1c75cf;\
 			font-size: 24px;\
-			vertical-align: middle;\
 		}\
 		.callout.green.awa-fix-green h3{\
 			font-size: 24px;\
@@ -169,6 +168,14 @@ var exp = (function($) {
 		}\
 		.callout.green.awa-fix-green p{\
 			margin: 12px 0px 15px 12px;\
+		}\
+		#reviews-div {\
+			float: right;\
+			width: 325px;\
+		}\
+		#reviews-div div.columns.large-4.text-left.large-text-right {\
+			width: 100%;\
+			padding-right: 0;\
 		}\
 		@media screen and (max-width: 766px) {\
 			.awa-img-cont {\
@@ -182,11 +189,12 @@ var exp = (function($) {
 			#divAccordionFinance {\
 				width: 93%;\
 			}\
+			.awa-fix-green p {\
+				clear: right;\
+			}\
 		}\
 	';
 
-	// Init function
-	// Called to run the actual experiment, DOM manipulation, event listeners, etc
 	exp.init = function() {
 		// Add styles
 		$('head').append('<style>' + exp.css + '</style>');
@@ -215,28 +223,27 @@ var exp = (function($) {
 		$titleDiv.append($('.columns.large-8.text-left').children('h1'));
 		// Add container for product code
 		$titleDiv.prepend('<span id="code-div"></span>');
+		// Add container for reviews
+		$titleDiv.append('<span id="reviews-div"></span>');
 		// Add container for finish
 		$titleDiv.append('<span id="finish-div"></span>');
 
 		// Add ticks
 		$tickDiv.append(exp.vars.ticks);
+		var $freeDelivery = $('#awa-free-delivery');
 		// Add spec link
 		$tickDiv.append(exp.vars.specs);
 		$('.awa-specs').on('click', function() {
 			$('html, body').animate({
 				scrollTop: $('#product-tabs').offset().top
-			}, 1500);
+			}, 1150);
 		})
 		// Add price
 		var $price = $('.live-price').first();
 		var priceStr = $price.text().replace('Our price', 'Only');
 		$price.text(priceStr);
 		$tickDiv.append($price);
-		// Check for free delivery
 		var priceInt = parseInt(priceStr.replace('Only £',''));
-		if (priceInt > 75) {
-			$tickDiv.prepend(exp.vars.freeDelivery);
-		}
 
 		// Add stock and order info
 		$stockOrderDiv.append($('.callout.collapse-btm.grey1.add-to-cart-form').first()).append($('#divFinanceOptions'));
@@ -245,12 +252,18 @@ var exp = (function($) {
 		$secondHalf.append($loading);
 		function variationChanges() {
 			if ($loading.css('display') === 'none') {
-				// Add product code
-				var $prodCode = $('.productPrice').eq(1).find('small');
-				var prodStr = $('.productPrice').eq(1).find('small').text().replace('Product code: ', '');
-				$prodCode.text(prodStr);
-				$prodCode.addClass('awa-prod-code')
-				$('#code-div').html($prodCode);
+				// Check for free delivery
+				if (priceInt > 75 && $('.productpagestockout').length < 1) {
+					$freeDelivery.html(exp.vars.freeDelivery);
+				}
+				else {
+					$freeDelivery.html(null);
+				}
+
+				// Move reviews
+				var $reviews = $('#testfreaks-answer-link').parent();
+				$('#reviews-div').html($reviews);
+
 				// Add finish string
 				var finishStr = $('#divSelectedAttributeInfo').find('div:contains("Currently showing details for: ")').text();
 				finishStr = finishStr.replace('Currently showing details for: ', '');
@@ -261,7 +274,7 @@ var exp = (function($) {
 				// Low Stock
 				if ($('.productpagestockhurry').length) {
 					var stockInt = parseInt($('.productpagestockhurry').text().replace('HURRY! Only ',''))
-					var stockWrng = '<span class="awa-red-star fi-asterisk"></span> Hurry, only ' + stockInt + ' left in stock!';
+					var stockWrng = '<span class="awa-red-star fi-alert"></span> Hurry, only ' + stockInt + ' left in stock!';
 					$('.awa-stock-wrng').html(stockWrng);
 				}
 				// Out Of Stock
@@ -269,7 +282,7 @@ var exp = (function($) {
 					var m = new Date();
 					m.setDate(m.getDate()+7);
 					var dateString = ("0" + m.getUTCDate()).slice(-2) + "/" + ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +  m.getUTCFullYear();
-					var stockMsg = '<span class="awa-blue-star fi-asterisk"></span> Approximate delivery date: ' + dateString;
+					var stockMsg = '<span class="awa-blue-star fi-calendar"></span> Approximate delivery date: ' + dateString;
 					$('.awa-stock-wrng').html(stockMsg);
 				}
 				// In Stock
@@ -293,7 +306,8 @@ var exp = (function($) {
 			$('.awa-fix-green').prepend(exp.vars.financeText);
 			$('#afinanceOptions').children('div').text('View Quote').addClass('awa-quote-btn');
 			$('.awa-fix-green').prepend($('#afinanceOptions'));
-			$('.awa-fix-green').children('h3').first().after($('.awa-fix-green').children('a').eq(1).addClass('awa-flt-rt'));
+			$('.awa-fix-green').append('<div id="awa-align"></div>');
+			$('#awa-align').append($('.awa-fix-green').children('a').eq(1).addClass('awa-flt-rt')).append(exp.vars.financeP);
 		}
 		else {
 			$('#divFinanceOptions').hide();
