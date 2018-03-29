@@ -228,6 +228,13 @@ var exp = (function($) {
 		// Pull out carousel
 		$('.row .col-xs-12.clearfix').eq(5).prepend($('#carousel-example-generic'));
 
+		// Edit drop down titles
+		$('#vehicleTypeOutboundComboBoxSelectBoxItText').text('Please select');
+		var $DDoptions = $('#vehicleTypeOutboundComboBoxSelectBoxItOptions .selectboxit-option-anchor');
+		$DDoptions.eq(0).remove();
+		$DDoptions.eq(1).html($DDoptions.eq(1).children('span')).append('Car under 6ft');
+		$DDoptions.eq(2).html($DDoptions.eq(2).children('span')).append('Car over 6ft');
+
 		// FERRY STYLE FUNCTION
 		function ferryStyle() {
 			// Add styles
