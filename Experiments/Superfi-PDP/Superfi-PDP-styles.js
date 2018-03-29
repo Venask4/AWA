@@ -1,4 +1,7 @@
 var css = '\
+		#awa-price-cont {\
+			display: inline-block;\
+		}\
 		#awa-big-img img {\
 			width: 93%;\
 			padding: 0 8px 0 7%;\

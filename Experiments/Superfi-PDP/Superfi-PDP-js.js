@@ -12,7 +12,7 @@ var exp = (function($) {
 
 	exp.vars = {
 		html: '<div id="awa-box"><div class="awa-img-cont"><div id="awa-big-img"></div><div id="awa-enl-cont"></div><div id="awa-icon-cont"></div></div><div class="awa-second-half"><div class="awa-title"></div><div class="awa-ticks"></div><div class="awa-stock-order"><div class="awa-stock-wrng"></div></div></div></div>',
-		ticks: '<div id="awa-free-delivery"></div><p><span class="fi-check"></span>&nbsp<span id="awa-wrnty-num">12</span>&nbspmonth guarantee</p><p><span class="fi-check"></span> Superfi 10% price promise</p><p class="awa-30d"><span class="fi-check"></span> 30 day no hassle returns</p><p><span class="fi-check"></span> Trusted highstreet retailer</p>',
+		ticks: '<div id="awa-free-delivery"></div><p><span class="fi-check"></span>&nbsp<span id="awa-wrnty-num">12</span>&nbspmonth guarantee</p><p><span class="fi-check"></span> Superfi 10% price promise</p><p class="awa-30d"><span class="fi-check"></span> 30 day no hassle returns</p><p><span class="fi-check"></span> Trusted highstreet retailer</p><div id="awa-price-cont"></div>',
 		freeDelivery: '<p id="awa-FD"><span class="fi-check"></span> Free next day delivery</p>',
 		specs: '<span class="awa-specs">Full spec & reviews</span>',
 		financeText: '<h3>Buy Now, Pay Later</h3>',
@@ -61,15 +61,9 @@ var exp = (function($) {
 				scrollTop: $('#product-tabs').offset().top
 			}, 1150);
 		})
-		// Add price
-		var $price = $('.live-price').first();
-		if ($price.text().indexOf('Our Price') > -1) {
-          $price.text($price.text().replace('Our Price:', 'Our price'));
-        }
-		var priceStr = $price.text().replace('Our price', 'Only');
-		$price.text(priceStr);
-		$tickDiv.append($price);
-		var priceInt = parseInt(priceStr.replace('Only £',''));
+
+		// Define priceInt for later
+		var priceInt = 0;
 
 		// Add stock and order info
 		$stockOrderDiv.append($('.callout.collapse-btm.grey1.add-to-cart-form').first()).append($('#divFinanceOptions'));
@@ -78,6 +72,15 @@ var exp = (function($) {
 		$secondHalf.append($loading);
 		function variationChanges() {
 			if ($loading.css('display') === 'none') {
+				// Add price
+				var $price = $('#divProductPriceInventoryLoad .live-price').first();
+				if ($price.text().indexOf('Our Price') > -1) {
+		          $price.text($price.text().replace('Our Price:', 'Our price'));
+		        }
+				var priceStr = $price.text().replace('Our price', 'Only');
+				$price.text(priceStr);
+				$('#awa-price-cont').html($price);
+				priceInt = parseInt(priceStr.replace('Only £',''));
 				// Add product code
  				var $prodCode = $('.productPrice').eq(1).find('small');
  				$prodCode.addClass('awa-prod-code')
