@@ -51,7 +51,7 @@ var exp = (function($) {
 		}\
 		#awa-side-container {\
 			width: 45%;\
-			height: auto;\
+			height: 505px;\
 			display: inline-block;\
 		}\
 		.farefinder-container {\
@@ -105,6 +105,9 @@ var exp = (function($) {
 		.awa-banner img {\
 			display: block;\
 			margin: 0 auto;\
+		}\
+		.video-responsive iframe {\
+			width: 100%;\
 		}\
 		';
 	exp.ferryCss = '\
@@ -218,15 +221,15 @@ var exp = (function($) {
 		else {
 			slicePoint = 4;
 		}
-		var $sideContent = $('.row .col-xs-12.clearfix').eq(5).children().splice(0, slicePoint);
+		//var $sideContent = $('.row .col-xs-12.clearfix').eq(5).children().splice(0, slicePoint);
 		var $sideContainer = $('#awa-side-container');
-		$sideContainer.append($sideContent);
+		$sideContainer.append($('.video-responsive'));
 
 		// Style side container content
-		$sideContainer.children('div').eq(0).hide();
-		$fareContainer.before($sideContainer.children('div').eq(1).addClass('awa-banner'));
+		//$sideContainer.children('div').eq(0).hide();
+		$fareContainer.before($('.cmsimage.img-comp').eq(1).addClass('awa-banner'));
 		// Pull out carousel
-		$('.row .col-xs-12.clearfix').eq(5).prepend($('#carousel-example-generic'));
+		//$('.row .col-xs-12.clearfix').eq(5).prepend($('#carousel-example-generic'));
 
 		// Edit drop down titles
 		$('#vehicleTypeOutboundComboBoxSelectBoxItText').text('Please select');
