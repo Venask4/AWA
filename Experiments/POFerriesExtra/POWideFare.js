@@ -42,7 +42,7 @@ var exp = (function($) {
 			margin: 0 auto 12px;\
 		}\
 		#awa-fare-container {\
-			width: 55%;\
+			width: 47%;\
 			height: auto;\
 			margin-left: 0px;\
 			z-index: 1;\
@@ -50,7 +50,7 @@ var exp = (function($) {
 			position: relative;\
 		}\
 		#awa-side-container {\
-			width: 45%;\
+			width: 53%;\
 			height: 505px;\
 			display: inline-block;\
 		}\
@@ -108,6 +108,13 @@ var exp = (function($) {
 		}\
 		.video-responsive iframe {\
 			width: 100%;\
+		}\
+		.awa-clear-float{\
+			clear: left;\
+		}\
+		.awa-light-blue-banner {\
+			width: 100%;\
+			height: auto !important;\
 		}\
 		';
 	exp.ferryCss = '\
@@ -212,6 +219,9 @@ var exp = (function($) {
 		$('#page-content').prepend(exp.vars.sideDiv).prepend(exp.vars.fareDiv);
 		var $fareContainer = $('#awa-fare-container')
 
+		//STYLE ADJUSTMENT FOR YOUTUBE 5/3/18
+		$('#awa-side-container').siblings('.row').addClass('awa-clear-float');
+
 		// Move page content to containers
 		$fareContainer.append($('#fareFinderComponentWrapper'));
 		var slicePoint = null;
@@ -230,6 +240,9 @@ var exp = (function($) {
 		$fareContainer.before($('.cmsimage.img-comp').eq(1).addClass('awa-banner'));
 		// Pull out carousel
 		//$('.row .col-xs-12.clearfix').eq(5).prepend($('#carousel-example-generic'));
+		$('.awa-clear-float .cmsimage.img-comp').children('img').addClass('awa-light-blue-banner');
+		$sideContainer.append($('.awa-clear-float .cmsimage.img-comp'));
+		$sideContainer.append($('.awa-clear-float table'));
 
 		// Edit drop down titles
 		$('#vehicleTypeOutboundComboBoxSelectBoxItText').text('Please select');

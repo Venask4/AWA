@@ -22,7 +22,7 @@ var exp = (function($) {
 	// Variables
 	// Object containing variables, generally these would be strings or jQuery objects
 	exp.vars = {
-			extrasHTML: '<dl id="awa-extras"><dt>UPGRADES?</dt><div class="awa-extras"><ul class="awa-extra-ul"><li title="For extra special treatment, be first to board and depart by adding Priority boarding for £12 per car. Jump the queues. Be one of the first to get on (and off) the ferry. (Sorry – pets aren’t allowed to jump the queue.)"><img class="awa-icon" src="http://i63.tinypic.com/vwwfoy.png"><img class="awa-help" src="http://i66.tinypic.com/35ho951.png"></li><li><input id="awa-priority-boarding" type="checkbox" class="awa-checkbox"><label for="awa-priority-boarding"><span class="test"></span>Priority Boarding</label></li></ul><ul class="awa-extra-ul"><li title="Start your holiday early. Upgrade to Club Lounge for just £12 per person and travel in comfort in our exclusive area with a bit of added luxury.\r\rEnjoy a free glass of champagne, soft or hot drink, served at your table by one of our friendly stewards. Order a light bite from our special club Lounge menu, then sit back, relax, take in the view or read a free newspaper."><img class="awa-icon" src="http://i64.tinypic.com/22xbw0.png"><img class="awa-help" src="http://i66.tinypic.com/35ho951.png"></li><li><input id="awa-lounge" type="checkbox" class="awa-checkbox"><label for="awa-lounge"><span class="test"></span>Club Lounge</label></li></ul></div></dl>'
+			extrasHTML: '<dl id="awa-extras"><dt>UPGRADES?</dt><div class="awa-extras"><ul class="awa-extra-ul"><li id="awa-PB-li" class="awa-toolTipContainer"><img class="awa-icon" src="http://i67.tinypic.com/33ehjwo.png"><img class="awa-help" src="http://i66.tinypic.com/35ho951.png"></li><li><input id="awa-priority-boarding" type="checkbox" class="awa-checkbox"><label for="awa-priority-boarding"><span class="test"></span>Priority Boarding</label></li></ul><ul class="awa-extra-ul"><li id="awa-CL-li" class="awa-toolTipContainer"><img class="awa-icon" src="http://i67.tinypic.com/2r764r5.png"><img class="awa-help" src="http://i66.tinypic.com/35ho951.png"></li><li><input id="awa-lounge" type="checkbox" class="awa-checkbox"><label for="awa-lounge"><span class="test"></span>Club Lounge</label></li></ul></div></dl>'
 		};
 
 	// Styles
@@ -59,6 +59,24 @@ var exp = (function($) {
 		.awa-icon {\
 			margin-left: 30px;\
 		}\
+		.awa-toolTipContainer {\
+			position: relative;\
+		}\
+		.awa-tooltip {\
+			visibility: hidden;\
+			width: 504px;\
+			height: auto;\
+			position: absolute;\
+			background-color: #555;\
+			display: inline-block;\
+			opacity: 0;\
+    		transition: opacity 0.3s;\
+    		color: #f2f2f2;\
+    		border-radius: 8px;\
+    		padding: 4px 4px 8px 11px;\
+    		z-index: 1;\
+    		font-size: 13px;\
+		}\
 		';
 
 
@@ -70,6 +88,18 @@ var exp = (function($) {
 
 		// ADD HTML FOR EXTRAS
 		$('#who-ff').after(exp.vars.extrasHTML);
+
+		// TOOLTIPS
+		// Create and define tooltip HTML
+		var PBtoolTipHtml = '<span id="PBTT" class="awa-tooltip">For extra special treatment, be first to board and depart by adding Priority boarding for £12 per car. Jump the queues. Be one of the first to get on (and off) the ferry. (Sorry – pets aren’t allowed to jump the queue.)</span>';
+		var CLtoolTipHtml = '<span id="CLTT" class="awa-tooltip">Start your holiday early. Upgrade to Club Lounge for just £12 per person and travel in comfort in our exclusive area with a bit of added luxury.\r\rEnjoy a free glass of champagne, soft or hot drink, served at your table by one of our friendly stewards. Order a light bite from our special club Lounge menu, then sit back, relax, take in the view or read a free newspaper.</span>';
+		// Add in HTML
+		$('#awa-PB-li').append(PBtoolTipHtml);
+		$('#awa-CL-li').append(CLtoolTipHtml);		
+		// Show tooltip on hover
+		$('#awa-PB-li').hover(function(){$('#PBTT').css({'visibility':'visible', 'opacity': '1'})}, function(){$('#PBTT').css({'visibility':'hidden', 'opacity':'0'})});
+		$('#awa-CL-li').hover(function(){$('#CLTT').css({'visibility':'visible', 'opacity': '1'})}, function(){$('#CLTT').css({'visibility':'hidden', 'opacity':'0'})});
+
 
 		if (window.location.href.indexOf('www.poferries.com/quote') > -1) {
 			// AJAX POSTS FOR EXTRAS
