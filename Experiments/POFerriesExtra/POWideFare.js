@@ -116,6 +116,9 @@ var exp = (function($) {
 			width: 100%;\
 			height: auto !important;\
 		}\
+		#cabinsOutboundSelectBoxIt {\
+			width: 150px;\
+		}\
 		';
 	exp.ferryCss = '\
 		.awa-sngl-radio {\

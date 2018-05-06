@@ -100,6 +100,13 @@ var exp = (function($) {
 		$('#awa-PB-li').hover(function(){$('#PBTT').css({'visibility':'visible', 'opacity': '1'})}, function(){$('#PBTT').css({'visibility':'hidden', 'opacity':'0'})});
 		$('#awa-CL-li').hover(function(){$('#CLTT').css({'visibility':'visible', 'opacity': '1'})}, function(){$('#CLTT').css({'visibility':'hidden', 'opacity':'0'})});
 
+		// Edit drop down titles
+		$('#vehicleTypeOutboundComboBoxSelectBoxItText').text('Please select');
+		var $DDoptions = $('#vehicleTypeOutboundComboBoxSelectBoxItOptions .selectboxit-option-anchor');
+		$DDoptions.eq(0).remove();
+		$DDoptions.eq(1).html($DDoptions.eq(1).children('span')).append('Car under 6ft');
+		$DDoptions.eq(2).html($DDoptions.eq(2).children('span')).append('Car over 6ft');
+
 
 		if (window.location.href.indexOf('www.poferries.com/quote') > -1) {
 			// AJAX POSTS FOR EXTRAS
