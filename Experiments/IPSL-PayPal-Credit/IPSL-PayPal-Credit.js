@@ -17,7 +17,8 @@ var exp = (function($) {
 	// Variables
 	// Object containing variables, generally these would be strings or jQuery objects
 	exp.vars = {
-		strapDiv: '<div class="columns_mav columns awa-pp-tooltip"> <p class="bar-phone"> <i class="fas fa-pound-sign awa-pound-icon"></i> <span>0% interest for 4 months</span> <span class="awa-pp-tooltip-text">Spend over £150 and get 0% interest for 4 months through <a href="https://www.paypal.com/uk/webapps/mpp/paypal-virtual-credit" target="_blank">PayPal Virtual Credit. </a>&nbspMost customers automatically qualify.</span> </p> </div>'
+		strapDiv: '<div class="columns_mav columns awa-pp-tooltip"> <p class="bar-phone"> <i class="fas fa-pound-sign awa-pound-icon"></i> <span>0% interest for 4 months</span> <span class="awa-pp-tooltip-text">Spend over £150 and get 0% interest for 4 months through <a href="https://www.paypal.com/uk/webapps/mpp/paypal-virtual-credit" target="_blank">PayPal Virtual Credit. </a>&nbspMost customers automatically qualify.</span> </p> </div>',
+		checkoutDiv: '<div class="awa-checkout-text">If your total order is more than £150, you may qualify for <b>4 months interest-free financing through Paypal Credit!&nbsp</b><a href="https://www.paypal.com/uk/webapps/mpp/paypal-virtual-credit" target="_blank"><button class="awa-button">Apply Now</button></a></div>'
 	};
 
 	// Styles
@@ -54,6 +55,16 @@ var exp = (function($) {
 			color: #f2f2f2;\
 			text-decoration: underline;\
 		}\
+		.awa-checkout-text {\
+			clear: both;\
+			margin-bottom: 18px;\
+		}\
+		.awa-button {\
+			height: 30px;\
+			line-height: 0;\
+			color: white;\
+			margin-left: 6px;\
+		}\
 	';
 
 	// Init function
@@ -70,6 +81,11 @@ var exp = (function($) {
 
 		// Show tooltip on hover
 		jQuery('.awa-pp-tooltip').hover(function(){jQuery('.awa-pp-tooltip-text').css({'visibility':'visible', 'opacity': '1'})}, function(){jQuery('.awa-pp-tooltip-text').css({'visibility':'hidden', 'opacity':'0'})});
+
+		// Add in text on checkout page
+		if (window.location.href.indexOf('https://www.interiorpanelsystems.co.uk/onestepcheckout/index/') > -1) {
+			jQuery('.main .col-main .one-step-checkout.clearfix').children('li').children('p').before(exp.vars.checkoutDiv);
+		}
 
 	};
 

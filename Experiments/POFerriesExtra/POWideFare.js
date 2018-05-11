@@ -234,15 +234,12 @@ var exp = (function($) {
 		else {
 			slicePoint = 4;
 		}
-		//var $sideContent = $('.row .col-xs-12.clearfix').eq(5).children().splice(0, slicePoint);
 		var $sideContainer = $('#awa-side-container');
 		$sideContainer.append($('.video-responsive'));
 
 		// Style side container content
-		//$sideContainer.children('div').eq(0).hide();
-		$fareContainer.before($('.cmsimage.img-comp').eq(1).addClass('awa-banner'));
+		$('.cmsimage.img-comp').eq(1).css('display','none');
 		// Pull out carousel
-		//$('.row .col-xs-12.clearfix').eq(5).prepend($('#carousel-example-generic'));
 		$('.awa-clear-float .cmsimage.img-comp').children('img').addClass('awa-light-blue-banner');
 		$sideContainer.append($('.awa-clear-float .cmsimage.img-comp'));
 		$sideContainer.append($('.awa-clear-float table'));
@@ -253,6 +250,17 @@ var exp = (function($) {
 		$DDoptions.eq(0).remove();
 		$DDoptions.eq(1).html($DDoptions.eq(1).children('span')).append('Car under 6ft');
 		$DDoptions.eq(2).html($DDoptions.eq(2).children('span')).append('Car over 6ft');
+
+		// Add dummy values to car length field
+		var target = $('#ou_vehicleDimensionsWrapper')[0];
+		var observer = new MutationObserver(function(mutations) {
+		  mutations.forEach(function(mutation) {
+			$('#ou_length').val('1');
+			$('#ou_height').val('1');
+		  });    
+		});
+		var config = { attributes: true, childList: true, characterData: true };
+		observer.observe(target, config);
 
 		// FERRY STYLE FUNCTION
 		function ferryStyle() {
