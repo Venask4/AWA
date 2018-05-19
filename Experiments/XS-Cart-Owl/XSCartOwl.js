@@ -48,7 +48,7 @@ var exp = (function($) {
 		//$('#stamped-reviews-widget').hide();
 		
       	// Add testimonials section
-		$('#stamped-reviews-widget').before(exp.vars.testimonialsSection);
+		$('.cart-features').first().before(exp.vars.testimonialsSection);
 
 		//carousel change function
 		$('.testimonials .owl-carousel').owlCarousel({
