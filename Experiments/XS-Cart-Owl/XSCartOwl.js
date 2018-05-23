@@ -18,7 +18,7 @@ var exp = (function($) {
         testimonialsLinks: '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.3/assets/owl.carousel.min.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.3/assets/owl.theme.default.min.css" />',
         
         //testmonials section
-        testimonialsSection: '<div class=testimonials><h4 class="why-title awa-title">REAL REVIEWS FROM REAL CUSTOMERS</h4><div class="bottom owl-carousel owl-theme"><div class=item><p class=description>"…the only shoes I wore on a 2-week road trip through Utah, Wyoming and Montana"<div class=awa-rating><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div><h3 class=testimonial-title>Andrew T.</h3></div><div class=item><p class=description>"The perfect "go to" sandal for everyday adventures in the city or on the trail"<div class=awa-rating><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div><h3 class=testimonial-title>Drew R.</h3></div><div class=item><p class=description style=margin-bottom:3em>"I’ve never been so comfortable in shoes before."<div class=awa-rating><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div><h3 class=testimonial-title>Brittanie W.</h3></div><div class=item><p class=description>"I am in love with the out of box comfort and no b.s. quality of the shoe"<div class=awa-rating><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div><h3 class=testimonial-title>Chase B.</h3></div><div class=item><p class=description style=margin-bottom:3em>"The shoes are so good, it&#39;s easy to forget you have them on."<div class=awa-rating><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div><h3 class=testimonial-title>Yavor P.</h3></div><div class=item><p class=description style=margin-bottom:3em>"Tremendous comfort & absolutely good for my posture correction."<div class=awa-rating><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div><h3 class=testimonial-title>Ananda K.</h3></div></div><div class=xero-quiz-cta><a class=cta-button href=https://xeroshoes.com/barefoot-shoe-reviews/ >Read more reviews</a></div></div>'
+        testimonialsSection: '<div class=testimonials><h4 class="why-title awa-title">REAL REVIEWS FROM REAL CUSTOMERS</h4><div class="bottom owl-carousel owl-theme"><div class=item><p class=description>"…the only shoes I wore on a 2-week road trip through Utah, Wyoming and Montana"<div class=awa-rating><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div><h3 class=testimonial-title>Andrew T.</h3></div><div class=item><p class=description>"The perfect "go to" sandal for everyday adventures in the city or on the trail"<div class=awa-rating><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div><h3 class=testimonial-title>Drew R.</h3></div><div class=item><p class=description style=margin-bottom:30px>"I’ve never been so comfortable in shoes before."<div class=awa-rating><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div><h3 class=testimonial-title>Brittanie W.</h3></div><div class=item><p class=description>"I am in love with the out of box comfort and no b.s. quality of the shoe"<div class=awa-rating><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div><h3 class=testimonial-title>Chase B.</h3></div><div class=item><p class=description style=margin-bottom:0.5em>"The shoes are so good, it&#39;s easy to forget you have them on."<div class=awa-rating><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div><h3 class=testimonial-title>Yavor P.</h3></div><div class=item><p class=description style=margin-bottom:0.5em>"Tremendous comfort & absolutely good for my posture correction."<div class=awa-rating><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div><h3 class=testimonial-title>Ananda K.</h3></div></div><div class=xero-quiz-cta><a class=cta-button href=https://xeroshoes.com/barefoot-shoe-reviews/ >Read more reviews</a></div></div>'
         	};
 	
     // Styles
@@ -33,6 +33,16 @@ var exp = (function($) {
 		}\
 		.awa-rating {\
 			color: #29abe2;\
+		}\
+		.testimonials {\
+			margin-top: 40px;\
+			margin-bottom: 40px;\
+		}\
+		.item .description {\
+			margin-bottom: 0.5em;\
+		}\
+		.testimonial-title {\
+			margin: 0 0 0 0;\
 		}\
 		';
 	// Init function
