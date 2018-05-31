@@ -9,7 +9,7 @@ var exp = (function($) {
 	    }
 	};
 	// Log the experiment, useful when multiple experiments are running
-	exp.log('');
+	exp.log('AWA - Cart Redirect v1');
 	
     // Variables
 	// Object containing variables, generally these would be strings or jQuery objects
@@ -24,11 +24,13 @@ var exp = (function($) {
 	// Called to run the actual experiment, DOM manipulation, event listeners, etc
 	exp.init = function() {
 
+		// Cache elements
 		var $form = jQuery('.summary.entry-summary form');
 		var $inputs = $form.find('input');
 		var $selects = $form.find('select');
 		var $button = $form.find('button');
 
+		// Add to Cart Function
 		function addToCart() {
 
 			var dataObj = {};
@@ -40,21 +42,32 @@ var exp = (function($) {
 			for (var i = 0; i < $selects.length; i++) {
 				dataObj[$selects[i].getAttribute('name')] = $selects[i].value;
 			}
-			console.table(dataObj);
+			for (var i = 0; i < $button.length; i++) {
+				dataObj[$button[i].getAttribute('name')] = $button[i].value;
+			}
 			$.ajax({
 				type: 'POST',
-				url: 'https://xeroshoes.com/shop/terraflex/terraflex-men/',
+				url: window.location.href,
 				datatype: 'json',
 				data: dataObj,
 				success: function() {
-					console.log('success!');
 					window.location.href = 'https://xeroshoes.com/cart/';
 				}
 			})
 		}
-		//addToCart();
+
+		// Add event handler to submit button
 		$button.on('click',function(e) {
 			e.preventDefault();
+			var allSelectionsMade = true;
+			for (var i = 0; i < $selects.length; i++) {
+				if ($selects[i].value === '') {
+					allSelectionsMade = false;
+				}
+			}
+			if (allSelectionsMade) {
+				addToCart();
+			}
 		})
 	};
 	exp.init();
