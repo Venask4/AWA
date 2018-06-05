@@ -29,7 +29,8 @@ var exp = (function($) {
 			passTitle: '<p class="awa-add-once">Passengers:</p>',
 			vehicleTitle: '<p class="awa-add-once">Vehicle:</p>',
 			petsTitle: '<p class="awa-hull-add-once">Pets:</p>',
-			cabinsTitle: '<p class="awa-hull-add-once">Cabins:</p>'
+			cabinsTitle: '<p class="awa-hull-add-once">Cabins:</p>',
+			sideImg: '<div class="awa-crop"><img src="https://dd6zx4ibq538k.cloudfront.net/static/images/2050/735895582abed3c2ebff111794664b65_425_600.jpeg"></div>'
 		};
 
 	// Styles
@@ -42,7 +43,7 @@ var exp = (function($) {
 			margin: 0 auto 12px;\
 		}\
 		#awa-fare-container {\
-			width: 47%;\
+			width: 55%;\
 			height: auto;\
 			margin-left: 0px;\
 			z-index: 1;\
@@ -50,7 +51,7 @@ var exp = (function($) {
 			position: relative;\
 		}\
 		#awa-side-container {\
-			width: 53%;\
+			width: 45%;\
 			height: 505px;\
 			display: inline-block;\
 		}\
@@ -118,6 +119,13 @@ var exp = (function($) {
 		}\
 		#cabinsOutboundSelectBoxIt {\
 			width: 150px;\
+		}\
+		.awa-crop {\
+		}\
+		.awa-crop img {\
+		}\
+		.video-responsive {\
+			display: none;\
 		}\
 		';
 	exp.ferryCss = '\
@@ -235,14 +243,13 @@ var exp = (function($) {
 			slicePoint = 4;
 		}
 		var $sideContainer = $('#awa-side-container');
-		$sideContainer.append($('.video-responsive'));
+		$sideContainer.append(exp.vars.sideImg).append(exp.vars.carouselDiv);
 
 		// Style side container content
 		$('.cmsimage.img-comp').eq(1).css('display','none');
 		// Pull out carousel
 		$('.awa-clear-float .cmsimage.img-comp').children('img').addClass('awa-light-blue-banner');
-		$sideContainer.append($('.awa-clear-float .cmsimage.img-comp'));
-		$sideContainer.append($('.awa-clear-float table'));
+		// $sideContainer.append($('.awa-clear-float .cmsimage.img-comp')).append($('.awa-clear-float table'));
 
 		// Edit drop down titles
 		$('#vehicleTypeOutboundComboBoxSelectBoxItText').text('Please select');
