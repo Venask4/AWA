@@ -13,7 +13,53 @@ var exp = (function($) {
 	
   // Variables
 	exp.vars = {
-		pics: [ 
+		angularHref: '<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>',
+		main: '<div class="awa-main" ng-app="awa-app" ng-controller="awa-controller"><div class="awa-pic-box" ng-repeat="x in pics"><img ng-src="{{ x.imgSrc }}"></div></div>'
+  };
+	
+  // Styles
+	exp.css = '\
+	.xero-hp-section.full.hero-video-section {\
+		display: none;\
+	}\
+	';
+
+	// Init function
+	exp.init = function() {
+		// Add styles
+		$('head').append('<style>' + exp.css + '</style>');
+
+		// Add HTML
+		$('#main').prepend(exp.vars.main);
+
+		// Load Angular1.0
+		$.ajax({
+		  url: '//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js',
+		  dataType: "script",
+		});
+		// Load router module
+		$.ajax({
+		  url: 'https://code.angularjs.org/1.2.28/angular-route.min.js',
+		  dataType: "script",
+		  success: success
+		});
+
+    // Set up Angular
+    function success() {
+
+    	console.log('loaded');
+
+			// Start Angular
+			angular.bootstrap(document, ['awa-app']);
+
+			var app = angular.module('awa-app', []);
+			// app.config(['$controllerProvider',function($controllerProvider) {
+			//   $controllerProvider.allowGlobals();
+			// }]);
+
+			// Controller
+			app.controller('awa-controller', function($scope){
+        $scope.pics = [ 
 				  { 
 				    imgSrc: 'https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_17947536550019210_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=280avcAMSQqDHdKJL%2Bnb%2BQAayA0%3D',
 				    linkHref: '' 
@@ -58,46 +104,8 @@ var exp = (function($) {
 				    imgSrc: 'https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1785039909633390413_4290723436_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=c9HTG%2Fy7d1eHvhMkPGCC0Rlad8s%3D',
 				    linkHref: '' 
 				  },
-				  {
-				  	imgSrc: 'https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1784439294745951565_193192830_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=EJn9rMMxn%2BleFTsiFXfSLn9XZoA%3D',
-				    linkHref: '' 
-				  },
-				  {
-				  	imgSrc: 'https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1783710526205758655_3903941523_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=Smnvpi%2FpN61p1x8mOXghEdWwsO8%3D',
-				    linkHref: '' 
-				  }
-				],
-		main: '<div class="awa-main"></div>'
-  };
-	
-  // Styles
-	exp.css = '\
-	.xero-hp-section.full.hero-video-section {\
-		display: none;\
-	}\
-	.awa-main {\
-		margin: 0 2% 0 2%;\
-	}\
-	.awa-pic-box {\
-		width: 15%;\
-		display: inline-block;\
-		height: 200px;\
-		overflow: hidden;\
-		background-size: cover !important;\
-	}\
-	';
-
-	// Init function
-	exp.init = function() {
-		// Add styles
-		$('head').append('<style>' + exp.css + '</style>');
-
-		// Add HTML
-		$('#main').prepend(exp.vars.main);
-
-		// Add imgs
-		for (var x in exp.vars.pics) {
-			$('.awa-main').append('<div class="awa-pic-box" style="background: url(' + exp.vars.pics[x].imgSrc + ')"></div>');
+				]
+			});
 		}
 
 	};
