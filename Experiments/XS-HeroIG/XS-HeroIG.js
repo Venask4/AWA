@@ -67,7 +67,8 @@ var exp = (function($) {
 				    linkHref: '' 
 				  }
 				],
-		main: '<div class="awa-main"></div>'
+		main: '<div class="awa-main"></div>',
+		CTA: '<div class="awa-cta"><div class="awa-cta-img"></div><h1>Super. Natural. Comfort.</h1><button class="awa-women"><a href="https://xeroshoes.com/shop/product-category/gender/womens/">SHOP WOMEN</a></button><button class="awa-men"><a href="https://xeroshoes.com/shop/product-category/gender/mens/">SHOP MEN</a></button></div>'
   };
 	
   // Styles
@@ -85,6 +86,55 @@ var exp = (function($) {
 		overflow: hidden;\
 		background-size: cover !important;\
 	}\
+	.awa-cta {\
+		height: 200px;\
+		width: 75%;\
+		display: inline-block;\
+		vertical-align: top;\
+	}\
+	.awa-cta-img {\
+		background: url(https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1785670278550997051_221949808_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=2Ge7Stg79psgzkgWRP0rSzdPwN8%3D);\
+		display: inline-block;\
+		height: 200px;\
+		background-repeat: no-repeat;\
+		width: 72%;\
+		background-position-y: 75%;\
+		background-size: 100%;\
+		opacity: 0.8;\
+		position: absolute;\
+		z-index: -1;\
+	}\
+	.awa-cta h1 {\
+		text-align: center;\
+		font-size: 55px;\
+		font-weight: 500;\
+		color: white;\
+		text-transform: none;\
+		margin-bottom: 0;\
+	}\
+	.awa-women {\
+		margin-left: 23%;\
+		width: 200px;\
+		height: 35px;\
+		background-color: #2dc369;\
+	}\
+	.awa-women:hover {\
+		background-color: #2f8850;\
+	}\
+	.awa-men {\
+		margin-left: 10%;\
+		width: 200px;\
+		height: 35px;\
+	}\
+	.awa-ig-ico {\
+		content: "\\f16d"\
+	}\
+	.awa-pic-hover {\
+		opacity: 0;\
+		background: black;\
+		visibility: hidden;\
+		transition: opacity 0.3s;\
+	}\
 	';
 
 	// Init function
@@ -97,8 +147,14 @@ var exp = (function($) {
 
 		// Add imgs
 		for (var x in exp.vars.pics) {
-			$('.awa-main').append('<div class="awa-pic-box" style="background: url(' + exp.vars.pics[x].imgSrc + ')"></div>');
+			$('.awa-main').append('<div class="awa-pic-box" style="background: url(' + exp.vars.pics[x].imgSrc + ')"><div class=""><div class="awa-pic-hover"><i class="fab fa-instagram"></i>See the shoe</div></div></div>');
 		}
+
+		// Hover
+		$('.awa-pic-hover').hover(function(){$(this).css({'visibility':'visible', 'opacity': '1'})}, function(){$('this').css({'visibility':'hidden', 'opacity':'0'})});
+
+		// Add CTA
+		$('.awa-pic-box').last().after(exp.vars.CTA);
 
 	};
 	exp.init();
