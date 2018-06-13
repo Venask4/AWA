@@ -79,12 +79,12 @@ var exp = (function($) {
 	}\
 	.awa-main {\
 		margin: 0 auto;\
-		width: 1212px;\
+		width: 1812px;\
 	}\
 	.awa-pic-box {\
-		width: 200px;\
+		width: 300px;\
 		display: inline-block;\
-		height: 200px;\
+		height: 300px;\
 		overflow: hidden;\
 		margin-right: 2px;\
 		margin-bottom: -5px;\
@@ -95,17 +95,17 @@ var exp = (function($) {
 		height: 100%;\
 	}\
 	.awa-cta {\
-		height: 200px;\
-		width: 1010px;\
+		height: 300px;\
+		width: 1510px;\
 		display: inline-block;\
 		vertical-align: top;\
 	}\
 	.awa-cta-img {\
 		background: url(https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1785670278550997051_221949808_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=2Ge7Stg79psgzkgWRP0rSzdPwN8%3D);\
 		display: inline-block;\
-		height: 200px;\
+		height: 300px;\
 		background-repeat: no-repeat;\
-		width: 1008px;\
+		width: 1508px;\
 		background-position-y: 75%;\
 		background-size: 100%;\
 		opacity: 0.8;\
@@ -121,7 +121,7 @@ var exp = (function($) {
 		margin-bottom: 0;\
 	}\
 	.awa-women {\
-		margin-left: 23%;\
+		margin-left: 31%;\
 		width: 200px;\
 		height: 35px;\
 		background-color: #2dc369;\
@@ -148,22 +148,22 @@ var exp = (function($) {
 		visibility: hidden;\
 		transition: background 0.15s;\
 		position: absolute;\
-		width: 200px;\
-		height: 200px;\
+		width: 300px;\
+		height: 300px;\
 		z-index: 1;\
 		color: white;\
 		font-size: 18px;\
 		font-weight: bold;\
 		line-height: 30px;\
 		text-align: center;\
-		padding-top: 75px;\
+		padding-top: 100px;\
 	}\
-	@media (max-width: 1212px) {\
+	@media (max-width: 1812px) {\
 		.awa-cuttoff {\
 			display: none;\
 		}\
 		.awa-main {\
-			width: 1010px;\
+			width: 1510px;\
 		}\
 	}\
 	';
