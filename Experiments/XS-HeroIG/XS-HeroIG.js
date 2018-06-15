@@ -78,39 +78,40 @@ var exp = (function($) {
 		display: none;\
 	}\
 	.awa-main {\
-		margin: 0 auto;\
-		width: 1812px;\
+		margin: 0 .2%;\
+		width: 100%;\
 	}\
 	.awa-pic-box {\
-		width: 300px;\
+		width: 16.5%;\
 		display: inline-block;\
-		height: 300px;\
 		overflow: hidden;\
-		margin-right: 2px;\
+		margin-right: 0.15%;\
 		margin-bottom: -5px;\
+		padding-top: 16.5%;\
 	}\
 	.awa-img {\
 		background-size: cover !important;\
 		width: 100%;\
 		height: 100%;\
+		padding-top: 100%;\
+		margin-top: -100%;\
 	}\
 	.awa-cta {\
-		height: 300px;\
-		width: 1510px;\
+		width: 83.1%;\
 		display: inline-block;\
 		vertical-align: top;\
 	}\
 	.awa-cta-img {\
 		background: url(https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1785670278550997051_221949808_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=2Ge7Stg79psgzkgWRP0rSzdPwN8%3D);\
 		display: inline-block;\
-		height: 300px;\
 		background-repeat: no-repeat;\
-		width: 1508px;\
+		width: 83.1%;\
 		background-position-y: 75%;\
 		background-size: 100%;\
 		opacity: 0.8;\
 		position: absolute;\
 		z-index: -1;\
+		padding-top: 16.5%;\
 	}\
 	.awa-cta h1 {\
 		text-align: center;\
@@ -148,22 +149,49 @@ var exp = (function($) {
 		visibility: hidden;\
 		transition: background 0.15s;\
 		position: absolute;\
-		width: 300px;\
-		height: 300px;\
+		width: 16.5%;\
 		z-index: 1;\
 		color: white;\
 		font-size: 18px;\
 		font-weight: bold;\
 		line-height: 30px;\
-		text-align: center;\
-		padding-top: 100px;\
+		padding-top: 16.5%;\
+		margin-top: -16.5%;\
 	}\
-	@media (max-width: 1812px) {\
+	.awa-hover-contents {\
+		position: absolute;\
+		margin-top: -50%;\
+		text-align: center;\
+		width: 100%;\
+	}\
+	@media (max-width: 1012px) {\
 		.awa-cuttoff {\
 			display: none;\
 		}\
 		.awa-main {\
-			width: 1510px;\
+			width: 1010px;\
+		}\
+		.awa-pic-box {\
+			width: 19.5%;\
+			padding-top: 19.5%;\
+		}\
+		.awa-pic-hover {\
+			width: 197px;\
+			height: 197px;\
+			margin-top: -197px;\
+		}\
+		.awa-hover-contents {\
+			margin-top: -60px;\
+		}\
+		.awa-cta {\
+			width: 1012px;\
+			height: 200px;\
+			padding-top: 0;\
+			margin-top: 0;\
+		}\
+		.awa-cta-img {\
+			width: 1012px;\
+			height: 200px;\
 		}\
 	}\
 	';
@@ -178,7 +206,7 @@ var exp = (function($) {
 
 		// Add imgs
 		for (var x in exp.vars.pics) {
-			$('.awa-main').append('<div class="awa-pic-box"><a href="' + exp.vars.pics[x].linkHref + '"><div class="awa-pic-hover"><i class="fab fa-instagram"></i><br>See the shoe</div><div class="awa-img" style="background: url(' + exp.vars.pics[x].imgSrc + ')"></div></a></div>');
+			$('.awa-main').append('<div class="awa-pic-box"><a href="' + exp.vars.pics[x].linkHref + '"><div class="awa-pic-hover awa-black-bkgnd"><span class="awa-hover-contents"><i class="fab fa-instagram"></i><br>See the shoe</span></div><div class="awa-img" style="background: url(' + exp.vars.pics[x].imgSrc + ')"></div></a></div>');
 		}
 
 		// Add cut-off style to first column of images
