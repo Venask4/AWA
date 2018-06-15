@@ -17,8 +17,8 @@ var exp = (function($) {
 	// Variables
 	// Object containing variables, generally these would be strings or jQuery objects
 	exp.vars = {
-		strapDiv: '<div class="columns_mav columns awa-pp-tooltip"> <p class="bar-phone"> <i class="fas fa-pound-sign awa-pound-icon"></i> <span>0% interest for 4 months</span> <span class="awa-pp-tooltip-text">Spend over £150 and get 0% interest for 4 months through <a href="https://www.paypal.com/uk/webapps/mpp/paypal-virtual-credit" target="_blank">PayPal Virtual Credit. </a>&nbspMost customers automatically qualify.</span> </p> </div>',
-		checkoutDiv: '<div class="awa-checkout-text">If your total order is more than £150, you may qualify for <b>4 months interest-free financing through Paypal Credit!&nbsp</b><a href="https://www.paypal.com/uk/webapps/mpp/paypal-virtual-credit" target="_blank"><button class="awa-button">Apply Now</button></a></div>'
+		strapDiv: '<div class="columns_mav columns awa-pp-tooltip"> <p class="bar-phone"> <i class="fas fa-pound-sign awa-pound-icon"></i> <span>0% interest for 4 months</span> <span class="awa-pp-tooltip-text"><a href="https://www.paypal.com/uk/webapps/mpp/paypal-virtual-credit" target="_blank"><img src="//useruploads.visualwebsiteoptimizer.com/useruploads/268527/images/ab8c49e0308aa83c6e879441f71c43f7_320x50_paypal_credit_spread_the_cost_static_banner.png"></a></span> </p> </div>',
+		checkoutDiv: '<div class="awa-checkout-text"><a href="https://www.paypal.com/uk/webapps/mpp/paypal-virtual-credit" target="_blank"><img src="//useruploads.visualwebsiteoptimizer.com/useruploads/268527/images/ab8c49e0308aa83c6e879441f71c43f7_320x50_paypal_credit_spread_the_cost_static_banner.png"></a></div>'
 	};
 
 	// Styles
@@ -34,10 +34,9 @@ var exp = (function($) {
 		}\
 		.awa-pp-tooltip-text {\
 			visibility: hidden;\
-			width: 300px;\
+			width: 320px;\
 			height: auto;\
 			position: absolute;\
-			background-color: #636363;\
 			display: inline-block;\
 			opacity: 0;\
     		transition: opacity 0.3s;\
