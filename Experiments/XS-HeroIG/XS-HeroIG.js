@@ -16,55 +16,47 @@ var exp = (function($) {
 	exp.vars = {
 		pics: [ 
 				  { 
-				    imgSrc: 'https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_17947536550019210_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=280avcAMSQqDHdKJL%2Bnb%2BQAayA0%3D',
+				    imgSrc: '//useruploads.visualwebsiteoptimizer.com/useruploads/241718/images/70955f0ce6924c97907f4a3b41d56e6f_xscollage_1-min.png',
 				    linkHref: 'http://www.google.com' 
 				  },
 				  { 
-				    imgSrc: 'https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1785955283657056608_1582787257_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=JMTn%2Bdh4SUITlNrpFYRhVqpLZtk%3D',
+				    imgSrc: '//useruploads.visualwebsiteoptimizer.com/useruploads/241718/images/59f082ed13a03c3e0628d77e583e6bea_xscollage_2-min.png',
 				    linkHref: 'http://www.google.com' 
 				  },
 				  { 
-				    imgSrc: 'https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1785869224297012015_6092074489_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=qcuE7YN5lRqzqkEwWO4btP2B7aY%3D',
+				    imgSrc: '//useruploads.visualwebsiteoptimizer.com/useruploads/241718/images/9ca7d704588230bfc9b652e99e17bef5_xscollage_3-min.jpg',
 				    linkHref: 'http://www.google.com' 
 				  },
 				  { 
-				    imgSrc: 'https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1785800187497418106_37337587_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=Vq9dpT1DC01PCgj3%2B7l07wBRqDE%3D',
+				    imgSrc: '//useruploads.visualwebsiteoptimizer.com/useruploads/241718/images/b11e52786b02be97b76acd9533c45de6_xscollage_4-min.jpg',
 				    linkHref: 'http://www.google.com' 
 				  },
 				  { 
-				    imgSrc: 'https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1785787096738203759_5967345044_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=G26pxtTRORAAjhcnxqk0fXARFa8%3D',
+				    imgSrc: '//useruploads.visualwebsiteoptimizer.com/useruploads/241718/images/034ecf5e8ab33f4e2a97730c13ee51e8_xscollage_5-min.jpg',
 				    linkHref: 'http://www.google.com' 
 				  },
 				  { 
-				    imgSrc: 'https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1785767717853709839_6699026721_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=gCBmokuXbDk5dJAXyPGao9cwqdA%3D',
+				    imgSrc: '//useruploads.visualwebsiteoptimizer.com/useruploads/241718/images/012708937fa122cfec5d774b4d2fa2d1_xscollage_6-min.jpg',
 				    linkHref: 'http://www.google.com' 
 				  },
 				  { 
-				    imgSrc: 'https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1785702554810988722_654787467_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=GZOsQO77trX1nAQJx3lN%2BV5I7OU%3D',
+				    imgSrc: '//useruploads.visualwebsiteoptimizer.com/useruploads/241718/images/38e740dde6a965d0b04596b64e291158_xscollage_7-min.jpg',
 				    linkHref: 'http://www.google.com' 
 				  },
 				  { 
-				    imgSrc: 'https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1785670278550997051_221949808_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=2Ge7Stg79psgzkgWRP0rSzdPwN8%3D',
+				    imgSrc: '//useruploads.visualwebsiteoptimizer.com/useruploads/241718/images/0ba8f4a81f4d306ddbf53730a6bc3d93_xscollage_8-min.png',
 				    linkHref: 'http://www.google.com' 
 				  },
 				  { 
-				    imgSrc: 'https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1785631140720650142_7372425661_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=L5O0n%2Fd5leTZJVvVyIbsaI3AoiU%3D',
+				    imgSrc: '//useruploads.visualwebsiteoptimizer.com/useruploads/241718/images/35a6cf11fa4f4fe4e11450ec194088bd_xscollage_9-min.png',
 				    linkHref: 'http://www.google.com' 
 				  },
 				  { 
-				    imgSrc: 'https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1785292911863005970_5884355670_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=V4GjlTLwfJQGekXPsos33pnNKo0%3D',
+				    imgSrc: '//useruploads.visualwebsiteoptimizer.com/useruploads/241718/images/0b4287bf4213d4e5e3dd9a6ce8023afd_xscollage_10-min.png',
 				    linkHref: 'http://www.google.com' 
 				  },
 				  { 
-				    imgSrc: 'https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1785039909633390413_4290723436_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=c9HTG%2Fy7d1eHvhMkPGCC0Rlad8s%3D',
-				    linkHref: 'http://www.google.com' 
-				  },
-				  {
-				  	imgSrc: 'https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1784439294745951565_193192830_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=EJn9rMMxn%2BleFTsiFXfSLn9XZoA%3D',
-				    linkHref: 'http://www.google.com' 
-				  },
-				  {
-				  	imgSrc: 'https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1783710526205758655_3903941523_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=Smnvpi%2FpN61p1x8mOXghEdWwsO8%3D',
+				    imgSrc: '//useruploads.visualwebsiteoptimizer.com/useruploads/241718/images/66567f1a8546eb24c2afca88056d65f5_xscollage_11-min.jpg',
 				    linkHref: 'http://www.google.com' 
 				  }
 				],
@@ -82,12 +74,12 @@ var exp = (function($) {
 		width: 100%;\
 	}\
 	.awa-pic-box {\
-		width: 16.5%;\
+		width: 19.8%;\
 		display: inline-block;\
 		overflow: hidden;\
 		margin-right: 0.15%;\
 		margin-bottom: -5px;\
-		padding-top: 16.5%;\
+		padding-top: 19.8%;\
 	}\
 	.awa-img {\
 		background-size: cover !important;\
@@ -97,21 +89,21 @@ var exp = (function($) {
 		margin-top: -100%;\
 	}\
 	.awa-cta {\
-		width: 83.1%;\
+		width: 79.6%;\
 		display: inline-block;\
 		vertical-align: top;\
 	}\
 	.awa-cta-img {\
-		background: url(https://s3-us-west-2.amazonaws.com/stamped.io/uploads/instagram/15168_1785670278550997051_221949808_high.jpg?AWSAccessKeyId=AKIAJZP6NJTFV3IFIHLQ&Expires=2147472000&Signature=2Ge7Stg79psgzkgWRP0rSzdPwN8%3D);\
+		background: url(//useruploads.visualwebsiteoptimizer.com/useruploads/241718/images/202f0c84f7a0c57f800c2c37b35a1188_xscollage_12-min.jpg);\
 		display: inline-block;\
 		background-repeat: no-repeat;\
-		width: 83.1%;\
+		width: 79.6%;\
 		background-position-y: 75%;\
 		background-size: 100%;\
 		opacity: 0.8;\
 		position: absolute;\
 		z-index: -1;\
-		padding-top: 16.5%;\
+		padding-top: 19.8%;\
 	}\
 	.awa-cta h1 {\
 		text-align: center;\
@@ -149,14 +141,14 @@ var exp = (function($) {
 		visibility: hidden;\
 		transition: background 0.15s;\
 		position: absolute;\
-		width: 16.5%;\
+		width: 19.8%;\
 		z-index: 1;\
 		color: white;\
 		font-size: 18px;\
 		font-weight: bold;\
 		line-height: 30px;\
-		padding-top: 16.5%;\
-		margin-top: -16.5%;\
+		padding-top: 19.8%;\
+		margin-top: -19.8%;\
 	}\
 	.awa-hover-contents {\
 		position: absolute;\
@@ -172,26 +164,26 @@ var exp = (function($) {
 			width: 1010px;\
 		}\
 		.awa-pic-box {\
-			width: 19.5%;\
-			padding-top: 19.5%;\
+			width: 24.8%;\
+			padding-top: 24.8%;\
 		}\
 		.awa-pic-hover {\
-			width: 197px;\
-			height: 197px;\
-			margin-top: -197px;\
+			width: 247px;\
+			height: 247px;\
+			margin-top: -247px;\
 		}\
 		.awa-hover-contents {\
 			margin-top: -60px;\
 		}\
 		.awa-cta {\
 			width: 1012px;\
-			height: 200px;\
+			height: 250px;\
 			padding-top: 0;\
 			margin-top: 0;\
 		}\
 		.awa-cta-img {\
 			width: 1012px;\
-			height: 200px;\
+			height: 250px;\
 		}\
 	}\
 	';
@@ -210,7 +202,7 @@ var exp = (function($) {
 		}
 
 		// Add cut-off style to first column of images
-		for (var i = 0; i < $('.awa-pic-box').length; i = i + 6) {
+		for (var i = 0; i < $('.awa-pic-box').length; i = i + 5) {
 			$('.awa-pic-box').eq(i).addClass('awa-cuttoff');
 		}
 
