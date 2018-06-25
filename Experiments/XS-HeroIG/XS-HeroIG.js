@@ -40,7 +40,7 @@ var exp = (function($) {
 				    linkHref: 'http://www.google.com' 
 				  },
 				  { 
-				    imgSrc: '//useruploads.visualwebsiteoptimizer.com/useruploads/241718/images/38e740dde6a965d0b04596b64e291158_xscollage_7-min.jpg',
+				    imgSrc: '//useruploads.visualwebsiteoptimizer.com/useruploads/241718/images/9ae5d20a09197318443e862603620f5a_many-sandals-min.png',
 				    linkHref: 'http://www.google.com' 
 				  },
 				  { 
@@ -61,7 +61,7 @@ var exp = (function($) {
 				  }
 				],
 		main: '<div class="awa-main"></div>',
-		CTA: '<div class="awa-cta"><div class="awa-cta-img"></div><h1>Super. Natural. Comfort.</h1><a href="https://xeroshoes.com/shop/product-category/gender/womens/"><button class="awa-women">SHOP WOMEN</button></a><a href="https://xeroshoes.com/shop/product-category/gender/mens/"><button class="awa-men">SHOP MEN</button></a></div>'
+		CTA: '<div class="awa-cta"><div class="awa-cta-img"></div><h1>Super. Natural. Comfort.</h1><a href="https://xeroshoes.com/shop/product-category/gender/mens/"><button class="awa-men">SHOP MEN</button></a><a href="https://xeroshoes.com/shop/product-category/gender/womens/"><button class="awa-women">SHOP WOMEN</button></a></div>'
   };
 	
   // Styles
@@ -100,32 +100,40 @@ var exp = (function($) {
 		width: 79.6%;\
 		background-position-y: 75%;\
 		background-size: 100%;\
-		opacity: 0.8;\
 		position: absolute;\
 		z-index: -1;\
 		padding-top: 19.8%;\
 	}\
 	.awa-cta h1 {\
-		text-align: center;\
+		text-align: right;\
 		font-size: 55px;\
 		font-weight: 500;\
 		color: white;\
 		text-transform: none;\
 		margin-bottom: 0;\
+		text-shadow: 1px 1px 8px #727272;\
+		margin-right: 1%;\
 	}\
 	.awa-women {\
 		margin-left: 31%;\
 		width: 200px;\
 		height: 35px;\
 		background-color: #2dc369;\
+		float: right;\
+		box-shadow: 0px 0px 8px #727272;\
+		-webkit-box-shadow: 0px 0px 8px #727272;\
 	}\
 	.awa-women:hover {\
 		background-color: #2f8850;\
 	}\
 	.awa-men {\
 		margin-left: 10%;\
+		margin-right: 5.5%;\
 		width: 200px;\
 		height: 35px;\
+		float: right;\
+		box-shadow: 0px 0px 8px #727272;\
+		-webkit-box-shadow: 0px 0px 8px #727272;\
 	}\
 	.awa-men a {\
 		color: white;\
