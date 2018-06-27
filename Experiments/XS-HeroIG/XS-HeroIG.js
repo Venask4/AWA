@@ -70,16 +70,17 @@ var exp = (function($) {
 		display: none;\
 	}\
 	.awa-main {\
-		margin: 0 .2%;\
-		width: 100%;\
+		margin: 0 5% 0 13%;\
+		width: 80%;\
+		position: relative;\
 	}\
 	.awa-pic-box {\
-		width: 19.8%;\
+		width: 18%;\
 		display: inline-block;\
 		overflow: hidden;\
 		margin-right: 0.15%;\
 		margin-bottom: -5px;\
-		padding-top: 19.8%;\
+		padding-top: 18%;\
 	}\
 	.awa-img {\
 		background-size: cover !important;\
@@ -89,7 +90,7 @@ var exp = (function($) {
 		margin-top: -100%;\
 	}\
 	.awa-cta {\
-		width: 79.6%;\
+		width: 72.5%;\
 		display: inline-block;\
 		vertical-align: top;\
 	}\
@@ -97,16 +98,16 @@ var exp = (function($) {
 		background: url(//useruploads.visualwebsiteoptimizer.com/useruploads/241718/images/202f0c84f7a0c57f800c2c37b35a1188_xscollage_12-min.jpg);\
 		display: inline-block;\
 		background-repeat: no-repeat;\
-		width: 79.6%;\
+		width: 72.5%;\
 		background-position-y: 75%;\
 		background-size: 100%;\
 		position: absolute;\
 		z-index: -1;\
-		padding-top: 19.8%;\
+		padding-top: 18%;\
 	}\
 	.awa-cta h1 {\
 		text-align: right;\
-		font-size: 55px;\
+		font-size: 40px;\
 		font-weight: 500;\
 		color: white;\
 		text-transform: none;\
@@ -116,7 +117,7 @@ var exp = (function($) {
 	}\
 	.awa-women {\
 		margin-left: 31%;\
-		width: 200px;\
+		width: 151px;\
 		height: 35px;\
 		background-color: #2dc369;\
 		float: right;\
@@ -127,9 +128,9 @@ var exp = (function($) {
 		background-color: #2f8850;\
 	}\
 	.awa-men {\
-		margin-left: 10%;\
+		margin-left: 15px;\
 		margin-right: 5.5%;\
-		width: 200px;\
+		width: 151px;\
 		height: 35px;\
 		float: right;\
 		box-shadow: 0px 0px 8px #727272;\
@@ -149,14 +150,14 @@ var exp = (function($) {
 		visibility: hidden;\
 		transition: background 0.15s;\
 		position: absolute;\
-		width: 19.8%;\
+		width: 18%;\
 		z-index: 1;\
 		color: white;\
 		font-size: 18px;\
 		font-weight: bold;\
 		line-height: 30px;\
-		padding-top: 19.8%;\
-		margin-top: -19.8%;\
+		padding-top: 18%;\
+		margin-top: -18%;\
 	}\
 	.awa-hover-contents {\
 		position: absolute;\
@@ -169,29 +170,29 @@ var exp = (function($) {
 			display: none;\
 		}\
 		.awa-main {\
-			width: 1010px;\
+			width: 80%;\
 		}\
 		.awa-pic-box {\
 			width: 24.8%;\
 			padding-top: 24.8%;\
 		}\
 		.awa-pic-hover {\
-			width: 247px;\
-			height: 247px;\
-			margin-top: -247px;\
+			width: 24.8%;\
+			height: 24.8%;\
+			margin-top: -24.8%;\
 		}\
 		.awa-hover-contents {\
 			margin-top: -60px;\
 		}\
 		.awa-cta {\
-			width: 1012px;\
-			height: 250px;\
+			width: 99.8%;\
+			height: 24.8%;\
 			padding-top: 0;\
 			margin-top: 0;\
 		}\
 		.awa-cta-img {\
-			width: 1012px;\
-			height: 250px;\
+			width: 99.8%;\
+			height: 24.8%;\
 		}\
 	}\
 	';
