@@ -165,6 +165,31 @@ var exp = (function($) {
 		text-align: center;\
 		width: 100%;\
 	}\
+	@media (min-width: 1013px) and (max-width: 1400px) {\
+		.awa-main {\
+			width: 100%;\
+			margin: 0 0 0 0;\
+		}\
+		.awa-pic-box {\
+			width: 19.8%;\
+			padding-top: 19.8%;\
+		}\
+		.awa-pic-hover {\
+			width: 19.8%;\
+			padding-top: 19.8%;\
+			margin-top: -19.8%;\
+		}\
+		.awa-cta {\
+			width: 79.6%;\
+			height: 19.8%;\
+			padding-top: 0;\
+			margin-top: 0;\
+		}\
+		.awa-cta-img {\
+			width: 79.6%;\
+			height: 19.8%;\
+		}\
+	}\
 	@media (max-width: 1012px) {\
 		.awa-cuttoff {\
 			display: none;\
