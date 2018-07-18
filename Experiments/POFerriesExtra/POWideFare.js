@@ -127,6 +127,15 @@ var exp = (function($) {
 		.video-responsive {\
 			display: none;\
 		}\
+		#carousel-example-generic {\
+			display: none;\
+		}\
+		#samePassengerCheckBoxWrapper {\
+			min-height: 105px;\
+		}\
+		.ff-error {\
+			float: right;\
+		}\
 		';
 	exp.ferryCss = '\
 		.awa-sngl-radio {\
@@ -249,26 +258,8 @@ var exp = (function($) {
 		$('.cmsimage.img-comp').eq(1).css('display','none');
 		// Pull out carousel
 		$('.awa-clear-float .cmsimage.img-comp').children('img').addClass('awa-light-blue-banner');
-		// $sideContainer.append($('.awa-clear-float .cmsimage.img-comp')).append($('.awa-clear-float table'));
 
-		// Edit drop down titles
-		$('#vehicleTypeOutboundComboBoxSelectBoxItText').text('Please select');
-		var $DDoptions = $('#vehicleTypeOutboundComboBoxSelectBoxItOptions .selectboxit-option-anchor');
-		$DDoptions.eq(0).remove();
-		$DDoptions.eq(1).html($DDoptions.eq(1).children('span')).append('Car under 6ft');
-		$DDoptions.eq(2).html($DDoptions.eq(2).children('span')).append('Car over 6ft');
-
-		// Add dummy values to car length field
-		var target = $('#ou_vehicleDimensionsWrapper')[0];
-		var observer = new MutationObserver(function(mutations) {
-		  mutations.forEach(function(mutation) {
-			$('#ou_length').val('1');
-			$('#ou_height').val('1');
-		  });    
-		});
-		var config = { attributes: true, childList: true, characterData: true };
-		observer.observe(target, config);
-
+		
 		// FERRY STYLE FUNCTION
 		function ferryStyle() {
 			// Add styles
@@ -350,6 +341,55 @@ var exp = (function($) {
 				$('#petsOutboundSelectWrapper').prepend(exp.vars.petsTitle);
 				$('#cabinsOutboundSelectWrapper').prepend(exp.vars.cabinsTitle);
 			}
+
+			// Edit drop down titles
+			$('#vehicleTypeOutboundComboBoxSelectBoxItText').text('Please select');
+			var $DDoptions = $('#vehicleTypeOutboundComboBoxSelectBoxItOptions .selectboxit-option-anchor');
+			$DDoptions.eq(0).remove();
+			$DDoptions.eq(1).html($DDoptions.eq(1).children('span')).append('Car under 6ft');
+			$DDoptions.eq(2).html($DDoptions.eq(2).children('span')).append('Car over 6ft');
+
+			// Add dummy values to car length field
+			var target = $('#ou_vehicleDimensionsWrapper')[0];
+			var observer = new MutationObserver(function(mutations) {
+			  mutations.forEach(function(mutation) {
+				$('#ou_length').val('1');
+				$('#ou_height').val('1');
+			  });    
+			});
+			var config = { attributes: true, childList: true, characterData: true };
+			observer.observe(target, config);
+
+			// Radio button style corrections
+			function radioStyleCorrection(arg) {
+				$('#routereturn').after($('#returnJourneyComboBoxSelectBoxItContainer'));
+				$('#samePassengerCheckBoxWrapper').css('display', 'block');
+				if (arg) {
+					$('.return-party.clearfix').css('display','none')
+				}
+				else {
+					$('.return-party.clearfix').css('display','block');
+				}
+			}
+
+			$('.awa-sngl-radio').on('click', function() {
+					radioStyleCorrection(1);
+				});
+			$('.awa-rtrn-radio').on('click', function() {
+					radioStyleCorrection();
+				});
+
+			var Rtarget = $('.form-group.where-returnopt')[0];
+			var Robserver = new MutationObserver(function(mutations) {
+			  mutations.forEach(function(mutation) {
+			  	var txt = $('#returnJourneyComboBoxSelectBoxItText').text();
+			  	if (txt === 'One way' || txt === '') {
+			  		radioStyleCorrection(1);
+			  	}
+			  });    
+			});
+			var Rconfig = { attributes: true, childList: true, characterData: true };
+			Robserver.observe(Rtarget, Rconfig);
 		}
 		ferryStyle();
 
@@ -362,13 +402,11 @@ var exp = (function($) {
 		});
 		var config = { attributes: true, childList: true, characterData: true };
 		observer.observe(target, config);
-		
+	
 	}
 
 	exp.init();
-	// Return the experiment object so we can access it later if required
+
 	return exp;
 
-	// Close the IIFE, passing in jQuery and any other global variables as required
-	// if jQuery is not already used on the site use optimizely.$ instead
 })(window.jQuery);

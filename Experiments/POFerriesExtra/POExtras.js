@@ -107,59 +107,78 @@ var exp = (function($) {
 		$DDoptions.eq(1).html($DDoptions.eq(1).children('span')).append('Car under 6ft');
 		$DDoptions.eq(2).html($DDoptions.eq(2).children('span')).append('Car over 6ft');
 
+		// Set cookies for extras
+		var priorityBoarding = 0;
+		var clubLounge = 0;
+		$('#awa-priority-boarding').on('click', function() {
+			priorityBoarding = !priorityBoarding;
+		});
+		$('#awa-lounge').on('click', function() {
+			clubLounge = !clubLounge;
+		})
+		$('.getaquotebtn').on('click', function(e){
+			e.preventDefault();
+			if (clubLounge) {
+
+					var passQty = parseInt($('#ou_AD_pass_comboBoxSelectBoxItText').text());
+
+					$.ajax({
+						type: 'POST',
+						url: 'http://www.poferries.com/cart/addExtra',
+						dataType: 'json',
+						data: {
+							productCode:'CS_cabin',
+							quantity: passQty,
+							journey:'outbound',
+							shared:false,
+							gender:''
+						},
+						async: false
+					});
+					$.ajax({
+						type: 'POST',
+						url: 'http://www.poferries.com/cart/addExtra',
+						dataType: 'json',
+						data: {
+							productCode:'CS_cabin',
+							quantity: passQty,
+							journey:'return',
+							shared:false,
+							gender:''
+						},
+						async: false
+					});
+			}
+			if (priorityBoarding) {
+				// Priority Boarding
+				$.ajax({
+					type: 'POST',
+					url: 'http://www.poferries.com/cart/addExtra',
+					dataType: 'json',
+					data: {
+						productCode:'PR_extra',
+						quantity:1,
+						journey:'outbound'
+					},
+					async: false
+				});
+				$.ajax({
+					type: 'POST',
+					url: 'http://www.poferries.com/cart/addExtra',
+					dataType: 'json',
+					data: {
+						productCode:'PR_extra',
+						quantity:1,
+						journey:'return'
+					},
+					async: false
+				});
+			}
+			window.location.href = "http://www.poferries.com/quote";
+		})
+
 
 		if (window.location.href.indexOf('www.poferries.com/quote') > -1) {
-			// AJAX POSTS FOR EXTRAS
-			var passQty = parseInt($('#passengersoutbound').text());
-
-			$.ajax({
-				type: 'POST',
-				url: 'http://www.poferries.com/cart/addExtra',
-				dataType: 'json',
-				data: {
-					productCode:'CS_cabin',
-					quantity: passQty,
-					journey:'outbound',
-					shared:false,
-					gender:''
-				},
-				async: false
-			});
-			$.ajax({
-				type: 'POST',
-				url: 'http://www.poferries.com/cart/addExtra',
-				dataType: 'json',
-				data: {
-					productCode:'CS_cabin',
-					quantity: passQty,
-					journey:'return',
-					shared:false,
-					gender:''
-				},
-				async: false
-			});
-			$.ajax({
-				type: 'POST',
-				url: 'http://www.poferries.com/cart/addExtra',
-				dataType: 'json',
-				data: {
-					productCode:'PR_extra',
-					quantity:1,
-					journey:'outbound'
-				},
-				async: false
-			});
-			$.ajax({
-				type: 'POST',
-				url: 'http://www.poferries.com/cart/addExtra',
-				dataType: 'json',
-				data: {
-					productCode:'PR_extra',
-					quantity:1,
-					journey:'return'
-				},
-				async: false
-			});
 
 			// REPLACE PRICING DIV FROM EXTRAS PAGE
 			$.ajax({

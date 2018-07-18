@@ -1,0 +1,17 @@
+-extras control
+
+
+
+-double error message styling
+	-outbound date is before today
+	-outbound date is after return date
+	-date is too far in future
+	-0 adults
+	-pet with no adult
+
+
+
+SOLVED
+-carousel
+-style reset on return/single
+-style reset on route selection
