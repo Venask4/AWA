@@ -119,38 +119,60 @@ var exp = (function($) {
 		$('.getaquotebtn').on('click', function(e){
 			e.preventDefault();
 			if (clubLounge) {
-
-					var passQty = parseInt($('#ou_AD_pass_comboBoxSelectBoxItText').text());
-
-					$.ajax({
-						type: 'POST',
-						url: 'http://www.poferries.com/cart/addExtra',
-						dataType: 'json',
-						data: {
-							productCode:'CS_cabin',
-							quantity: passQty,
-							journey:'outbound',
-							shared:false,
-							gender:''
-						},
-						async: false
-					});
-					$.ajax({
-						type: 'POST',
-						url: 'http://www.poferries.com/cart/addExtra',
-						dataType: 'json',
-						data: {
-							productCode:'CS_cabin',
-							quantity: passQty,
-							journey:'return',
-							shared:false,
-							gender:''
-						},
-						async: false
-					});
+				sessionStorage.setItem('sessionClubLounge',1);
+			}
+			else {
+				sessionStorage.removeItem('sessionClubLounge');
 			}
 			if (priorityBoarding) {
-				// Priority Boarding
+				sessionStorage.setItem('sessionPriorityBoarding',1);
+			}
+			else {
+				sessionStorage.removeItem('sessionPriorityBoarding');
+			}
+			window.location.href = "http://www.poferries.com/quote";
+		})
+
+
+		// EXTRAS PAGE
+		if (window.location.href.indexOf('www.poferries.com/quote') > -1) {
+
+			var passQty = parseInt($('#passengersoutbound').text());
+			var sessionClubLounge = sessionStorage.getItem('sessionClubLounge');
+			var sessionPriorityBoarding = sessionStorage.getItem('sessionPriorityBoarding');
+
+			// Club Lounge
+			if (sessionClubLounge) {
+				$.ajax({
+					type: 'POST',
+					url: 'http://www.poferries.com/cart/addExtra',
+					dataType: 'json',
+					data: {
+						productCode:'CS_cabin',
+						quantity: passQty,
+						journey:'outbound',
+						shared:false,
+						gender:''
+					},
+					async: false
+				});
+				$.ajax({
+					type: 'POST',
+					url: 'http://www.poferries.com/cart/addExtra',
+					dataType: 'json',
+					data: {
+						productCode:'CS_cabin',
+						quantity: passQty,
+						journey:'return',
+						shared:false,
+						gender:''
+					},
+					async: false
+				});
+			}
+
+			// Priority Boarding
+			if (sessionPriorityBoarding) {
 				$.ajax({
 					type: 'POST',
 					url: 'http://www.poferries.com/cart/addExtra',
@@ -174,11 +196,6 @@ var exp = (function($) {
 					async: false
 				});
 			}
-			window.location.href = "http://www.poferries.com/quote";
-		})
-
-
-		if (window.location.href.indexOf('www.poferries.com/quote') > -1) {
 
 			// REPLACE PRICING DIV FROM EXTRAS PAGE
 			$.ajax({
