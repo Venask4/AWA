@@ -19,8 +19,18 @@ var exp = (function($) {
 
 	// Styles
 	exp.css = '\
+		.awa-secondary-img-container {\
+			width: 100%;\
+			margin-top: 100%;\
+			display: none;\
+		}\
 		.awa-secondary-img {\
 			display: block;\
+			background-size: cover !important;\
+			width: 100%;\
+			height: 100%;\
+			padding-top: 100%;\
+			margin-top: -100%;\
 		}\
 	';
 
@@ -30,18 +40,29 @@ var exp = (function($) {
 		$('head').append('<style>' + exp.css + '</style>');
 
 		// Get secondary images
-		var imgArr = [];
 		var prodLinks = [];
-		var altImgsObj = {};
+		// cache product DOM elements
 		var products = $('ul.products-grid').find('li a.product-image');
+		// Push links to array, add in container for second image
 		products.each(function() {
-			prodLinks.push($(this).attr('href'))
+			prodLinks.push($(this).attr('href'));
+			$(this).append('<div class="awa-secondary-img-container"></div>');
 		});
+		// Iterate through links, calling function for each and increase delay on iteration
 		var delay = 0;
 		for (var i = 0; i < prodLinks.length; i++) {
 			getImg(prodLinks[i], delay, i);
-			delay = delay + 200;
+			delay = delay + 300;
 		}
+
+		// Show/hide functionality
+		products.hover(function(){
+				$(this).find('img').first().css('display','none');
+				$(this).find('.awa-secondary-img-container').css('display','block');
+			}, function(){
+				$(this).find('img').first().css('display','block');
+				$(this).find('.awa-secondary-img-container').css('display','none');
+			});
 
 		//functions
 		function getImg(url, delay, index) {
@@ -51,15 +72,15 @@ var exp = (function($) {
 					url: url,
 					dataType: 'text',
 					success: function(data) {
-						var altImg = $(data).find('.more-views li a').eq(1).attr('href');
-						products[index].append('<p>' + altImg + '</p>');
+						var altImg = $(data).find('.product-img-box p.product-image img').attr('src');
+						if (altImg !== undefined) {
+							products[index].getElementsByClassName('awa-secondary-img-container')[0].innerHTML = '<div class="awa-secondary-img" style="background: url(' + altImg + ')"></div>';					
+						}
+						// ADD IN LOGIC FOR PRODUCTS WITH NO SECOND IMAGE
 					}
 				})
 			}, delay);
 		}
-		setTimeout(function() {
-		console.table(altImgsObj);
-	}, 6000);
 	};
 
 
