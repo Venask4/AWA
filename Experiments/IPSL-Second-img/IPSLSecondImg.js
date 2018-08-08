@@ -26,7 +26,9 @@ var exp = (function($) {
 		}\
 		.awa-secondary-img {\
 			display: block;\
-			background-size: cover !important;\
+			background-size: 100% 100% !important;\
+    		background-repeat: no-repeat !important;\
+    		background-position-y: center !important;\
 			width: 100%;\
 			height: 100%;\
 			padding-top: 100%;\
@@ -72,7 +74,7 @@ var exp = (function($) {
 					url: url,
 					dataType: 'text',
 					success: function(data) {
-						var altImg = $(data).find('.product-img-box p.product-image img').attr('src');
+						var altImg = $(data).find('.more-views li a').eq(1).attr('href');
 						if (altImg !== undefined) {
 							products[index].getElementsByClassName('awa-secondary-img-container')[0].innerHTML = '<div class="awa-secondary-img" style="background: url(' + altImg + ')"></div>';					
 						}
