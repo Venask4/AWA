@@ -1,8 +1,6 @@
 var exp = (function($) {
-
 	// Initialise the experiment object
 	var exp = {};
-
 	// Wrapper for console.log, to prevent the exp breaking on browsers which don't
 	// (always) have 'console' set (e.g. IE9)
 	exp.log = function (str) {
@@ -10,13 +8,10 @@ var exp = (function($) {
 	        console.log(str);
 	    }
 	};
-
 	// Log the experiment
 	exp.log('AWA - IPSL Alt Img - v1');
-
 	// Variables
 	exp.vars = {};
-
 	// Styles
 	exp.css = '\
 		.awa-secondary-img-container {\
@@ -35,12 +30,10 @@ var exp = (function($) {
 			margin-top: -100%;\
 		}\
 	';
-
 	// Init function
 	exp.init = function() {
 		// Add styles
 		$('head').append('<style>' + exp.css + '</style>');
-
 		// Get secondary images
 		var prodLinks = [];
 		// cache product DOM elements
@@ -49,25 +42,28 @@ var exp = (function($) {
 		products.each(function() {
 			prodLinks.push($(this).attr('href'));
 			$(this).append('<div class="awa-secondary-img-container"></div>');
+          	$(this).find('img').addClass('awa-primary-img');
 		});
 		// Iterate through links, calling function for each and increase delay on iteration
 		var delay = 0;
 		for (var i = 0; i < prodLinks.length; i++) {
+          	products[i].addEventListener('mouseenter', hoverIn);
+      		products[i].addEventListener('mouseleave', hoverOut);
 			getImg(prodLinks[i], delay, i);
-			delay = delay + 300;
+			delay = delay + 350;
 		}
-
 		// Show/hide functionality
-		products.hover(function(){
-				$(this).find('img').first().css('display','none');
+		function hoverIn(){
+				$(this).find('.awa-primary-img').css('display','none');
 				$(this).find('.awa-secondary-img-container').css('display','block');
-			}, function(){
-				$(this).find('img').first().css('display','block');
+			};
+        function hoverOut(){
+				$(this).find('.awa-primary-img').css('display','block');
 				$(this).find('.awa-secondary-img-container').css('display','none');
-			});
-
+			};
+      
 		//functions
-		function getImg(url, delay, index) {
+ 		function getImg(url, delay, index) {
 			setTimeout(function() {
 				$.ajax({
 					type: 'GET',
@@ -78,16 +74,20 @@ var exp = (function($) {
 						if (altImg !== undefined) {
 							products[index].getElementsByClassName('awa-secondary-img-container')[0].innerHTML = '<div class="awa-secondary-img" style="background: url(' + altImg + ')"></div>';					
 						}
-						// ADD IN LOGIC FOR PRODUCTS WITH NO SECOND IMAGE
+						    	else {
+                          products[index].removeEventListener('mouseenter', hoverIn);
+                          products[index].removeEventListener('mouseleave', hoverOut);
+                        }
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						products[index].removeEventListener('mouseenter', hoverIn);
+                        products[index].removeEventListener('mouseleave', hoverOut);
 					}
-				})
+				});
 			}, delay);
 		}
 	};
-
-
 	exp.init();
 	// Return the experiment object so we can access it later if required
 	return exp;
-
 })(window.jQuery);
