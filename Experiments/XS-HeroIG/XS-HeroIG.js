@@ -220,6 +220,33 @@ var exp = (function($) {
 			height: 24.8%;\
 		}\
 	}\
+	@media (max-width: 800px) {\
+		.awa-main {\
+			width: 100%;\
+			margin: 0 0 0 0;\
+		}\
+		.awa-cta h1 {\
+			font-size: 6vw;\
+			margin-top: 6px;\
+		}\
+		.awa-men {\
+			font-size: 1.5vh;\
+			height: 4vh;\
+			width: 32vw;\
+			float: right;\
+			margin-right: 2.5%;\
+			padding: 0 0 0 0;\
+		}\
+		.awa-women {\
+			font-size: 1.5vh;\
+			float: right;\
+			height: 4vh;\
+			width: 32vw;\
+			margin-left: 0;\
+			margin-right: 1.5%;\
+			padding: 0 0 0 0;\
+		}\
+	}\
 	';
 
 	// Init function
