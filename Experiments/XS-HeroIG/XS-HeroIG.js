@@ -225,6 +225,12 @@ var exp = (function($) {
 			width: 100%;\
 			margin: 0 0 0 0;\
 		}\
+		.awa-cta {\
+			height: 23vw;\
+		}\
+		.awa-cta-img {\
+			height: 33.8%;\
+		}\
 		.awa-cta h1 {\
 			font-size: 6vw;\
 			margin-top: 6px;\
