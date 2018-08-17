@@ -226,30 +226,32 @@ var exp = (function($) {
 			margin: 0 0 0 0;\
 		}\
 		.awa-cta {\
-			height: 23vw;\
+			height: 50vw;\
 		}\
 		.awa-cta-img {\
 			height: 33.8%;\
+			background-position-y: 0;\
 		}\
 		.awa-cta h1 {\
 			font-size: 6vw;\
-			margin-top: 6px;\
+			margin-top: 9vw;\
 		}\
 		.awa-men {\
 			font-size: 1.5vh;\
 			height: 4vh;\
-			width: 32vw;\
-			float: right;\
-			margin-right: 2.5%;\
+			width: 90%;\
+			float: none;\
+			margin-left: 5%;\
 			padding: 0 0 0 0;\
+			margin-top: 10vw;\
+			margin-bottom: 4vw;\
 		}\
 		.awa-women {\
 			font-size: 1.5vh;\
-			float: right;\
+			float: none;\
 			height: 4vh;\
-			width: 32vw;\
-			margin-left: 0;\
-			margin-right: 1.5%;\
+			width: 90%;\
+			margin-left: 5%;\
 			padding: 0 0 0 0;\
 		}\
 	}\
@@ -259,6 +261,9 @@ var exp = (function($) {
 	exp.init = function() {
 		// Add styles
 		$('head').append('<style>' + exp.css + '</style>');
+
+		// Hide random white text
+		$('.xero-cta-panel-text').hide();
 
 		// Add HTML
 		$('#main').prepend(exp.vars.main);
